@@ -1,0 +1,31 @@
+{
+  "name": "com.stansassets.package-sample",
+  "displayName": "RotoVR - SDK Package ",
+  "version": "0.0.1-preview",
+  "unity": "2019.3",
+  "description": "SDK Package.",
+  "dependencies": {
+   
+  },
+  "keywords": [
+    "keyword1",
+    "keyword2",
+    "keyword3"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "RotoVR",
+    "email": "stan@stansassets.com",
+    "url": "https://www.rotovr.com/"
+  },
+  
+  "homepage": "https://www.rotovr.com/",
+  "bugs": {
+    "url": "",
+    "email" : "support@stansassets.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:StansAssets/com.rotovr.sdk.git"
+  }
+}
