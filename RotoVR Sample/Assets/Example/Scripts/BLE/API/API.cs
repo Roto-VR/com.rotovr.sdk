@@ -10,8 +10,8 @@ namespace Example.BLE.API
         /// Invoke to directly call command in java library
         /// </summary>
         /// <param name="command">Method name in java library</param>
-        /// <param name="data">Data which we wont to send</param>
-        public static void Call(string command, byte[] data)
+        /// <param name="data">Data which we wont to send as Json</param>
+        public static void Call(string command, string data)
         {
             BleManager.Instance.Call(command, data);
         }
@@ -80,18 +80,19 @@ namespace Example.BLE.API
         /// <summary>
         /// Connect to device
         /// </summary>
-        /// <param name="msg">Data with device parameters</param>
-        public static void Connect(ConnectMessage msg)
+        /// <param name="deviceData">Data with device parameters</param>
+        public static void Connect(string deviceData)
         {
-            SendMessage(msg);
+            SendMessage(new ConnectMessage(deviceData));
         }
 
         /// <summary>
         /// Disconnect from current device
         /// </summary>
-        public static void Disconnect()
+        /// <param name="deviceData">Data with device parameters</param>
+        public static void Disconnect(string deviceData)
         {
-            SendMessage(new DisconnectMessage());
+            SendMessage(new DisconnectMessage(deviceData));
         }
 
         /// <summary>
@@ -108,6 +109,9 @@ namespace Example.BLE.API
         /// <param name="angle">The value of angle</param>
         /// <param name="time">The value of the time we need to turn</param>
         /// <param name="direction"></param>
-        public static void TurnOnAngle(float angle, float time, Direction direction) { }
+        public static void TurnOnAngle(string data)
+        {
+            SendMessage(new TurnOnAngleMessage(data));
+        }
     }
 }

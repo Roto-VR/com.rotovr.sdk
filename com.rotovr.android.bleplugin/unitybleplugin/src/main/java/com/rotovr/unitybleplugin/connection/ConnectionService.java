@@ -40,10 +40,10 @@ public class ConnectionService {
     private String bluetoothDeviceAddress;
 
     public int connectionState = 0;
-    private final BlePluginInstance mUnityAndroidBLE;
+    private final BlePluginInstance m_BlePluginInstance;
 
     public ConnectionService(BlePluginInstance bleManager) {
-        mUnityAndroidBLE = bleManager;
+        m_BlePluginInstance = bleManager;
     }
 
     @Nullable
@@ -59,14 +59,14 @@ public class ConnectionService {
                 String intentAction = ACTION_GATT_CONNECTED;
 
                 connectionState = 2;
-              //  mUnityAndroidBLE.connectedToGattServer(gatt);
+                m_BlePluginInstance.ConnectedToGattServer(gatt);
 
                 gatt.discoverServices();
             } else if (newState == 0) {
                 String intentAction = ACTION_GATT_DISCONNECTED;
 
                 connectionState = 0;
-              //  mUnityAndroidBLE.disconnectedFromGattServer(gatt);
+                m_BlePluginInstance.DisconnectedFromGattServer(gatt);
 
                 gatt.close();
             }
@@ -75,13 +75,13 @@ public class ConnectionService {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-              //  mUnityAndroidBLE.discoveredService(gatt);
+                m_BlePluginInstance.DiscoveredService(gatt);
             }
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-           // mUnityAndroidBLE.characteristicValueChanged(gatt, characteristic);
+           m_BlePluginInstance.CharacteristicValueChanged(gatt, characteristic);
         }
 
         @Override
@@ -96,7 +96,7 @@ public class ConnectionService {
 
             obj.base64Message = Base64.encodeToString(data, 0);
 
-          //  BlePluginInstance.sendToUnity(obj);
+           // BlePluginInstance.sendToUnity(obj);
         }
 
         @Override

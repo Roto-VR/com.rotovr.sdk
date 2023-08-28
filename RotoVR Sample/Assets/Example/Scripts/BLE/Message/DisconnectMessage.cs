@@ -4,7 +4,7 @@ namespace Example.BLE.Message
 {
     public class DisconnectMessage : BleMessage
     {
-        public DisconnectMessage()
-            : base(MessageType.Disconnect) { }
+        public DisconnectMessage(string data)
+            : base(MessageType.Disconnect, data) { }
     }
 }

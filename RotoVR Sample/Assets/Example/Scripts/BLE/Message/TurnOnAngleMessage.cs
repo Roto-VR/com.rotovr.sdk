@@ -2,9 +2,9 @@
 
 namespace Example.BLE.Message
 {
-    public class TurnOnAngleMessage: BleMessage
+    public class TurnOnAngleMessage : BleMessage
     {
-        public TurnOnAngleMessage( byte[] data )
+        public TurnOnAngleMessage(string data)
             : base(MessageType.TurnOnAngle, data) { }
     }
 }

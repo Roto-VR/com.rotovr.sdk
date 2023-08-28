@@ -6,7 +6,11 @@ public enum MessageType {
     FinishedDiscovering,
     DeviceFound ,
     Connect ,
+    Connected,
+    ConnectedToGattServer,
+    DisconnectedFromGattServer,
     Disconnect ,
+    Disconnected,
     TurnOnAngle ,
     TurnToAngle ,
 }

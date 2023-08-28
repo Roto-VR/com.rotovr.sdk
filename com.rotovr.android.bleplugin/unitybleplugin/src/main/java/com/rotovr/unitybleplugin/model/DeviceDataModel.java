@@ -2,10 +2,12 @@ package com.rotovr.unitybleplugin.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.Serializable;
 
-public class DeviceModel {
 
-    public DeviceModel(String name, String address) {
+public class DeviceDataModel implements Serializable {
+
+    public DeviceDataModel(String name, String address) {
         Name = name;
         Address = address;
     }

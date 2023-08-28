@@ -53,7 +53,6 @@ namespace Example.BLE
         {
             m_AndroidClass = new AndroidJavaClass("com.rotovr.unitybleplugin.BlePluginInstance");
             m_AndroidLibrary = m_AndroidClass.CallStatic<AndroidJavaObject>("GetInstance");
-            Debug.LogError("InitAndroidLibrary ");
         }
 
         void Dispose()
@@ -64,10 +63,10 @@ namespace Example.BLE
                 Destroy(m_BleAdapter.gameObject);
         }
 
-        public void Call(string command, byte[] data)
+        public void Call(string command, string data)
         {
             Debug.LogError($"Call {command}");
-            if (data == null)
+            if (string.IsNullOrEmpty(data))
                 m_AndroidLibrary?.Call(command);
             else
                 m_AndroidLibrary?.Call(command, data);
@@ -80,6 +79,6 @@ namespace Example.BLE
         }
 
         public void Subscribe(string command, Action<string> action) => m_MessageReceiver.Subscribe(command, action);
-        public void UnSubscribe(string command, Action<string> action)=>m_MessageReceiver.UnSubscribe(command, action);
+        public void UnSubscribe(string command, Action<string> action) => m_MessageReceiver.UnSubscribe(command, action);
     }
 }
