@@ -19,11 +19,8 @@ namespace Example.BLE.Receiver
 
         void OnJsonMessageReceivedHandler(BleJsonMessage msg)
         {
-            Debug.LogError($"OnJsonMessageReceivedHandler {msg.Command}");
             if (m_JsonSubscribers.TryGetValue(msg.Command, out var list))
             {
-                Debug.LogError($"list.Count {list.Count}");
-
                 for (int i = 0; i < list.Count; i++)
                 {
                     list[i].Invoke(msg.Data);

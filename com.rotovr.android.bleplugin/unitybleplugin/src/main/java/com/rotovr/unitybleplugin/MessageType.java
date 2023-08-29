@@ -9,6 +9,7 @@ public enum MessageType {
     Connected,
     ConnectedToGattServer,
     DisconnectedFromGattServer,
+    DeviceConnected,
     Disconnect ,
     Disconnected,
     TurnOnAngle ,

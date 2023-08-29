@@ -10,7 +10,9 @@ import android.bluetooth.BluetoothManager;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Base64;
+
 import androidx.annotation.Nullable;
+
 import com.rotovr.unitybleplugin.model.BleObject;
 import com.rotovr.unitybleplugin.BlePluginInstance;
 
@@ -56,14 +58,12 @@ public class ConnectionService {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (newState == 2) {
-                String intentAction = ACTION_GATT_CONNECTED;
 
                 connectionState = 2;
                 m_BlePluginInstance.ConnectedToGattServer(gatt);
 
                 gatt.discoverServices();
             } else if (newState == 0) {
-                String intentAction = ACTION_GATT_DISCONNECTED;
 
                 connectionState = 0;
                 m_BlePluginInstance.DisconnectedFromGattServer(gatt);
@@ -81,22 +81,24 @@ public class ConnectionService {
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-           m_BlePluginInstance.CharacteristicValueChanged(gatt, characteristic);
+            m_BlePluginInstance.CharacteristicValueChanged(gatt, characteristic);
         }
 
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             byte[] data = characteristic.getValue();
 
-            BleObject obj = new BleObject("ReadFromCharacteristic");
+            //BleObject obj = new BleObject("ReadFromCharacteristic");
 
-            obj.device = gatt.getDevice().getAddress();
-            obj.service = characteristic.getService().getUuid().toString();
-            obj.characteristic = characteristic.getUuid().toString();
+           // obj.device = gatt.getDevice().getAddress();
+           // obj.service = characteristic.getService().getUuid().toString();
+           // obj.characteristic = characteristic.getUuid().toString();
 
-            obj.base64Message = Base64.encodeToString(data, 0);
+           // obj.base64Message = Base64.encodeToString(data, 0);
 
-           // BlePluginInstance.sendToUnity(obj);
+            BlePluginInstance.UnityLogError("On Characteristic Read");
+
+            // BlePluginInstance.sendToUnity(obj);
         }
 
         @Override
