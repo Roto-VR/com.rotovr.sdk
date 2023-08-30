@@ -70,6 +70,8 @@ public class ConnectionService {
 
                 gatt.close();
             }
+
+            BlePluginInstance.UnityLogError("onConnectionStateChange to state " + newState);
         }
 
         @Override
@@ -88,17 +90,7 @@ public class ConnectionService {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             byte[] data = characteristic.getValue();
 
-            //BleObject obj = new BleObject("ReadFromCharacteristic");
-
-           // obj.device = gatt.getDevice().getAddress();
-           // obj.service = characteristic.getService().getUuid().toString();
-           // obj.characteristic = characteristic.getUuid().toString();
-
-           // obj.base64Message = Base64.encodeToString(data, 0);
-
             BlePluginInstance.UnityLogError("On Characteristic Read");
-
-            // BlePluginInstance.sendToUnity(obj);
         }
 
         @Override

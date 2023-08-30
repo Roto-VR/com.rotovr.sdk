@@ -204,27 +204,31 @@ public class BlePluginInstance {
 
     public void DiscoveredService(BluetoothGatt gatt) {
         List<BluetoothGattService> services = gatt.getServices();
+        UUID gattUUID = UUID.fromString("0000" + "ffc9" + "-0000-1000-8000-00805f9b34fb");
+        for (int i = 0; i < services.size(); i++) {
+            //  BleObject obj = new BleObject("DiscoveredService");
 
-        //  for (int i = 0; i < services.size(); i++) {
-        //  BleObject obj = new BleObject("DiscoveredService");
+            //  obj.device = gatt.getDevice().getAddress();
+            //  obj.service = services.get(i).getUuid().toString();
 
-        //  obj.device = gatt.getDevice().getAddress();
-        //  obj.service = services.get(i).getUuid().toString();
+            //  sendToUnity(obj);
 
-        //  sendToUnity(obj);
+            UnityLogError("---Device " + gatt.getDevice().getAddress() + "   Service " + services.get(i).getUuid().toString());
 
-        // UnityLogError("---Device " + gatt.getDevice().getAddress() + "   Service " + services.get(i).getUuid().toString());
+            List<BluetoothGattCharacteristic> characteristics = services.get(i).getCharacteristics();
 
-        //  List<BluetoothGattCharacteristic> characteristics = services.get(i).getCharacteristics();
-        //  for (int j = 0; j < characteristics.size(); j++) {
-        //     obj.command = "DiscoveredCharacteristic";
-        //      obj.characteristic = characteristics.get(j).getUuid().toString();
+            for (int j = 0; j < characteristics.size(); j++) {
+                // obj.command = "DiscoveredCharacteristic";
+                //  obj.characteristic = characteristics.get(j).getUuid().toString();
 
-        //  UnityLogError("-------Characteristic " + characteristics.get(j).getUuid().toString());
 
-        //      sendToUnity(obj);
-        // }
-        // }
+                UnityLogError("-------Characteristic " + characteristics.get(j).getUuid().toString());
+
+                //      sendToUnity(obj);
+            }
+
+        }
+
 
         // BleObject obj = new BleObject("DeviceConnected");
         // obj.device = gatt.getDevice().getAddress();
@@ -314,7 +318,7 @@ public class BlePluginInstance {
         //WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "FFC0", "FFC9", mGattMessage);
 
         ReadFromCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9");
-        UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
+        //  UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
     }
 
     public void TurnToAngle(String data) {
@@ -325,7 +329,7 @@ public class BlePluginInstance {
         byte sum = 0;
 
         for (int i = 0; i < blk.length; i++) {
-            sum += (blk[i] & 0xFF);
+            sum += (blk[i]);
 
         }
         return sum;
@@ -338,7 +342,11 @@ public class BlePluginInstance {
         BluetoothGattService gattService = GetService(gattServer, service);
         BluetoothGattCharacteristic gattCharacteristic = GetCharacteristic(gattService, characteristic);
 
-        gattServer.readCharacteristic(gattCharacteristic);
+
+        boolean read = gattServer.readCharacteristic(gattCharacteristic);
+
+
+        UnityLogError("gattCharacteristic.getPermissions(); " + gattCharacteristic.getPermissions() + "              read " + read);
     }
 
     @SuppressLint("MissingPermission")
