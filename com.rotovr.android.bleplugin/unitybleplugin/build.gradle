@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         minSdk 21
@@ -23,14 +23,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'com.rotovr.unitybleplugin'
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation files('D:\\Projects\\StansAssets\\com.rotovr.sdk\\com.rotovr.android.bleplugin\\unitybleplugin\\libs\\gson-2.8.5.jar')
-    compileOnly files('D:\\Projects\\StansAssets\\com.rotovr.sdk\\com.rotovr.android.bleplugin\\app\\libs\\classes.jar')
+    implementation 'com.google.code.gson:gson:2.10.1'
+    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
