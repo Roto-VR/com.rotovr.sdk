@@ -21,7 +21,16 @@ public class LeDeviceListAdapter {
         return this.mLeDevicesMap.size();
     }
 
+    public void RemoveDevice(BluetoothDevice device) {
+        if (this.mLeDevicesMap.containsKey(device.getAddress()))
+            this.mLeDevicesMap.remove(device.getAddress());
+    }
+
     public BluetoothDevice getItem(String i) {
         return this.mLeDevicesMap.get(i);
+    }
+
+    public void Clear() {
+        mLeDevicesMap.clear();
     }
 }

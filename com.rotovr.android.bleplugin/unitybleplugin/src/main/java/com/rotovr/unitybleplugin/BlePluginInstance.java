@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
@@ -75,6 +76,10 @@ public class BlePluginInstance {
 
         mGattMessage = new byte[19];
 
+        ResetMessage();
+    }
+
+    void ResetMessage() {
         for (int i = 0; i < mGattMessage.length; i++) {
             mGattMessage[i] = (byte) 0;
         }
@@ -129,6 +134,9 @@ public class BlePluginInstance {
     public void Scan() {
 
         if (!m_Scanning) {
+
+            m_LeDeviceListAdapter.Clear();
+
             this.m_Handler.postDelayed(new Runnable() {
                 @SuppressLint("MissingPermission")
                 @Override
@@ -182,12 +190,16 @@ public class BlePluginInstance {
 
             m_ConnectedServers.put(device, service);
 
-            SendToUnity(new MessageModel(MessageType.Connected, model.toJson()));
-
         } else {
             UnityLogError("BluetoothDevice hasn't been discovered yet");
 
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    public void DeviceConnected() {
+
+        SendToUnity(new MessageModel(MessageType.Connected, ""));
     }
 
     public void ConnectedToGattServer(BluetoothGatt gattServer) {
@@ -196,80 +208,6 @@ public class BlePluginInstance {
         }
 
         SendToUnity(new MessageModel(MessageType.ConnectedToGattServer));
-    }
-
-    public void DisconnectedFromGattServer(BluetoothGatt gattServer) {
-        DisconnectDevice(gattServer.getDevice().getAddress());
-    }
-
-    public void DiscoveredService(BluetoothGatt gatt) {
-        List<BluetoothGattService> services = gatt.getServices();
-        UUID gattUUID = UUID.fromString("0000" + "ffc9" + "-0000-1000-8000-00805f9b34fb");
-        for (int i = 0; i < services.size(); i++) {
-            //  BleObject obj = new BleObject("DiscoveredService");
-
-            //  obj.device = gatt.getDevice().getAddress();
-            //  obj.service = services.get(i).getUuid().toString();
-
-            //  sendToUnity(obj);
-
-            UnityLogError("---Device " + gatt.getDevice().getAddress() + "   Service " + services.get(i).getUuid().toString());
-
-            List<BluetoothGattCharacteristic> characteristics = services.get(i).getCharacteristics();
-
-            for (int j = 0; j < characteristics.size(); j++) {
-                // obj.command = "DiscoveredCharacteristic";
-                //  obj.characteristic = characteristics.get(j).getUuid().toString();
-
-
-                UnityLogError("-------Characteristic " + characteristics.get(j).getUuid().toString());
-
-                //      sendToUnity(obj);
-            }
-
-        }
-
-
-        // BleObject obj = new BleObject("DeviceConnected");
-        // obj.device = gatt.getDevice().getAddress();
-
-        //  sendToUnity(obj);
-
-        SendToUnity(new MessageModel(MessageType.DeviceConnected));
-    }
-
-    public void CharacteristicValueChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        // byte[] data = characteristic.getValue();
-        //  BleObject obj = new BleObject("CharacteristicValueChanged");
-
-        //  obj.device = gatt.getDevice().getAddress();
-        // obj.service = characteristic.getService().getUuid().toString();
-        // obj.characteristic = characteristic.getUuid().toString();
-
-        // androidLog(Arrays.toString(data));
-
-        //  obj.base64Message = Base64.encodeToString(data, 0);
-
-        // sendToUnity(obj);
-        UnityLogError("CharacteristicValueChanged");
-    }
-
-    @SuppressLint("MissingPermission")
-    public void DisconnectDevice(String deviceAddress) {
-        BluetoothDevice device = m_LeDeviceListAdapter.getItem(deviceAddress);
-        BluetoothGatt gatt = m_LeGattServers.get(device);
-
-        if (gatt != null) {
-            gatt.close();
-            gatt.disconnect();
-
-            m_ConnectedServers.remove(m_LeDeviceListAdapter.getItem(deviceAddress));
-            m_LeGattServers.remove(device);
-        } else {
-            UnityLogError("Can't find connected device with address " + deviceAddress);
-        }
-
-        SendToUnity(new MessageModel(MessageType.DisconnectedFromGattServer));
     }
 
     @SuppressLint("MissingPermission")
@@ -292,33 +230,127 @@ public class BlePluginInstance {
         SendToUnity(new MessageModel(MessageType.Disconnected, model.toJson()));
     }
 
+    @SuppressLint("MissingPermission")
+    public void DeviceDisconnected(String deviceAddress) {
+        BluetoothDevice device = m_LeDeviceListAdapter.getItem(deviceAddress);
+        BluetoothGatt gatt = m_LeGattServers.get(device);
+
+        BluetoothGatt gattServer = GetServer(m_CurrentDeviceModel.Address);
+        BluetoothGattService gattService = GetService(gattServer, "ffc0");
+        BluetoothGattCharacteristic characteristic = GetCharacteristic(gattService, "ffc9");
+
+        gattServer.setCharacteristicNotification(characteristic, false);
+
+        UUID uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(uuid);
+        descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+        gattServer.writeDescriptor(descriptor);
+
+        if (gatt != null) {
+            gatt.close();
+            gatt.disconnect();
+
+            m_ConnectedServers.remove(m_LeDeviceListAdapter.getItem(deviceAddress));
+            m_LeGattServers.remove(device);
+            m_LeDeviceListAdapter.RemoveDevice(device);
+        } else {
+            UnityLogError("Can't find connected device with address " + deviceAddress);
+        }
+
+        SendToUnity(new MessageModel(MessageType.Disconnected));
+    }
+
+
+    @SuppressLint("MissingPermission")
+    public void DiscoveredService(BluetoothGatt gatt) {
+        UnityLogError("DeviceConnected------------------");
+
+        BluetoothGatt gattServer = GetServer(m_CurrentDeviceModel.Address);
+        BluetoothGattService gattService = GetService(gattServer, "ffc0");
+        BluetoothGattCharacteristic characteristic = GetCharacteristic(gattService, "ffc9");
+        //  characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        gattServer.setCharacteristicNotification(characteristic, true);
+
+        UUID uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(uuid);
+        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        gattServer.writeDescriptor(descriptor);
+
+        SendToUnity(new MessageModel(MessageType.DeviceConnected));
+    }
+
+    public void CharacteristicValueChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        byte[] data = characteristic.getValue();
+
+        UnityLogError("CharacteristicValueChanged. Angle: " + data[5] + "  " + data[6]);
+    }
+
+    public void SetMode(String data) {
+        ResetMessage();
+
+        mGattMessage[0] = (byte) 0xF1;
+        mGattMessage[1] = (byte) 'S';
+        mGattMessage[2] = (byte) 0x03;
+        mGattMessage[9] = (byte) 70;
+        mGattMessage[11] = (byte) 40;
+        mGattMessage[12] = (byte) 100;
+        mGattMessage[14] = (byte) 1;
+        byte sum = ByteSum(mGattMessage);
+        mGattMessage[18] = sum;
+
+        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", mGattMessage);
+    }
+
+    public void Calibration() {
+
+        ResetMessage();
+        mGattMessage[0] = (byte) 0xF1;
+        mGattMessage[1] = (byte) 0x52;
+        mGattMessage[2] = (byte) 0x00;
+        mGattMessage[3] = (byte) 0x00;
+        mGattMessage[4] = (byte) 100;
+        byte sum = ByteSum(mGattMessage);
+        mGattMessage[18] = sum;
+
+
+        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", mGattMessage);
+    }
+
     public void TurnOnAngle(String data) {
+
+        ResetMessage();
         RotateToAngleModel model = (RotateToAngleModel) PluginUtility.ConvertJsonToObject(gson, data, RotateToAngleModel.class);
 
         mGattMessage[0] = (byte) 0xF1;
-        // if (model.Direction == "Right")
-        //     mGattMessage[1] = (byte) 0x00;
-        //   else
-        mGattMessage[1] = (byte) 0x00;
-        // if (model.Angle >= 180) {
-        //    mGattMessage[2] = (byte) 180;
-        //     mGattMessage[3] = (byte) (model.Angle - 180);
-        // } else {
-        mGattMessage[2] = (byte) 0x00;
-        mGattMessage[3] = (byte) 0xFF;
-        //  }
 
-        //   mGattMessage[4] = (byte) model.Power;
+        if (model.Direction.equals("Right")) {
+            mGattMessage[1] = (byte) 0x52;
+        } else {
+            mGattMessage[1] = (byte) 0x4C;
+        }
 
-        mGattMessage[4] = (byte) 90;
+        if (model.Angle == 360)
+            model.Angle -= 1;
 
-        byte checkSum = ByteSum(mGattMessage);
-        mGattMessage[18] = checkSum;
+        if (model.Angle >= 256) {
+            mGattMessage[2] = (byte) 0x01;
+            mGattMessage[3] = (byte) (model.Angle - 256);
+        } else {
+            mGattMessage[2] = (byte) 0x00;
+            mGattMessage[3] = (byte) model.Angle;
 
-        //WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "FFC0", "FFC9", mGattMessage);
+        }
+        mGattMessage[4] = (byte) model.Power;
 
-        ReadFromCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9");
-        //  UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
+        byte sum = ByteSum(mGattMessage);
+
+        mGattMessage[18] = sum;
+
+        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", mGattMessage);
+
+        // ReadFromCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9");
+
+        UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
     }
 
     public void TurnToAngle(String data) {
@@ -328,8 +360,8 @@ public class BlePluginInstance {
     private byte ByteSum(byte[] blk) {
         byte sum = 0;
 
-        for (int i = 0; i < blk.length; i++) {
-            sum += (blk[i]);
+        for (int i = 0; i <= 17; i++) {
+            sum = (byte) ((sum + blk[i]) & 0xFF);
 
         }
         return sum;
@@ -342,11 +374,15 @@ public class BlePluginInstance {
         BluetoothGattService gattService = GetService(gattServer, service);
         BluetoothGattCharacteristic gattCharacteristic = GetCharacteristic(gattService, characteristic);
 
-
+        if ((gattCharacteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
+            UnityLogError(" ReadFromCharacteristic CAN READ");
+        } else {
+            UnityLogError(" ReadFromCharacteristic CAN NOT READ");
+            return;
+        }
         boolean read = gattServer.readCharacteristic(gattCharacteristic);
 
-
-        UnityLogError("gattCharacteristic.getPermissions(); " + gattCharacteristic.getPermissions() + "              read " + read);
+        UnityLogError(" ReadFromCharacteristic success: " + read);
     }
 
     @SuppressLint("MissingPermission")
@@ -356,7 +392,9 @@ public class BlePluginInstance {
         BluetoothGattCharacteristic gattCharacteristic = GetCharacteristic(gattService, characteristic);
 
         gattCharacteristic.setValue(message);
-        gattServer.writeCharacteristic(gattCharacteristic);
+        boolean success = gattServer.writeCharacteristic(gattCharacteristic);
+
+        UnityLogError("WriteToGattCharacteristic success: " + success);
     }
 
     BluetoothGatt GetServer(String device) {
@@ -389,4 +427,6 @@ public class BlePluginInstance {
     public static void AndroidLog(String message) {
         Log.i("LOGCAT", message);
     }
+
+
 }

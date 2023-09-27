@@ -1,46 +1,19 @@
 package com.rotovr.unitybleplugin.connection;
-
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
-import android.bluetooth.BluetoothManager;
+
+import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Base64;
 
 import androidx.annotation.Nullable;
 
-import com.rotovr.unitybleplugin.model.BleObject;
 import com.rotovr.unitybleplugin.BlePluginInstance;
 
 public class ConnectionService {
-    public static final String ACTION_DATA_AVAILABLE =
-            "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
-    public static final String ACTION_GATT_CONNECTED =
-            "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
-    public static final String ACTION_GATT_DISCONNECTED =
-            "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED";
-    public static final String ACTION_GATT_SERVICES_DISCOVERED =
-            "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
-    public static final String EXTRA_DATA =
-            "com.example.bluetooth.le.EXTRA_DATA";
-
-    private static final int STATE_CONNECTED = 2;
-    private static final int STATE_CONNECTING = 1;
-    private static final int STATE_DISCONNECTED = 0;
-
-    private static final String TAG = ConnectionService.class.getSimpleName();
-
-    private BluetoothAdapter bluetoothAdapter;
-
-    private BluetoothGatt bluetoothGatt;
-    private BluetoothManager bluetoothManager;
-
-    private String bluetoothDeviceAddress;
-
     public int connectionState = 0;
     private final BlePluginInstance m_BlePluginInstance;
 
@@ -57,21 +30,25 @@ public class ConnectionService {
         @SuppressLint("MissingPermission")
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if (newState == 2) {
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                BlePluginInstance.UnityLogError("onConnectionStateChange to state " + "CONNECTED");
 
-                connectionState = 2;
+                connectionState = newState;
                 m_BlePluginInstance.ConnectedToGattServer(gatt);
 
                 gatt.discoverServices();
-            } else if (newState == 0) {
 
-                connectionState = 0;
-                m_BlePluginInstance.DisconnectedFromGattServer(gatt);
+                m_BlePluginInstance.DeviceConnected();
+
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+
+                connectionState = newState;
+                m_BlePluginInstance.DeviceDisconnected(gatt.getDevice().getAddress());
 
                 gatt.close();
+                BlePluginInstance.UnityLogError("onConnectionStateChange to state " + "DISCONNECTED");
             }
 
-            BlePluginInstance.UnityLogError("onConnectionStateChange to state " + newState);
         }
 
         @Override

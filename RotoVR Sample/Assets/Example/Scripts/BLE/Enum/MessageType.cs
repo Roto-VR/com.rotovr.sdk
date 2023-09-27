@@ -11,5 +11,7 @@
         Disconnected = 6,
         TurnOnAngle = 7,
         TurnToAngle = 8,
+        SetMode = 9,
+        Calibration = 10,
     }
 }

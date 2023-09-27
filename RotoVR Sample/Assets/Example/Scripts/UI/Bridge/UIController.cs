@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Example.BLE.API;
 using Example.BLE.Enum;
-using Example.BLE.Message;
 using Example.BLE.Model;
 using Example.UI.Device;
 using UnityEngine;
@@ -19,6 +18,7 @@ namespace Example.UI.Bridge
         RotoVrBlock m_RotoVrBlock;
         List<DeviceViewLabel> m_DeviceLabelList = new();
         DeviceDataModel m_CurrentDeviceModel;
+        int m_CurrentAngle;
 
         void Awake()
         {
@@ -35,14 +35,33 @@ namespace Example.UI.Bridge
                 API.Disconnect(JsonConvert.SerializeObject(m_CurrentDeviceModel));
             });
 
+            m_RotoVrBlock.FreeModeButton.onClick.AddListener(() =>
+            {
+                API.SetMode(ModeType.FreeMode);
+                SetVrMode(VrMode.RotateOn);
+            });
+
+            m_RotoVrBlock.CalibrationButton.onClick.AddListener(() =>
+            {
+                m_CurrentAngle = 0;
+                API.Calibration();
+                SetVrMode(VrMode.RotateOn);
+            });
+
             m_RotoVrBlock.TurnLeft.onClick.AddListener(() =>
             {
-                API.TurnOnAngle(JsonConvert.SerializeObject(new RotateToAngleModel(20, 100, Direction.Left.ToString())));
+                m_CurrentAngle -= 45;
+                if (m_CurrentAngle < 0)
+                    m_CurrentAngle = m_CurrentAngle += 360;
+                API.TurnOnAngle(JsonConvert.SerializeObject(new RotateToAngleModel(m_CurrentAngle, 100, Direction.Left.ToString())));
             });
 
             m_RotoVrBlock.TurnRight.onClick.AddListener(() =>
             {
-                API.TurnOnAngle(JsonConvert.SerializeObject(new RotateToAngleModel(20, 100, Direction.Right.ToString())));
+                m_CurrentAngle += 45;
+                if (m_CurrentAngle > 360)
+                    m_CurrentAngle -= 360;
+                API.TurnOnAngle(JsonConvert.SerializeObject(new RotateToAngleModel(m_CurrentAngle, 100, Direction.Right.ToString())));
             });
 
             SetUIState(UIState.Scan);
@@ -65,7 +84,7 @@ namespace Example.UI.Bridge
 
         void DeviceConnectedHandler(string data)
         {
-            SetUIState(UIState.RotoVr);
+            SetUIState(UIState.Vr);
         }
 
         void DeviceDisconnectedConnectedHandler(string data)
@@ -81,7 +100,7 @@ namespace Example.UI.Bridge
                     m_MainMenuBlock.ConnectionPanel.SetActive(true);
                     m_RotoVrBlock.RotoVrPanel.SetActive(false);
                     break;
-                case UIState.RotoVr:
+                case UIState.Vr:
 
                     foreach (var element in m_DeviceLabelList)
                     {
@@ -92,6 +111,34 @@ namespace Example.UI.Bridge
 
                     m_MainMenuBlock.ConnectionPanel.SetActive(false);
                     m_RotoVrBlock.RotoVrPanel.SetActive(true);
+
+                    SetVrMode(VrMode.WorkMode);
+
+                    break;
+            }
+        }
+
+        void SetVrMode(VrMode mode)
+        {
+            switch (mode)
+            {
+                case VrMode.Calibration:
+                    //  m_RotoVrBlock.FreeModeButton.gameObject.SetActive(true);
+                    m_RotoVrBlock.CalibrationButton.gameObject.SetActive(true);
+                    m_RotoVrBlock.TurnLeft.gameObject.SetActive(false);
+                    m_RotoVrBlock.TurnRight.gameObject.SetActive(false);
+                    break;
+                case VrMode.WorkMode:
+                    //  m_RotoVrBlock.FreeModeButton.gameObject.SetActive(true);
+                    m_RotoVrBlock.CalibrationButton.gameObject.SetActive(true);
+                    m_RotoVrBlock.TurnLeft.gameObject.SetActive(false);
+                    m_RotoVrBlock.TurnRight.gameObject.SetActive(false);
+                    break;
+                case VrMode.RotateOn:
+                    // m_RotoVrBlock.FreeModeButton.gameObject.SetActive(false);
+                    m_RotoVrBlock.CalibrationButton.gameObject.SetActive(false);
+                    m_RotoVrBlock.TurnLeft.gameObject.SetActive(true);
+                    m_RotoVrBlock.TurnRight.gameObject.SetActive(true);
                     break;
             }
         }
@@ -99,7 +146,14 @@ namespace Example.UI.Bridge
         public enum UIState
         {
             Scan,
-            RotoVr,
+            Vr,
+        }
+
+        public enum VrMode
+        {
+            Calibration,
+            WorkMode,
+            RotateOn,
         }
 
         [Serializable]
@@ -116,6 +170,8 @@ namespace Example.UI.Bridge
         {
             public GameObject RotoVrPanel;
             public Button DisconnectButton;
+            public Button FreeModeButton;
+            public Button CalibrationButton;
             public Button TurnLeft;
             public Button TurnRight;
         }

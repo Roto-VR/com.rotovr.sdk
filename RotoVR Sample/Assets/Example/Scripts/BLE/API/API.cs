@@ -113,5 +113,21 @@ namespace Example.BLE.API
         {
             SendMessage(new TurnOnAngleMessage(data));
         }
+
+        /// <summary>
+        /// Set RotoVR mode
+        /// </summary>
+        /// <param name="mode">Mode type</param>
+        public static void SetMode(ModeType mode)
+        {
+            SendMessage(new SetModeMessage(mode, "Example"));
+        }
+        /// <summary>
+        /// Calibrate RotoVR as zero rotation
+        /// </summary>
+        public static void Calibration()
+        {
+            SendMessage(new CalibrationMessage());
+        }
     }
 }
