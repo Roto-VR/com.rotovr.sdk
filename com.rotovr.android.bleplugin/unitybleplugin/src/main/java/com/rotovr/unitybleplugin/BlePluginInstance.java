@@ -81,7 +81,7 @@ public class BlePluginInstance {
 
     void ResetMessage() {
         for (int i = 0; i < mGattMessage.length; i++) {
-            mGattMessage[i] = (byte) 0;
+            mGattMessage[i] = (byte) (0 & 0xFF);
         }
     }
 
@@ -263,12 +263,10 @@ public class BlePluginInstance {
 
     @SuppressLint("MissingPermission")
     public void DiscoveredService(BluetoothGatt gatt) {
-        UnityLogError("DeviceConnected------------------");
-
         BluetoothGatt gattServer = GetServer(m_CurrentDeviceModel.Address);
         BluetoothGattService gattService = GetService(gattServer, "ffc0");
         BluetoothGattCharacteristic characteristic = GetCharacteristic(gattService, "ffc9");
-        //  characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+
         gattServer.setCharacteristicNotification(characteristic, true);
 
         UUID uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
@@ -282,15 +280,15 @@ public class BlePluginInstance {
     public void CharacteristicValueChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         byte[] data = characteristic.getValue();
 
-        UnityLogError("CharacteristicValueChanged. Angle: " + data[5] + "  " + data[6]);
+        UnityLogError("CharacteristicValueChanged. Angle: " + (data[5] & 0xFF) + "  " + (data[6] & 0xFF));
     }
 
     public void SetMode(String data) {
         ResetMessage();
 
-        mGattMessage[0] = (byte) 0xF1;
+        mGattMessage[0] = (byte) (0xF1 & 0xFF);
         mGattMessage[1] = (byte) 'S';
-        mGattMessage[2] = (byte) 0x03;
+        mGattMessage[2] = (byte) (0x03 & 0xFF);
         mGattMessage[9] = (byte) 70;
         mGattMessage[11] = (byte) 40;
         mGattMessage[12] = (byte) 100;
@@ -304,11 +302,11 @@ public class BlePluginInstance {
     public void Calibration() {
 
         ResetMessage();
-        mGattMessage[0] = (byte) 0xF1;
-        mGattMessage[1] = (byte) 0x52;
+        mGattMessage[0] = (byte) (0xF1 & 0xFF);
+        mGattMessage[1] = (byte) (0x52 & 0xFF);
         mGattMessage[2] = (byte) 0x00;
-        mGattMessage[3] = (byte) 0x00;
-        mGattMessage[4] = (byte) 100;
+        mGattMessage[3] = (byte) (1 & 0xFF);
+        mGattMessage[4] = (byte) (100 & 0xFF);
         byte sum = ByteSum(mGattMessage);
         mGattMessage[18] = sum;
 
@@ -321,12 +319,12 @@ public class BlePluginInstance {
         ResetMessage();
         RotateToAngleModel model = (RotateToAngleModel) PluginUtility.ConvertJsonToObject(gson, data, RotateToAngleModel.class);
 
-        mGattMessage[0] = (byte) 0xF1;
+        mGattMessage[0] = (byte) (0xF1 & 0xFF);
 
         if (model.Direction.equals("Right")) {
-            mGattMessage[1] = (byte) 0x52;
+            mGattMessage[1] = (byte) (0x52 & 0xFF);
         } else {
-            mGattMessage[1] = (byte) 0x4C;
+            mGattMessage[1] = (byte) (0x4C & 0xFF);
         }
 
         if (model.Angle == 360)
@@ -334,22 +332,18 @@ public class BlePluginInstance {
 
         if (model.Angle >= 256) {
             mGattMessage[2] = (byte) 0x01;
-            mGattMessage[3] = (byte) (model.Angle - 256);
+            mGattMessage[3] = (byte) ((model.Angle - 256) & 0xFF);
         } else {
             mGattMessage[2] = (byte) 0x00;
-            mGattMessage[3] = (byte) model.Angle;
+            mGattMessage[3] = (byte) (model.Angle & 0xFF);
 
         }
-        mGattMessage[4] = (byte) model.Power;
+        mGattMessage[4] = (byte) (model.Power & 0xFF);
 
         byte sum = ByteSum(mGattMessage);
-
         mGattMessage[18] = sum;
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", mGattMessage);
-
-        // ReadFromCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9");
-
         UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
     }
 
@@ -361,7 +355,7 @@ public class BlePluginInstance {
         byte sum = 0;
 
         for (int i = 0; i <= 17; i++) {
-            sum = (byte) ((sum + blk[i]) & 0xFF);
+            sum = (byte) ((sum + blk[i]) & 0xff);
 
         }
         return sum;
