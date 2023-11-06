@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using RotoVR.SDK.API;
 using RotoVR.SDK.Enum;
 using UnityEngine;
@@ -22,8 +23,19 @@ namespace RotoVR.SDK.Components
         /// </summary>
         [SerializeField] Transform m_Target;
 
-        RotoManager m_manager;
+        Roto m_Roto;
+        bool m_IsInit;
         Coroutine m_targetRoutine;
+
+        /// <summary>
+        /// Action invoke when the system connection status changed
+        /// </summary>
+        public event Action<ConnectionStatus> OnConnectionStatusChanged;
+
+        /// <summary>
+        /// Action invoke when the system mode type changed
+        /// </summary>
+        public event Action<ModeType> OnModeChanged;
 
         void Awake()
         {
@@ -36,9 +48,9 @@ namespace RotoVR.SDK.Components
 
         void OnDestroy()
         {
-            m_manager.Disconnect(m_DeviceName);
-            m_manager.OnConnectionStatus -= OnConnectionStatusHandler;
-            m_manager.OnRotoMode -= OnRotoModeHandler;
+            m_Roto.Disconnect(m_DeviceName);
+            m_Roto.OnConnectionStatus -= OnConnectionStatusHandler;
+            m_Roto.OnRotoMode -= OnRotoModeHandler;
         }
 
         /// <summary>
@@ -46,14 +58,17 @@ namespace RotoVR.SDK.Components
         /// </summary>
         void InitRoto()
         {
-            m_manager = RotoManager.GetManager();
-            m_manager.OnConnectionStatus += OnConnectionStatusHandler;
-            m_manager.OnRotoMode += OnRotoModeHandler;
-            m_manager.Initialize();
-            m_manager.Connect(m_DeviceName);
+            if (m_IsInit)
+                return;
+
+            m_IsInit = true;
+            m_Roto = Roto.GetManager();
+            m_Roto.OnConnectionStatus += OnConnectionStatusHandler;
+            m_Roto.OnRotoMode += OnRotoModeHandler;
+            m_Roto.Initialize();
         }
 
-        private void OnRotoModeHandler(ModeType mode)
+        void OnRotoModeHandler(ModeType mode)
         {
             switch (mode)
             {
@@ -73,6 +88,8 @@ namespace RotoVR.SDK.Components
                     m_targetRoutine = StartCoroutine(ObserveTarget());
                     break;
             }
+
+            OnModeChanged?.Invoke(mode);
         }
 
         void OnConnectionStatusHandler(ConnectionStatus status)
@@ -83,22 +100,77 @@ namespace RotoVR.SDK.Components
 
                     break;
                 case ConnectionStatus.Connected:
-                    m_manager.SetMode(m_ModeType);
+                    m_Roto.SetMode(m_ModeType);
                     break;
                 case ConnectionStatus.Disconnected:
 
                     break;
             }
+
+            OnConnectionStatusChanged?.Invoke(status);
         }
 
         IEnumerator ObserveTarget()
         {
-            yield return null;
             if (m_Target == null)
                 Debug.LogError("For Had Tracking Mode you need to set target transform");
             else
             {
+                float deltaTime=0;
+                while (true)
+                {
+                    yield return null;
+                    deltaTime += Time.deltaTime;
+                    if (deltaTime > 0.1f)
+                    {
+                        
+                    }
+                }
             }
         }
+
+        /// <summary>
+        /// Connect to roto vr
+        /// </summary>
+        public void Connect()
+        {
+            if (!m_IsInit)
+                InitRoto();
+            m_Roto.Connect(m_DeviceName);
+        }
+
+        /// <summary>
+        /// Calibrate the chair
+        /// </summary>
+        /// <param name="mode">Calibration mode</param>
+        public void Calibration(CalibrationMode mode)
+        {
+            m_Roto.Calibration(mode);
+        }
+
+        /// <summary>
+        /// Rotate on angle
+        /// </summary>
+        /// <param name="direction">Direction of rotation</param>
+        /// <param name="angle">Angle which we need rotate the chair on</param>
+        /// <param name="power">Rotational power. In range 0-100</param>
+        public void RotateOnAngle(Direction direction, int angle, int power) => m_Roto.RotateOnAngle(direction,angle,power);
+
+        /// <summary>
+        /// Rotate to angle
+        /// </summary>
+        /// <param name="direction">Direction of rotation</param>
+        /// <param name="angle">Angle which we need rotate the chair to</param>
+        /// <param name="power">Rotational power. In range 0-100</param>
+        public void RotateToAngle(Direction direction, int angle, int power)=> m_Roto.RotateToAngle(direction,angle,power);
+   
+
+        /// <summary>
+        /// Play rumble
+        /// </summary>
+        /// <param name="time">Duration</param>
+        /// <param name="power">Power</param>
+        public void Rumble(float time, int power)=>m_Roto.Rumble(time,power);
+     
     }
 }

@@ -26,6 +26,7 @@ import com.rotovr.unitybleplugin.connection.ConnectionService;
 import com.rotovr.unitybleplugin.model.DeviceDataModel;
 import com.rotovr.unitybleplugin.model.MessageModel;
 import com.rotovr.unitybleplugin.model.RotateToAngleModel;
+import com.rotovr.unitybleplugin.model.RotoDataModel;
 import com.rotovr.unitybleplugin.utility.PluginUtility;
 import com.unity3d.player.UnityPlayer;
 
@@ -56,8 +57,8 @@ public class BlePluginInstance {
     private Handler m_Handler = new Handler();
     private static Gson gson;
     private DeviceDataModel m_CurrentDeviceModel;
-    private byte[] mGattMessage;
-
+    private byte[] m_GattMessage;
+    RotoDataModel m_RotoModel = new RotoDataModel();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("MissingPermission")
@@ -74,14 +75,14 @@ public class BlePluginInstance {
         m_LeGattServers = new HashMap<BluetoothDevice, BluetoothGatt>();
         m_ConnectedServers = new HashMap<BluetoothDevice, ConnectionService>();
 
-        mGattMessage = new byte[19];
+        m_GattMessage = new byte[19];
 
         ResetMessage();
     }
 
     void ResetMessage() {
-        for (int i = 0; i < mGattMessage.length; i++) {
-            mGattMessage[i] = (byte) (0 & 0xFF);
+        for (int i = 0; i < m_GattMessage.length; i++) {
+            m_GattMessage[i] = (byte) (0 & 0xFF);
         }
     }
 
@@ -280,38 +281,44 @@ public class BlePluginInstance {
     public void CharacteristicValueChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         byte[] data = characteristic.getValue();
 
-        UnityLogError("CharacteristicValueChanged. Angle: " + (data[5] & 0xFF) + "  " + (data[6] & 0xFF));
+
+        RotoDataModel runtimeModel = new RotoDataModel(data);
+        if (m_RotoModel == null || !m_RotoModel.Compare(runtimeModel)) {
+            m_RotoModel = runtimeModel;
+            SendToUnity(new MessageModel(MessageType.ModelChanged, m_RotoModel.toJson()));
+        }
+
     }
 
     public void SetMode(String data) {
         ResetMessage();
 
-        mGattMessage[0] = (byte) (0xF1 & 0xFF);
-        mGattMessage[1] = (byte) 'S';
-        mGattMessage[2] = (byte) (0x03 & 0xFF);
-        mGattMessage[9] = (byte) 70;
-        mGattMessage[11] = (byte) 40;
-        mGattMessage[12] = (byte) 100;
-        mGattMessage[14] = (byte) 1;
-        byte sum = ByteSum(mGattMessage);
-        mGattMessage[18] = sum;
+        m_GattMessage[0] = (byte) (0xF1 & 0xFF);
+        m_GattMessage[1] = (byte) 'S';
+        m_GattMessage[2] = (byte) (0x03 & 0xFF);
+        m_GattMessage[9] = (byte) 70;
+        m_GattMessage[11] = (byte) 40;
+        m_GattMessage[12] = (byte) 100;
+        m_GattMessage[14] = (byte) 1;
+        byte sum = ByteSum(m_GattMessage);
+        m_GattMessage[18] = sum;
 
-        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", mGattMessage);
+        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
     }
 
     public void Calibration() {
 
         ResetMessage();
-        mGattMessage[0] = (byte) (0xF1 & 0xFF);
-        mGattMessage[1] = (byte) (0x52 & 0xFF);
-        mGattMessage[2] = (byte) 0x00;
-        mGattMessage[3] = (byte) (1 & 0xFF);
-        mGattMessage[4] = (byte) (100 & 0xFF);
-        byte sum = ByteSum(mGattMessage);
-        mGattMessage[18] = sum;
+        m_GattMessage[0] = (byte) (0xF1 & 0xFF);
+        m_GattMessage[1] = (byte) (0x52 & 0xFF);
+        m_GattMessage[2] = (byte) 0x00;
+        m_GattMessage[3] = (byte) (1 & 0xFF);
+        m_GattMessage[4] = (byte) (100 & 0xFF);
+        byte sum = ByteSum(m_GattMessage);
+        m_GattMessage[18] = sum;
 
 
-        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", mGattMessage);
+        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
     }
 
     public void TurnOnAngle(String data) {
@@ -319,31 +326,31 @@ public class BlePluginInstance {
         ResetMessage();
         RotateToAngleModel model = (RotateToAngleModel) PluginUtility.ConvertJsonToObject(gson, data, RotateToAngleModel.class);
 
-        mGattMessage[0] = (byte) (0xF1 & 0xFF);
+        m_GattMessage[0] = (byte) (0xF1 & 0xFF);
 
         if (model.Direction.equals("Right")) {
-            mGattMessage[1] = (byte) (0x52 & 0xFF);
+            m_GattMessage[1] = (byte) (0x52 & 0xFF);
         } else {
-            mGattMessage[1] = (byte) (0x4C & 0xFF);
+            m_GattMessage[1] = (byte) (0x4C & 0xFF);
         }
 
         if (model.Angle == 360)
             model.Angle -= 1;
 
         if (model.Angle >= 256) {
-            mGattMessage[2] = (byte) 0x01;
-            mGattMessage[3] = (byte) ((model.Angle - 256) & 0xFF);
+            m_GattMessage[2] = (byte) 0x01;
+            m_GattMessage[3] = (byte) ((model.Angle - 256) & 0xFF);
         } else {
-            mGattMessage[2] = (byte) 0x00;
-            mGattMessage[3] = (byte) (model.Angle & 0xFF);
+            m_GattMessage[2] = (byte) 0x00;
+            m_GattMessage[3] = (byte) (model.Angle & 0xFF);
 
         }
-        mGattMessage[4] = (byte) (model.Power & 0xFF);
+        m_GattMessage[4] = (byte) (model.Power & 0xFF);
 
-        byte sum = ByteSum(mGattMessage);
-        mGattMessage[18] = sum;
+        byte sum = ByteSum(m_GattMessage);
+        m_GattMessage[18] = sum;
 
-        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", mGattMessage);
+        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
         UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
     }
 

@@ -13,5 +13,7 @@
         TurnToAngle = 8,
         SetMode = 9,
         Calibration = 10,
+        ModelChanged = 11,
+        PlayRumble,
     }
 }

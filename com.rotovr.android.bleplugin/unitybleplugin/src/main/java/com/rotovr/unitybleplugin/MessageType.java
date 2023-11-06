@@ -14,4 +14,5 @@ public enum MessageType {
     Disconnected,
     TurnOnAngle ,
     TurnToAngle ,
+    ModelChanged,
 }
