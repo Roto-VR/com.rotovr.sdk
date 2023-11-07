@@ -9,11 +9,10 @@
         Connected = 4,
         Disconnect = 5,
         Disconnected = 6,
-        TurnOnAngle = 7,
+        DeviceConnected = 7,
         TurnToAngle = 8,
         SetMode = 9,
-        Calibration = 10,
-        ModelChanged = 11,
-        PlayRumble,
+        ModelChanged = 10,
+        PlayRumble = 11,
     }
 }

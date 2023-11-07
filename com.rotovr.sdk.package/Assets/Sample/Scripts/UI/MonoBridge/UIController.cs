@@ -1,36 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
-using Example.UI.Device;
 using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json;
 using RotoVR.SDK.Components;
-using RotoVR.SDK.Model;
+using RotoVR.SDK.Enum;
 
 namespace Example.UI
 {
     public class UIController : MonoBehaviour
     {
         [SerializeField] RotoBehaviour m_RotoBerhaviour;
-
-        [SerializeField] MainMenuBlock m_MainMenuBlock;
+        [SerializeField] ConnectionBlock m_ConnectionBlock;
+        [SerializeField] CalibrationBlock m_CalibrationBlock;
         [SerializeField] RotoVrBlock m_RotoVrBlock;
-        List<DeviceViewLabel> m_DeviceLabelList = new();
-        DeviceDataModel m_CurrentDeviceModel;
-        int m_CurrentAngle;
 
 
         void Awake()
         {
-            m_RotoBerhaviour.Connect();
+            m_ConnectionBlock.ConnectionButton.onClick.AddListener(() => { m_RotoBerhaviour.Connect(); });
 
-            m_RotoVrBlock.CalibrationButton.onClick.AddListener(() => { SetVrMode(VrMode.RotateOn); });
+            m_CalibrationBlock.CalibrationAsCurrentButton.onClick.AddListener(() =>
+            {
+                Calibration(CalibrationMode.SetCurrent);
+            });
+            m_CalibrationBlock.CalibrationAsPrevButton.onClick.AddListener(() =>
+            {
+                Calibration(CalibrationMode.SetLast);
+            });
+            m_CalibrationBlock.CalibrationAsZeroButton.onClick.AddListener(() =>
+            {
+                Calibration(CalibrationMode.SetToZero);
+            });
 
-            m_RotoVrBlock.TurnLeft.onClick.AddListener(() => { });
+            m_RotoVrBlock.TurnLeft.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.RotateOnAngle(Direction.Left, 30, 100);
+            });
 
-            m_RotoVrBlock.TurnRight.onClick.AddListener(() => { });
+            m_RotoVrBlock.TurnRight.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.RotateOnAngle(Direction.Right, 30, 100);
+            });
+            m_RotoVrBlock.PlayRumble.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.Rumble((int)(m_RotoVrBlock.m_RumbleDuration.value * 10),
+                    (int)(m_RotoVrBlock.m_RumblePower.value * 100));
+            });
 
-            SetUIState(UIState.Scan);
+
+            m_RotoBerhaviour.OnConnectionStatusChanged += OnConnectionHandler;
+            SetUIState(UIState.Connection);
+        }
+
+        private void OnConnectionHandler(ConnectionStatus status)
+        {
+            if (status == ConnectionStatus.Connected)
+            {
+                SetUIState(UIState.Calibration);
+            }
+        }
+
+        void Calibration(CalibrationMode mode)
+        {
+            m_RotoBerhaviour.Calibration(mode);
+            SetUIState(UIState.Roto);
         }
 
 
@@ -38,84 +70,55 @@ namespace Example.UI
         {
             switch (state)
             {
-                case UIState.Scan:
-                    m_MainMenuBlock.ConnectionPanel.SetActive(true);
+                case UIState.Connection:
+                    m_ConnectionBlock.ConnectionPanel.SetActive(true);
+                    m_CalibrationBlock.CalibrationPanel.SetActive(false);
                     m_RotoVrBlock.RotoVrPanel.SetActive(false);
                     break;
-                case UIState.Vr:
-
-                    foreach (var element in m_DeviceLabelList)
-                    {
-                        Destroy(element.gameObject);
-                    }
-
-                    m_DeviceLabelList.Clear();
-
-                    m_MainMenuBlock.ConnectionPanel.SetActive(false);
+                case UIState.Calibration:
+                    m_ConnectionBlock.ConnectionPanel.SetActive(false);
+                    m_CalibrationBlock.CalibrationPanel.SetActive(true);
+                    m_RotoVrBlock.RotoVrPanel.SetActive(false);
+                    break;
+                case UIState.Roto:
+                    m_CalibrationBlock.CalibrationPanel.SetActive(false);
                     m_RotoVrBlock.RotoVrPanel.SetActive(true);
-
-                    SetVrMode(VrMode.WorkMode);
-
-                    break;
-            }
-        }
-
-        void SetVrMode(VrMode mode)
-        {
-            switch (mode)
-            {
-                case VrMode.Calibration:
-                    //  m_RotoVrBlock.FreeModeButton.gameObject.SetActive(true);
-                    m_RotoVrBlock.CalibrationButton.gameObject.SetActive(true);
-                    m_RotoVrBlock.TurnLeft.gameObject.SetActive(false);
-                    m_RotoVrBlock.TurnRight.gameObject.SetActive(false);
-                    break;
-                case VrMode.WorkMode:
-                    //  m_RotoVrBlock.FreeModeButton.gameObject.SetActive(true);
-                    m_RotoVrBlock.CalibrationButton.gameObject.SetActive(true);
-                    m_RotoVrBlock.TurnLeft.gameObject.SetActive(false);
-                    m_RotoVrBlock.TurnRight.gameObject.SetActive(false);
-                    break;
-                case VrMode.RotateOn:
-                    // m_RotoVrBlock.FreeModeButton.gameObject.SetActive(false);
-                    m_RotoVrBlock.CalibrationButton.gameObject.SetActive(false);
-                    m_RotoVrBlock.TurnLeft.gameObject.SetActive(true);
-                    m_RotoVrBlock.TurnRight.gameObject.SetActive(true);
                     break;
             }
         }
 
         public enum UIState
         {
-            Scan,
-            Vr,
-        }
-
-        public enum VrMode
-        {
+            Connection,
             Calibration,
-            WorkMode,
-            RotateOn,
+            Roto,
         }
 
         [Serializable]
-        public class MainMenuBlock
+        public class ConnectionBlock
         {
             public GameObject ConnectionPanel;
-            public Button ScanButton;
-            public DeviceViewLabel SourceLabel;
-            public Transform DeviseLabelsPanel;
+            public Button ConnectionButton;
+        }
+
+        [Serializable]
+        public class CalibrationBlock
+        {
+            public GameObject CalibrationPanel;
+            public Button CalibrationAsCurrentButton;
+            public Button CalibrationAsPrevButton;
+            public Button CalibrationAsZeroButton;
         }
 
         [Serializable]
         public class RotoVrBlock
         {
             public GameObject RotoVrPanel;
-            public Button DisconnectButton;
-            public Button FreeModeButton;
-            public Button CalibrationButton;
             public Button TurnLeft;
             public Button TurnRight;
+            public Button PlayRumble;
+            public Slider m_RumbleDuration;
+            public Slider m_RumblePower;
         }
     }
 }

@@ -27,6 +27,7 @@ import com.rotovr.unitybleplugin.model.DeviceDataModel;
 import com.rotovr.unitybleplugin.model.MessageModel;
 import com.rotovr.unitybleplugin.model.RotateToAngleModel;
 import com.rotovr.unitybleplugin.model.RotoDataModel;
+import com.rotovr.unitybleplugin.model.RumbleModel;
 import com.rotovr.unitybleplugin.utility.PluginUtility;
 import com.unity3d.player.UnityPlayer;
 
@@ -170,8 +171,11 @@ public class BlePluginInstance {
                     if (m_LeDeviceListAdapter.AddDevice(device)) {
 
                         DeviceDataModel model = new DeviceDataModel(device.getName(), device.getAddress());
-
                         SendToUnity(new MessageModel(MessageType.DeviceFound, model.toJson()));
+
+                        if (m_CurrentDeviceModel != null && m_CurrentDeviceModel.Name.equals(model.Name)) {
+                            Connect(model);
+                        }
                     }
                 }
             };
@@ -182,6 +186,12 @@ public class BlePluginInstance {
         DeviceDataModel model = (DeviceDataModel) PluginUtility.ConvertJsonToObject(gson, data, DeviceDataModel.class);
         m_CurrentDeviceModel = model;
 
+        Connect(model);
+    }
+
+    @SuppressLint("MissingPermission")
+    void Connect(DeviceDataModel model) {
+
         BluetoothDevice device = m_LeDeviceListAdapter.getItem(model.Address);
 
         if (device != null && !m_ConnectedServers.containsKey(device)) {
@@ -190,10 +200,11 @@ public class BlePluginInstance {
             device.connectGatt(UnityPlayer.currentActivity.getApplicationContext(), true, service.gattCallback);
 
             m_ConnectedServers.put(device, service);
+            m_CurrentDeviceModel = model;
 
         } else {
             UnityLogError("BluetoothDevice hasn't been discovered yet");
-
+            Scan();
         }
     }
 
@@ -273,6 +284,7 @@ public class BlePluginInstance {
         UUID uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
         BluetoothGattDescriptor descriptor = characteristic.getDescriptor(uuid);
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+
         gattServer.writeDescriptor(descriptor);
 
         SendToUnity(new MessageModel(MessageType.DeviceConnected));
@@ -293,35 +305,42 @@ public class BlePluginInstance {
     public void SetMode(String data) {
         ResetMessage();
 
+        UnityLogError("SetMode " + data);
+
         m_GattMessage[0] = (byte) (0xF1 & 0xFF);
         m_GattMessage[1] = (byte) 'S';
-        m_GattMessage[2] = (byte) (0x03 & 0xFF);
-        m_GattMessage[9] = (byte) 70;
-        m_GattMessage[11] = (byte) 40;
-        m_GattMessage[12] = (byte) 100;
-        m_GattMessage[14] = (byte) 1;
+
+        switch (data) {
+            case "IdleMode":
+                m_GattMessage[2] = (byte) (0x00 & 0xFF);
+                break;
+            case "Calibration":
+                m_GattMessage[2] = (byte) (0x01 & 0xFF);
+                break;
+            case "HeadTrack":
+                m_GattMessage[2] = (byte) (0x02 & 0xFF);
+                break;
+            case "FreeMode":
+                m_GattMessage[2] = (byte) (0x03 & 0xFF);
+                break;
+            case "CockpitMode":
+                m_GattMessage[2] = (byte) (0x04 & 0xFF);
+                break;
+        }
+        m_GattMessage[9] = (byte) (70 & 0xFF);
+        m_GattMessage[11] = (byte) (40 & 0xFF);
+        m_GattMessage[12] = (byte) (100 & 0xFF);
+        m_GattMessage[14] = (byte) (0x01 & 0xFF);
+
         byte sum = ByteSum(m_GattMessage);
         m_GattMessage[18] = sum;
 
+
+        UnityLogError(" WriteToGattCharacteristic: " + m_CurrentDeviceModel.Address);
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
     }
 
-    public void Calibration() {
-
-        ResetMessage();
-        m_GattMessage[0] = (byte) (0xF1 & 0xFF);
-        m_GattMessage[1] = (byte) (0x52 & 0xFF);
-        m_GattMessage[2] = (byte) 0x00;
-        m_GattMessage[3] = (byte) (1 & 0xFF);
-        m_GattMessage[4] = (byte) (100 & 0xFF);
-        byte sum = ByteSum(m_GattMessage);
-        m_GattMessage[18] = sum;
-
-
-        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-    }
-
-    public void TurnOnAngle(String data) {
+    public void TurnToAngle(String data) {
 
         ResetMessage();
         RotateToAngleModel model = (RotateToAngleModel) PluginUtility.ConvertJsonToObject(gson, data, RotateToAngleModel.class);
@@ -338,10 +357,10 @@ public class BlePluginInstance {
             model.Angle -= 1;
 
         if (model.Angle >= 256) {
-            m_GattMessage[2] = (byte) 0x01;
+            m_GattMessage[2] = (byte) 0x01 & 0xFF;
             m_GattMessage[3] = (byte) ((model.Angle - 256) & 0xFF);
         } else {
-            m_GattMessage[2] = (byte) 0x00;
+            m_GattMessage[2] = (byte) 0x00 & 0xFF;
             m_GattMessage[3] = (byte) (model.Angle & 0xFF);
 
         }
@@ -354,8 +373,31 @@ public class BlePluginInstance {
         UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
     }
 
-    public void TurnToAngle(String data) {
+    public void PlayRumble(String data) {
+        ResetMessage();
+        RumbleModel model = (RumbleModel) PluginUtility.ConvertJsonToObject(gson, data, RumbleModel.class);
 
+        m_GattMessage[0] = (byte) (0xF1 & 0xFF);
+        m_GattMessage[1] = (byte) 'M';
+        m_GattMessage[2] = (byte) (byte) (model.Power & 0xFF);
+
+        int duration = model.Duration * 10;
+
+        if (duration >= 256) {
+            m_GattMessage[3] = (byte) (byte) ((duration - 256) & 0xFF);
+            m_GattMessage[4] = (byte) (duration & 0xFF);
+        } else {
+            m_GattMessage[3] = (byte) 0x00 & 0xFF;
+            m_GattMessage[4] = (byte) (duration & 0xFF);
+        }
+
+
+        m_GattMessage[5] = (byte) (0x00 & 0xFF);
+        byte sum = ByteSum(m_GattMessage);
+        m_GattMessage[18] = sum;
+
+        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
+        UnityLogError("Play rumble " + model.Duration + " seconds   with power " + model.Power);
     }
 
     private byte ByteSum(byte[] blk) {
@@ -388,8 +430,10 @@ public class BlePluginInstance {
 
     @SuppressLint("MissingPermission")
     public void WriteToGattCharacteristic(String device, String service, String characteristic, byte[] message) {
+
         BluetoothGatt gattServer = GetServer(device);
         BluetoothGattService gattService = GetService(gattServer, service);
+        UnityLogError("WriteToGattCharacteristic gattServer: " + gattServer + "gattService: " + gattService);
         BluetoothGattCharacteristic gattCharacteristic = GetCharacteristic(gattService, characteristic);
 
         gattCharacteristic.setValue(message);
@@ -405,11 +449,13 @@ public class BlePluginInstance {
 
     BluetoothGattService GetService(BluetoothGatt gattServer, String service) {
         UUID serviceUUID = UUID.fromString("0000" + service + "-0000-1000-8000-00805f9b34fb");
+        UnityLogError("GetService: serviceUUID " + serviceUUID);
         return gattServer.getService(serviceUUID);
     }
 
     BluetoothGattCharacteristic GetCharacteristic(BluetoothGattService gattService, String characteristic) {
         UUID gattUUID = UUID.fromString("0000" + characteristic + "-0000-1000-8000-00805f9b34fb");
+        UnityLogError("GetCharacteristic gattServer: " + gattService);
         return gattService.getCharacteristic(gattUUID);
     }
 

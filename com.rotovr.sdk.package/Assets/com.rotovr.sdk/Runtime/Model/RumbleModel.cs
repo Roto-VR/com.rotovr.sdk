@@ -5,13 +5,13 @@ namespace RotoVR.SDK.Model
     [Serializable]
     public class RumbleModel
     {
-        public RumbleModel(float duration, int power)
+        public RumbleModel(int duration, int power)
         {
             Duration = duration;
             Power = power;
         }
 
-        public float Duration { get; }
+        public int Duration { get; }
         public int Power { get; }
     }
 }

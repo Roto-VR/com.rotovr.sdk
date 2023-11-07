@@ -40,7 +40,7 @@ namespace RotoVR.SDK.Components
         void Awake()
         {
             var behaviour = FindObjectOfType<RotoBehaviour>();
-            if (behaviour != null)
+            if (behaviour != null && behaviour != this)
                 Destroy(behaviour);
 
             InitRoto();
@@ -116,21 +116,20 @@ namespace RotoVR.SDK.Components
                 Debug.LogError("For Had Tracking Mode you need to set target transform");
             else
             {
-                float deltaTime=0;
+                float deltaTime = 0;
                 while (true)
                 {
                     yield return null;
                     deltaTime += Time.deltaTime;
                     if (deltaTime > 0.1f)
                     {
-                        
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Connect to roto vr
+        /// Connect to RotoVR
         /// </summary>
         public void Connect()
         {
@@ -154,7 +153,8 @@ namespace RotoVR.SDK.Components
         /// <param name="direction">Direction of rotation</param>
         /// <param name="angle">Angle which we need rotate the chair on</param>
         /// <param name="power">Rotational power. In range 0-100</param>
-        public void RotateOnAngle(Direction direction, int angle, int power) => m_Roto.RotateOnAngle(direction,angle,power);
+        public void RotateOnAngle(Direction direction, int angle, int power) =>
+            m_Roto.RotateOnAngle(direction, angle, power);
 
         /// <summary>
         /// Rotate to angle
@@ -162,15 +162,15 @@ namespace RotoVR.SDK.Components
         /// <param name="direction">Direction of rotation</param>
         /// <param name="angle">Angle which we need rotate the chair to</param>
         /// <param name="power">Rotational power. In range 0-100</param>
-        public void RotateToAngle(Direction direction, int angle, int power)=> m_Roto.RotateToAngle(direction,angle,power);
-   
+        public void RotateToAngle(Direction direction, int angle, int power) =>
+            m_Roto.RotateToAngle(direction, angle, power);
+
 
         /// <summary>
         /// Play rumble
         /// </summary>
         /// <param name="time">Duration</param>
         /// <param name="power">Power</param>
-        public void Rumble(float time, int power)=>m_Roto.Rumble(time,power);
-     
+        public void Rumble(int time, int power) => m_Roto.Rumble(time, power);
     }
 }

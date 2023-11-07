@@ -72,12 +72,6 @@ namespace RotoVR.SDK.BLE
                 m_AndroidLibrary?.Call(command, data);
         }
 
-        public T Get<T>(string command)
-        {
-            Debug.LogError($"Get {command}");
-            return m_AndroidLibrary != null ? m_AndroidLibrary.Get<T>(command) : default(T);
-        }
-
         public void Subscribe(string command, Action<string> action) => m_MessageReceiver.Subscribe(command, action);
         public void UnSubscribe(string command, Action<string> action) => m_MessageReceiver.UnSubscribe(command, action);
     }

@@ -17,7 +17,7 @@ namespace RotoVR.SDK.Model
             Angle = angle;
         }
 
-        public string Mode { get; }
-        public int Angle { get; }
+        public string Mode { get; set; }
+        public int Angle { get; set; }
     }
 }
