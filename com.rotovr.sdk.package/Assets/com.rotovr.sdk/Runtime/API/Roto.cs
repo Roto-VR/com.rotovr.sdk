@@ -91,8 +91,6 @@ namespace RotoVR.SDK.API
         {
             RotoDataModel model = JsonConvert.DeserializeObject<RotoDataModel>(data);
 
-            Debug.LogError($"OnModelChangeHandler current angle :{model.Angle}");
-
             if (model.Mode != m_RotoData.Mode)
             {
                 if (System.Enum.TryParse(model.Mode, out ModeType value))
@@ -118,7 +116,6 @@ namespace RotoVR.SDK.API
         /// <param name="deviceName">Data with device parameters</param>
         public void Connect(string deviceName)
         {
-            Debug.LogError($"Connect to device: {deviceName} ");
             SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
         }
 
@@ -212,7 +209,7 @@ namespace RotoVR.SDK.API
                 case Direction.Left:
                     newAngle = m_RotoData.Angle - angle;
                     if (newAngle < 0)
-                        newAngle = 360 - newAngle;
+                        newAngle = 360 + newAngle;
                     break;
                 case Direction.Right:
                     newAngle = m_RotoData.Angle + angle;
@@ -249,7 +246,6 @@ namespace RotoVR.SDK.API
         /// <param name="power">Power of rumble</param>
         public void Rumble(int duration, int power)
         {
-            Debug.LogError($"Rumble  duration: {duration}  power: {power}");
             SendMessage(new PlayRumbleMessage(JsonConvert.SerializeObject(new RumbleModel(duration, power))));
         }
     }
