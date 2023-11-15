@@ -294,6 +294,8 @@ public class BlePluginInstance {
         byte[] data = characteristic.getValue();
 
 
+        UnityLogError("CharacteristicValueChanged  data[5]: " + (data[5] & 0xFF) + " data[6]: " + (data[6] & 0xFF));
+
         RotoDataModel runtimeModel = new RotoDataModel(data);
         if (m_RotoModel == null || !m_RotoModel.Compare(runtimeModel)) {
             m_RotoModel = runtimeModel;
@@ -303,9 +305,8 @@ public class BlePluginInstance {
     }
 
     public void SetMode(String data) {
-        ResetMessage();
 
-        UnityLogError("SetMode " + data);
+        ResetMessage();
 
         m_GattMessage[0] = (byte) (0xF1 & 0xFF);
         m_GattMessage[1] = (byte) 'S';
@@ -335,8 +336,6 @@ public class BlePluginInstance {
         byte sum = ByteSum(m_GattMessage);
         m_GattMessage[18] = sum;
 
-
-        UnityLogError(" WriteToGattCharacteristic: " + m_CurrentDeviceModel.Address);
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
     }
 
@@ -370,10 +369,10 @@ public class BlePluginInstance {
         m_GattMessage[18] = sum;
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-        UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
+        UnityLogError("Turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
     }
 
-    public void TurnToAngleV2(String data) {
+    public void TurnToAngle(String data) {
 
         ResetMessage();
         RotateToAngleModel model = (RotateToAngleModel) PluginUtility.ConvertJsonToObject(gson, data, RotateToAngleModel.class);
@@ -406,7 +405,8 @@ public class BlePluginInstance {
         m_GattMessage[18] = sum;
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-        UnityLogError("Try to turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
+        UnityLogError("Turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
+
     }
 
     public void PlayRumbleV1(String data) {
@@ -437,7 +437,7 @@ public class BlePluginInstance {
     }
 
 
-    public void PlayRumbleV2(String data) {
+    public void PlayRumble(String data) {
         ResetMessage();
         RumbleModel model = (RumbleModel) PluginUtility.ConvertJsonToObject(gson, data, RumbleModel.class);
 
@@ -482,9 +482,8 @@ public class BlePluginInstance {
             UnityLogError(" ReadFromCharacteristic CAN NOT READ");
             return;
         }
-        boolean read = gattServer.readCharacteristic(gattCharacteristic);
 
-        UnityLogError(" ReadFromCharacteristic success: " + read);
+        boolean read = gattServer.readCharacteristic(gattCharacteristic);
     }
 
     @SuppressLint("MissingPermission")
@@ -492,13 +491,10 @@ public class BlePluginInstance {
 
         BluetoothGatt gattServer = GetServer(device);
         BluetoothGattService gattService = GetService(gattServer, service);
-        UnityLogError("WriteToGattCharacteristic gattServer: " + gattServer + "gattService: " + gattService);
         BluetoothGattCharacteristic gattCharacteristic = GetCharacteristic(gattService, characteristic);
 
         gattCharacteristic.setValue(message);
         boolean success = gattServer.writeCharacteristic(gattCharacteristic);
-
-        UnityLogError("WriteToGattCharacteristic success: " + success);
     }
 
     BluetoothGatt GetServer(String device) {
@@ -508,13 +504,11 @@ public class BlePluginInstance {
 
     BluetoothGattService GetService(BluetoothGatt gattServer, String service) {
         UUID serviceUUID = UUID.fromString("0000" + service + "-0000-1000-8000-00805f9b34fb");
-        UnityLogError("GetService: serviceUUID " + serviceUUID);
         return gattServer.getService(serviceUUID);
     }
 
     BluetoothGattCharacteristic GetCharacteristic(BluetoothGattService gattService, String characteristic) {
         UUID gattUUID = UUID.fromString("0000" + characteristic + "-0000-1000-8000-00805f9b34fb");
-        UnityLogError("GetCharacteristic gattServer: " + gattService);
         return gattService.getCharacteristic(gattUUID);
     }
 

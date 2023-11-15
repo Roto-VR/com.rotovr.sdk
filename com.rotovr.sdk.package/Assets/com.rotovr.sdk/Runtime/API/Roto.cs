@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Newtonsoft.Json;
 using RotoVR.SDK.BLE;
 using RotoVR.SDK.Enum;
@@ -23,7 +24,10 @@ namespace RotoVR.SDK.API
         RotoDataModel m_RotoData = new();
         readonly string m_Calibrationkey = "CalibrationKey";
         Transform m_ObservableTarger;
+        Coroutine m_TargetRoutine;
         bool m_IsInit = false;
+        float m_StartTargetAngle;
+        float m_StartRotoAngle;
 
         /// <summary>
         /// Invoke when change roto vr mode
@@ -99,6 +103,7 @@ namespace RotoVR.SDK.API
                 }
             }
 
+            Debug.LogError($"OnModelChangeHandler angle: {model.Angle}");
             m_RotoData = model;
         }
 
@@ -226,17 +231,96 @@ namespace RotoVR.SDK.API
         /// Observe rotation of a target object
         /// </summary>
         /// <param name="target">Target object which rotation need to observe</param>
-        public void AddObservable(Transform target)
+        public void AddObservable(MonoBehaviour behaviour, Transform target)
         {
             m_ObservableTarger = target;
+            m_StartTargetAngle = m_ObservableTarger.eulerAngles.y;
+            m_StartRotoAngle = m_RotoData.Angle;
+            m_TargetRoutine = behaviour.StartCoroutine(ObserveTarget());
+
+
+            Debug.LogError($"m_StartTargetAngle: {m_StartTargetAngle}  m_StartRotoAngle: {m_StartRotoAngle}");
         }
 
         /// <summary>
         /// Stop observable flow
         /// </summary>
-        public void RemoveObservable()
+        public void RemoveObservable(MonoBehaviour behaviour)
         {
-            m_ObservableTarger = null;
+            if (m_TargetRoutine != null)
+            {
+                behaviour.StopCoroutine(m_TargetRoutine);
+                m_TargetRoutine = null;
+                m_ObservableTarger = null;
+            }
+        }
+
+        IEnumerator ObserveTarget()
+        {
+            if (m_ObservableTarger == null)
+                Debug.LogError("For Had Tracking Mode you need to set target transform");
+            else
+            {
+                float deltaTime = 0;
+                float rotoAngle = 0;
+                Direction direction = Direction.Left;
+
+                Debug.LogError($"m_StartTargetAngle: {m_StartTargetAngle}");
+
+
+                while (true)
+                {
+                    yield return null;
+                    deltaTime += Time.deltaTime;
+
+                    if (deltaTime > 0.1f)
+                    {
+                        var currentAngle = m_ObservableTarger.eulerAngles.y;
+                        var angle = currentAngle - m_StartTargetAngle;
+
+
+                        if (angle != 0)
+                        {
+                            if (angle > 360)
+                                angle -= 360;
+
+                            rotoAngle = m_StartRotoAngle + angle;
+                            if (rotoAngle >= 360)
+                                rotoAngle -= 360;
+                            else if (rotoAngle < 0)
+                                rotoAngle += 360;
+
+
+                            if (rotoAngle > m_RotoData.Angle)
+                            {
+                                if (Mathf.Abs(rotoAngle - m_RotoData.Angle) > 180)
+                                {
+                                    direction = Direction.Left;
+                                }
+                                else
+                                {
+                                    direction = Direction.Right;
+                                }
+                            }
+                            else
+                            {
+                                if (Mathf.Abs(rotoAngle - m_RotoData.Angle) > 180)
+                                {
+                                    direction = Direction.Right;
+                                }
+                                else
+                                {
+                                    direction = Direction.Left;
+                                }
+                            }
+
+                            RotateToAngle(direction, (int)rotoAngle, 100);
+                        }
+
+                        deltaTime = 0;
+                    }
+                }
+            }
         }
 
         /// <summary>
