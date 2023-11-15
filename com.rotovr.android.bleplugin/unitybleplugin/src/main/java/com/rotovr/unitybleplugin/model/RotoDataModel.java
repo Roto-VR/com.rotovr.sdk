@@ -9,6 +9,7 @@ public class RotoDataModel implements Serializable {
 
     public RotoDataModel() {
         Mode = "";
+
         Angle = 0;
     }
 
@@ -35,11 +36,17 @@ public class RotoDataModel implements Serializable {
                 break;
         }
 
-        if (data[5] > 0) {
-            Angle = data[6] + 256;
-        } else {
-            Angle = data[6];
+        switch (data[5]) {
+            case 0:
+                Angle = data[6] & 0xFF;
+                break;
+            case 1:
+                int angle = data[6] & 0xFF;
+                Angle = (angle + 256);
+                break;
+
         }
+
 
     }
 
