@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using RotoVR.SDK.API;
 using RotoVR.SDK.Enum;
 using UnityEngine;
@@ -25,7 +24,6 @@ namespace RotoVR.SDK.Components
 
         Roto m_Roto;
         bool m_IsInit;
-        Coroutine m_targetRoutine;
 
         /// <summary>
         /// Action invoke when the system connection status changed
@@ -36,6 +34,8 @@ namespace RotoVR.SDK.Components
         /// Action invoke when the system mode type changed
         /// </summary>
         public event Action<ModeType> OnModeChanged;
+
+        float m_StartTargetAngle = 0;
 
         void Awake()
         {
@@ -77,15 +77,11 @@ namespace RotoVR.SDK.Components
                 case ModeType.IdleMode:
                 case ModeType.Calibration:
                 case ModeType.Error:
-                    if (m_targetRoutine != null)
-                    {
-                        StopCoroutine(m_targetRoutine);
-                        m_targetRoutine = null;
-                    }
+
 
                     break;
                 case ModeType.HeadTrack:
-                    m_targetRoutine = StartCoroutine(ObserveTarget());
+
                     break;
             }
 
@@ -100,7 +96,14 @@ namespace RotoVR.SDK.Components
 
                     break;
                 case ConnectionStatus.Connected:
-                    m_Roto.SetMode(m_ModeType);
+                    if (m_ModeType == ModeType.CustomHeadTrack)
+                    {
+                        m_Roto.SetMode(ModeType.FreeMode);
+                        m_Roto.AddObservable(this, m_Target);
+                    }
+                    else
+                        m_Roto.SetMode(m_ModeType);
+
                     break;
                 case ConnectionStatus.Disconnected:
 
@@ -108,24 +111,6 @@ namespace RotoVR.SDK.Components
             }
 
             OnConnectionStatusChanged?.Invoke(status);
-        }
-
-        IEnumerator ObserveTarget()
-        {
-            if (m_Target == null)
-                Debug.LogError("For Had Tracking Mode you need to set target transform");
-            else
-            {
-                float deltaTime = 0;
-                while (true)
-                {
-                    yield return null;
-                    deltaTime += Time.deltaTime;
-                    if (deltaTime > 0.1f)
-                    {
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -172,5 +157,23 @@ namespace RotoVR.SDK.Components
         /// <param name="time">Duration</param>
         /// <param name="power">Power</param>
         public void Rumble(int time, int power) => m_Roto.Rumble(time, power);
+
+        /// <summary>
+        /// Switch RotoVr mode 
+        /// </summary>
+        /// <param name="mode">New mode</param>
+        public void SwitchMode(ModeType mode)
+        {
+            if (mode == ModeType.CustomHeadTrack)
+            {
+                m_Roto.SetMode(ModeType.FreeMode);
+                m_Roto.AddObservable(this, m_Target);
+            }
+            else
+            {
+                m_Roto.RemoveObservable(this);
+                m_Roto.SetMode(mode);
+            }
+        }
     }
 }

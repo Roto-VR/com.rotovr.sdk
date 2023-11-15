@@ -8,5 +8,6 @@
         FreeMode = 3,
         CockpitMode = 4,
         Error = 5,
+        CustomHeadTrack = 6,
     }
 }

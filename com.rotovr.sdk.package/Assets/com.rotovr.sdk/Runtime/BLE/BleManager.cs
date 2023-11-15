@@ -65,7 +65,6 @@ namespace RotoVR.SDK.BLE
 
         public void Call(string command, string data)
         {
-            Debug.LogError($"Call {command}");
             if (string.IsNullOrEmpty(data))
                 m_AndroidLibrary?.Call(command);
             else
@@ -73,6 +72,8 @@ namespace RotoVR.SDK.BLE
         }
 
         public void Subscribe(string command, Action<string> action) => m_MessageReceiver.Subscribe(command, action);
-        public void UnSubscribe(string command, Action<string> action) => m_MessageReceiver.UnSubscribe(command, action);
+
+        public void UnSubscribe(string command, Action<string> action) =>
+            m_MessageReceiver.UnSubscribe(command, action);
     }
 }
