@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Sample(Oculus Quest)/Scenes/Example.unity
     guid: 8b50310580c312b46814cd2610205224
+  - enabled: 0
+    path: Assets/Sample(Oculus Quest)/Scenes/MotionCompensationExample.unity
+    guid: bb72b2b16dcb2f04881b5d6ae1a516c0
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 731c0bf414443d74b82703623a406e5b, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: cc3e5e89a3f28eb409474fc9ef383809, type: 2}
