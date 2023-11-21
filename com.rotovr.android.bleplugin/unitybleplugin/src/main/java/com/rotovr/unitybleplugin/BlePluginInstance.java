@@ -339,39 +339,6 @@ public class BlePluginInstance {
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
     }
 
-    public void TurnToAngleV1(String data) {
-
-        ResetMessage();
-        RotateToAngleModel model = (RotateToAngleModel) PluginUtility.ConvertJsonToObject(gson, data, RotateToAngleModel.class);
-
-        m_GattMessage[0] = (byte) (0xF1 & 0xFF);
-
-        if (model.Direction.equals("Right")) {
-            m_GattMessage[1] = (byte) (0x52 & 0xFF);
-        } else {
-            m_GattMessage[1] = (byte) (0x4C & 0xFF);
-        }
-
-        if (model.Angle == 360)
-            model.Angle -= 1;
-
-        if (model.Angle >= 256) {
-            m_GattMessage[2] = (byte) 0x01 & 0xFF;
-            m_GattMessage[3] = (byte) ((model.Angle - 256) & 0xFF);
-        } else {
-            m_GattMessage[2] = (byte) 0x00 & 0xFF;
-            m_GattMessage[3] = (byte) (model.Angle & 0xFF);
-
-        }
-        m_GattMessage[4] = (byte) (model.Power & 0xFF);
-
-        byte sum = ByteSum(m_GattMessage);
-        m_GattMessage[18] = sum;
-
-        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-        UnityLogError("Turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
-    }
-
     public void TurnToAngle(String data) {
 
         ResetMessage();
@@ -408,34 +375,6 @@ public class BlePluginInstance {
         UnityLogError("Turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
 
     }
-
-    public void PlayRumbleV1(String data) {
-        ResetMessage();
-        RumbleModel model = (RumbleModel) PluginUtility.ConvertJsonToObject(gson, data, RumbleModel.class);
-
-        m_GattMessage[0] = (byte) (0xF1 & 0xFF);
-        m_GattMessage[1] = (byte) 'M';
-        m_GattMessage[2] = (byte) (model.Power & 0xFF);
-
-        int duration = model.Duration * 10;
-
-        if (duration >= 256) {
-            m_GattMessage[3] = (byte) ((duration - 256) & 0xFF);
-            m_GattMessage[4] = (byte) (duration & 0xFF);
-        } else {
-            m_GattMessage[3] = (byte) 0x00 & 0xFF;
-            m_GattMessage[4] = (byte) (duration & 0xFF);
-        }
-
-        m_GattMessage[5] = (byte) (0x00 & 0xFF);
-
-        byte sum = ByteSum(m_GattMessage);
-        m_GattMessage[18] = sum;
-
-        WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-        UnityLogError("Play rumble " + model.Duration + " seconds   with power " + model.Power);
-    }
-
 
     public void PlayRumble(String data) {
         ResetMessage();
