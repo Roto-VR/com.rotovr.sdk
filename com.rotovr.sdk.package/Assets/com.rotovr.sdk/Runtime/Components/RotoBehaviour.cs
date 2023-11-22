@@ -99,10 +99,17 @@ namespace RotoVR.SDK.Components
                     if (m_ModeType == ModeType.CustomHeadTrack)
                     {
                         m_Roto.SetMode(ModeType.FreeMode);
-                        m_Roto.AddObservable(this, m_Target);
+                        m_Roto.AddToAngleObservable(this, m_Target);
                     }
                     else
+                    {
                         m_Roto.SetMode(m_ModeType);
+
+                        if (m_ModeType == ModeType.HeadTrack)
+                        {
+                            m_Roto.AddOnAngleObservable(this, m_Target);
+                        }
+                    }
 
                     break;
                 case ConnectionStatus.Disconnected:
@@ -150,6 +157,8 @@ namespace RotoVR.SDK.Components
         public void RotateToAngle(Direction direction, int angle, int power) =>
             m_Roto.RotateToAngle(direction, angle, power);
 
+        public void RotateToAngleByCloserDirection(int angle, int power) =>
+            m_Roto.RotateToAngleByCloserDirection(angle, power);
 
         /// <summary>
         /// Play rumble
@@ -167,12 +176,17 @@ namespace RotoVR.SDK.Components
             if (mode == ModeType.CustomHeadTrack)
             {
                 m_Roto.SetMode(ModeType.FreeMode);
-                m_Roto.AddObservable(this, m_Target);
+                m_Roto.AddToAngleObservable(this, m_Target);
             }
             else
             {
                 m_Roto.RemoveObservable(this);
                 m_Roto.SetMode(mode);
+
+                if (mode == ModeType.HeadTrack)
+                {
+                    m_Roto.AddOnAngleObservable(this, m_Target);
+                }
             }
         }
     }

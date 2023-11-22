@@ -372,7 +372,7 @@ public class BlePluginInstance {
         m_GattMessage[18] = sum;
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-        UnityLogError("Turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
+        UnityLogError("Turn " + model.Direction + " to angle " + model.Angle + "   with power " + model.Power);
 
     }
 

@@ -17,7 +17,12 @@ namespace Example.UI
 
         void Awake()
         {
-            m_ConnectionBlock.ConnectionButton.onClick.AddListener(() => { m_RotoBerhaviour.Connect(); });
+            m_ConnectionBlock.ConnectionButton.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.Connect();
+                m_ConnectionBlock.ConnectionButton.gameObject.SetActive(false);
+                m_ConnectionBlock.Connecting.SetActive(true);
+            });
 
             m_CalibrationBlock.CalibrationAsCurrentButton.onClick.AddListener(() =>
             {
@@ -34,19 +39,85 @@ namespace Example.UI
 
             m_RotoVrBlock.TurnLeft.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.RotateOnAngle(Direction.Left, 30, 100);
+                m_RotoBerhaviour.RotateOnAngle(Direction.Left, 30, (int)(m_RotoVrBlock.RotatePower.value * 100));
             });
 
             m_RotoVrBlock.TurnRight.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.RotateOnAngle(Direction.Right, 30, 100);
+                m_RotoBerhaviour.RotateOnAngle(Direction.Right, 30, (int)(m_RotoVrBlock.RotatePower.value * 100));
             });
             m_RotoVrBlock.PlayRumble.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.Rumble((int)(m_RotoVrBlock.m_RumbleDuration.value * 10),
-                    (int)(m_RotoVrBlock.m_RumblePower.value * 100));
+                m_RotoBerhaviour.Rumble((int)(m_RotoVrBlock.RumbleDuration.value * 10),
+                    (int)(m_RotoVrBlock.RumblePower.value * 100));
             });
 
+            m_RotoVrBlock.RumbleDurationView.text = $"Duration {m_RotoVrBlock.RumbleDuration.value * 10f} seconds";
+
+            m_RotoVrBlock.RumbleDuration.onValueChanged.AddListener((val) =>
+            {
+                m_RotoVrBlock.RumbleDurationView.text = $"Duration {val * 10f} seconds";
+            });
+
+            m_RotoVrBlock.RumblePowerView.text = $"Power {m_RotoVrBlock.RumblePower.value * 100f} %";
+
+            m_RotoVrBlock.RumblePower.onValueChanged.AddListener((val) =>
+            {
+                m_RotoVrBlock.RumblePowerView.text = $"Power {val * 100f} %";
+            });
+
+            m_RotoVrBlock.RotatePowerView.text = $"Power {m_RotoVrBlock.RotatePower.value * 100f} %";
+
+            m_RotoVrBlock.RotatePower.onValueChanged.AddListener((val) =>
+            {
+                m_RotoVrBlock.RotatePowerView.text = $"Power {val * 100f} %";
+            });
+
+            m_RotoVrBlock.RotationModeToggle.onValueChanged.AddListener((val) =>
+            {
+                m_RotoVrBlock.RotationBlock.SetActive(val);
+                m_RotoVrBlock.ApplyBlock.SetActive(!val);
+            });
+
+            m_RotoVrBlock.RotationBlock.SetActive(m_RotoVrBlock.RotationModeToggle.isOn);
+            m_RotoVrBlock.ApplyBlock.SetActive(!m_RotoVrBlock.RotationModeToggle.isOn);
+
+
+            m_RotoVrBlock.KeyBoardButton.onClick.AddListener(() => { m_RotoVrBlock.Keyboard.SetActive(true); });
+
+            KeyboardButton.OnClick += SetValue;
+
+            void SetValue(string val)
+            {
+                if (val == "Clear")
+                {
+                    m_RotoVrBlock.KeyboardView.text = "0";
+                    return;
+                }
+
+                var old = m_RotoVrBlock.KeyboardView.text;
+
+                var newText = old;
+                
+                if (newText == "0")
+                    newText = val;
+                else
+                    newText += val;
+
+                int angle = int.Parse(newText);
+                if (angle > 360)
+                {
+                    m_RotoVrBlock.KeyboardView.text = old;
+                }
+                else
+                    m_RotoVrBlock.KeyboardView.text = newText;
+            }
+
+            m_RotoVrBlock.ApplyAngle.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.RotateToAngleByCloserDirection(int.Parse(m_RotoVrBlock.KeyboardView.text),
+                    (int)(m_RotoVrBlock.RotatePower.value * 100));
+            });
 
             m_ModeBlock.ModeSelector.onValueChanged.AddListener((val) =>
             {
@@ -63,13 +134,13 @@ namespace Example.UI
                         m_RotoVrBlock.MovementBlock.SetActive(false);
                         break;
                     case 2:
-                        //Headtrack
-                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack);
+                        //Custom Headtrack
+                        m_RotoBerhaviour.SwitchMode(ModeType.CustomHeadTrack);
                         m_RotoVrBlock.MovementBlock.SetActive(false);
                         break;
                     case 3:
                         //CockpitMode
-                        m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
+                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack);
                         m_RotoVrBlock.MovementBlock.SetActive(true);
                         break;
                 }
@@ -148,6 +219,7 @@ namespace Example.UI
         {
             public GameObject ConnectionPanel;
             public Button ConnectionButton;
+            public GameObject Connecting;
         }
 
         [Serializable]
@@ -164,11 +236,22 @@ namespace Example.UI
         {
             public GameObject RotoVrPanel;
             public GameObject MovementBlock;
+            public Toggle RotationModeToggle;
+            public GameObject ApplyBlock;
+            public GameObject RotationBlock;
+            public Slider RotatePower;
+            public TMP_Text RotatePowerView;
+            public Button KeyBoardButton;
+            public GameObject Keyboard;
+            public TMP_Text KeyboardView;
+            public Button ApplyAngle;
             public Button TurnLeft;
             public Button TurnRight;
             public Button PlayRumble;
-            public Slider m_RumbleDuration;
-            public Slider m_RumblePower;
+            public Slider RumbleDuration;
+            public TMP_Text RumbleDurationView;
+            public Slider RumblePower;
+            public TMP_Text RumblePowerView;
         }
 
         [Serializable]
