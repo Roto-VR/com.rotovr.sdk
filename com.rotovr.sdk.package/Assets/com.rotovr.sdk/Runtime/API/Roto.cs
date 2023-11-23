@@ -159,25 +159,41 @@ namespace RotoVR.SDK.API
                     if (PlayerPrefs.HasKey(m_Calibrationkey))
                     {
                         defaultAngle = PlayerPrefs.GetInt(m_Calibrationkey);
-                        RotateToAngle(GetCloseDirection(m_RotoData.Angle, defaultAngle), defaultAngle, 100);
+                        RotateToAngle(GetDirection(defaultAngle), defaultAngle, 100);
                     }
 
                     break;
                 case CalibrationMode.SetToZero:
                     defaultAngle = 0;
-                    RotateToAngle(GetCloseDirection(m_RotoData.Angle, defaultAngle), defaultAngle, 100);
+                    RotateToAngle(GetDirection(defaultAngle), defaultAngle, 100);
                     break;
             }
         }
 
-        Direction GetCloseDirection(int currentAngle, int targetAngle)
+        Direction GetDirection(int targetAngle)
         {
-            int delta = Math.Abs(targetAngle - currentAngle);
-
-            if (delta > 180)
-                return Direction.Right;
+            if (targetAngle > m_RotoData.Angle)
+            {
+                if (Mathf.Abs(targetAngle - m_RotoData.Angle) > 180)
+                {
+                    return Direction.Left;
+                }
+                else
+                {
+                    return Direction.Right;
+                }
+            }
             else
-                return Direction.Left;
+            {
+                if (Mathf.Abs(targetAngle - m_RotoData.Angle) > 180)
+                {
+                    return Direction.Right;
+                }
+                else
+                {
+                    return Direction.Left;
+                }
+            }
         }
 
         /// <summary>
@@ -196,6 +212,13 @@ namespace RotoVR.SDK.API
         {
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power, direction.ToString()))));
+        }
+
+        public void RotateToAngleByCloserDirection(int angle, int power)
+        {
+            SendMessage(new RotateToAngleMessage(
+                JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
+                    GetDirection(angle).ToString()))));
         }
 
         /// <summary>
@@ -231,15 +254,41 @@ namespace RotoVR.SDK.API
         /// Observe rotation of a target object
         /// </summary>
         /// <param name="target">Target object which rotation need to observe</param>
-        public void AddObservable(MonoBehaviour behaviour, Transform target)
+        public void AddToAngleObservable(MonoBehaviour behaviour, Transform target)
         {
             m_ObservableTarger = target;
             m_StartTargetAngle = m_ObservableTarger.eulerAngles.y;
             m_StartRotoAngle = m_RotoData.Angle;
-            m_TargetRoutine = behaviour.StartCoroutine(ObserveTarget());
 
+            if (m_TargetRoutine != null)
+            {
+                behaviour.StopCoroutine(m_TargetRoutine);
+                m_TargetRoutine = null;
+            }
 
-            Debug.LogError($"m_StartTargetAngle: {m_StartTargetAngle}  m_StartRotoAngle: {m_StartRotoAngle}");
+            m_TargetRoutine = behaviour.StartCoroutine(ObserveToAngleTarget());
+        }
+
+        /// <summary>
+        /// Observe rotation of a target object
+        /// </summary>
+        /// <param name="target">Target object which rotation need to observe</param>
+        public void AddOnAngleObservable(MonoBehaviour behaviour, Transform target)
+        {
+            m_ObservableTarger = target;
+            m_StartTargetAngle = m_ObservableTarger.eulerAngles.y;
+            m_StartRotoAngle = m_RotoData.Angle;
+
+            if (m_TargetRoutine != null)
+            {
+                behaviour.StopCoroutine(m_TargetRoutine);
+                m_TargetRoutine = null;
+            }
+
+            Debug.LogError(
+                $"AddOnAngleObservable   m_StartTargetAngle: {m_StartTargetAngle}  m_StartRotoAngle: {m_StartRotoAngle}");
+
+            m_TargetRoutine = behaviour.StartCoroutine(ObserveOnAngleTarget());
         }
 
         /// <summary>
@@ -255,7 +304,7 @@ namespace RotoVR.SDK.API
             }
         }
 
-        IEnumerator ObserveTarget()
+        IEnumerator ObserveToAngleTarget()
         {
             if (m_ObservableTarger == null)
                 Debug.LogError("For Had Tracking Mode you need to set target transform");
@@ -265,19 +314,24 @@ namespace RotoVR.SDK.API
                 float rotoAngle = 0;
                 Direction direction = Direction.Left;
 
-                Debug.LogError($"m_StartTargetAngle: {m_StartTargetAngle}");
-
+                yield return new WaitForSeconds(0.5f);
+                SetMode(ModeType.FreeMode);
 
                 while (true)
                 {
-                    yield return null;
                     deltaTime += Time.deltaTime;
 
                     if (deltaTime > 0.1f)
                     {
-                        var currentAngle = m_ObservableTarger.eulerAngles.y;
-                        var angle = currentAngle - m_StartTargetAngle;
+                        var currentTargetAngle = m_ObservableTarger.eulerAngles.y;
+                        var deltaTargetAngle = currentTargetAngle - m_StartTargetAngle;
 
+                        var currentRotoAngle = m_RotoData.Angle;
+                        var deltaRotoAngle = currentRotoAngle - m_StartRotoAngle;
+
+                        var realCurrentTargetAngle = deltaTargetAngle - deltaRotoAngle;
+
+                        var angle = realCurrentTargetAngle;
 
                         if (angle != 0)
                         {
@@ -290,32 +344,48 @@ namespace RotoVR.SDK.API
                             else if (rotoAngle < 0)
                                 rotoAngle += 360;
 
-
-                            if (rotoAngle > m_RotoData.Angle)
-                            {
-                                if (Mathf.Abs(rotoAngle - m_RotoData.Angle) > 180)
-                                {
-                                    direction = Direction.Left;
-                                }
-                                else
-                                {
-                                    direction = Direction.Right;
-                                }
-                            }
-                            else
-                            {
-                                if (Mathf.Abs(rotoAngle - m_RotoData.Angle) > 180)
-                                {
-                                    direction = Direction.Right;
-                                }
-                                else
-                                {
-                                    direction = Direction.Left;
-                                }
-                            }
-
+                            direction = GetDirection((int)rotoAngle);
                             RotateToAngle(direction, (int)rotoAngle, 100);
                         }
+
+                        deltaTime = 0;
+                    }
+
+                    yield return null;
+                }
+            }
+        }
+
+        IEnumerator ObserveOnAngleTarget()
+        {
+            if (m_ObservableTarger == null)
+                Debug.LogError("For Had Tracking Mode you need to set target transform");
+            else
+            {
+                float deltaTime = 0;
+                while (true)
+                {
+                    yield return null;
+                    deltaTime += Time.deltaTime;
+
+                    if (deltaTime > 0.1f)
+                    {
+                        var currentRotoAngle = m_RotoData.Angle;
+                        var deltaRotoAngle = currentRotoAngle - m_StartRotoAngle;
+
+
+                        var currentTargetAngle = m_ObservableTarger.eulerAngles.y;
+                        var deltaTargetAngle = currentTargetAngle - m_StartTargetAngle;
+
+                        var angle = m_StartRotoAngle + deltaTargetAngle - deltaRotoAngle;
+
+                        if (angle >= 360)
+                            angle -= 360;
+                        else if (angle < 0)
+                            angle += 360;
+                        Debug.LogError(
+                            $"RotateToAngle currentRotoAngle: {currentRotoAngle}  deltaRotoAngle: {deltaRotoAngle} rotoAngle: {angle}  ");
+                        RotateToAngle(Direction.Left, (int)angle, 100);
 
                         deltaTime = 0;
                     }
@@ -328,7 +398,7 @@ namespace RotoVR.SDK.API
         /// </summary>
         /// <param name="duration">Duration of rumble</param>
         /// <param name="power">Power of rumble</param>
-        public void Rumble(int duration, int power)
+        public void Rumble(float duration, int power)
         {
             SendMessage(new PlayRumbleMessage(JsonConvert.SerializeObject(new RumbleModel(duration, power))));
         }

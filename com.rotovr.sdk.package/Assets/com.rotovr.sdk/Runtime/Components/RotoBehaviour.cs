@@ -99,10 +99,17 @@ namespace RotoVR.SDK.Components
                     if (m_ModeType == ModeType.CustomHeadTrack)
                     {
                         m_Roto.SetMode(ModeType.FreeMode);
-                        m_Roto.AddObservable(this, m_Target);
+                        m_Roto.AddToAngleObservable(this, m_Target);
                     }
                     else
+                    {
                         m_Roto.SetMode(m_ModeType);
+
+                        if (m_ModeType == ModeType.HeadTrack)
+                        {
+                            m_Roto.AddOnAngleObservable(this, m_Target);
+                        }
+                    }
 
                     break;
                 case ConnectionStatus.Disconnected:
@@ -150,13 +157,15 @@ namespace RotoVR.SDK.Components
         public void RotateToAngle(Direction direction, int angle, int power) =>
             m_Roto.RotateToAngle(direction, angle, power);
 
+        public void RotateToAngleByCloserDirection(int angle, int power) =>
+            m_Roto.RotateToAngleByCloserDirection(angle, power);
 
         /// <summary>
         /// Play rumble
         /// </summary>
         /// <param name="time">Duration</param>
         /// <param name="power">Power</param>
-        public void Rumble(int time, int power) => m_Roto.Rumble(time, power);
+        public void Rumble(float time, int power) => m_Roto.Rumble(time, power);
 
         /// <summary>
         /// Switch RotoVr mode 
@@ -164,16 +173,26 @@ namespace RotoVR.SDK.Components
         /// <param name="mode">New mode</param>
         public void SwitchMode(ModeType mode)
         {
-            if (mode == ModeType.CustomHeadTrack)
+            m_Roto.RemoveObservable(this);
+
+            if (mode == ModeType.HeadTrack)
             {
-                m_Roto.SetMode(ModeType.FreeMode);
-                m_Roto.AddObservable(this, m_Target);
+                OnModeChanged += OnModeChangedHandler;
             }
-            else
+
+            void OnModeChangedHandler(ModeType newMode)
             {
-                m_Roto.RemoveObservable(this);
-                m_Roto.SetMode(mode);
+                switch (newMode)
+                {
+                    case ModeType.HeadTrack:
+                        OnModeChanged -= OnModeChangedHandler;
+                        m_Roto.AddOnAngleObservable(this, m_Target);
+                        break;
+                }
             }
+
+            Debug.LogError($"SwitchMode mode: {mode}");
+            m_Roto.SetMode(mode);
         }
     }
 }
