@@ -165,7 +165,7 @@ namespace RotoVR.SDK.Components
         /// </summary>
         /// <param name="time">Duration</param>
         /// <param name="power">Power</param>
-        public void Rumble(int time, int power) => m_Roto.Rumble(time, power);
+        public void Rumble(float time, int power) => m_Roto.Rumble(time, power);
 
         /// <summary>
         /// Switch RotoVr mode 
@@ -173,21 +173,26 @@ namespace RotoVR.SDK.Components
         /// <param name="mode">New mode</param>
         public void SwitchMode(ModeType mode)
         {
-            if (mode == ModeType.CustomHeadTrack)
-            {
-                m_Roto.SetMode(ModeType.FreeMode);
-                m_Roto.AddToAngleObservable(this, m_Target);
-            }
-            else
-            {
-                m_Roto.RemoveObservable(this);
-                m_Roto.SetMode(mode);
+            m_Roto.RemoveObservable(this);
 
-                if (mode == ModeType.HeadTrack)
+            if (mode == ModeType.HeadTrack)
+            {
+                OnModeChanged += OnModeChangedHandler;
+            }
+
+            void OnModeChangedHandler(ModeType newMode)
+            {
+                switch (newMode)
                 {
-                    m_Roto.AddOnAngleObservable(this, m_Target);
+                    case ModeType.HeadTrack:
+                        OnModeChanged -= OnModeChangedHandler;
+                        m_Roto.AddOnAngleObservable(this, m_Target);
+                        break;
                 }
             }
+
+            Debug.LogError($"SwitchMode mode: {mode}");
+            m_Roto.SetMode(mode);
         }
     }
 }

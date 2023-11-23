@@ -293,9 +293,6 @@ public class BlePluginInstance {
     public void CharacteristicValueChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         byte[] data = characteristic.getValue();
 
-
-        UnityLogError("CharacteristicValueChanged  data[5]: " + (data[5] & 0xFF) + " data[6]: " + (data[6] & 0xFF));
-
         RotoDataModel runtimeModel = new RotoDataModel(data);
         if (m_RotoModel == null || !m_RotoModel.Compare(runtimeModel)) {
             m_RotoModel = runtimeModel;
@@ -389,7 +386,7 @@ public class BlePluginInstance {
         m_GattMessage[6] = (byte) (0x00 & 0xFF);
         m_GattMessage[7] = (byte) 0x01 & 0xFF;
         m_GattMessage[8] = (byte) (model.Power & 0xFF);
-        m_GattMessage[9] = (byte) ((model.Duration * 10) & 0xFF);
+        m_GattMessage[9] = (byte) (((int) (model.Duration * 10)) & 0xFF);
 
         byte sum = ByteSum(m_GattMessage);
         m_GattMessage[18] = sum;
