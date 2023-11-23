@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using RotoVR.SDK.Components;
 using RotoVR.SDK.Enum;
+using TMPro;
 
 namespace Example.UI
 {
@@ -16,7 +17,12 @@ namespace Example.UI
 
         void Awake()
         {
-            m_ConnectionBlock.ConnectionButton.onClick.AddListener(() => { m_RotoBerhaviour.Connect(); });
+            m_ConnectionBlock.ConnectionButton.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.Connect();
+                m_ConnectionBlock.ConnectionButton.gameObject.SetActive(false);
+                m_ConnectionBlock.Connecting.SetActive(true);
+            });
 
             m_CalibrationBlock.CalibrationAsCurrentButton.onClick.AddListener(() =>
             {
@@ -31,24 +37,64 @@ namespace Example.UI
                 Calibration(CalibrationMode.SetToZero);
             });
 
+            m_RotoVrBlock.m_RotationPowerView.text =
+                $"Rotation power {RoundFloat(m_RotoVrBlock.m_RotationPower.value * 100f)} %";
+
+
+            m_RotoVrBlock.m_RotationPower.onValueChanged.AddListener((val) =>
+            {
+                m_RotoVrBlock.m_RotationPowerView.text =
+                    $"Rotation power {RoundFloat(val * 100f)} %";
+            });
+
             m_RotoVrBlock.TurnLeft.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.RotateOnAngle(Direction.Left, 30, 100);
+                m_RotoBerhaviour.RotateOnAngle(Direction.Left, 20,
+                    (int)(m_RotoVrBlock.m_RotationPower.value * 100));
             });
 
             m_RotoVrBlock.TurnRight.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.RotateOnAngle(Direction.Right, 30, 100);
+                m_RotoBerhaviour.RotateOnAngle(Direction.Right, 20,
+                    (int)(m_RotoVrBlock.m_RotationPower.value * 100));
             });
+
+
+            m_RotoVrBlock.m_RumbleDurationView.text =
+                $"Rumble duration {RoundFloat(m_RotoVrBlock.m_RumbleDuration.value * 10f)} seconds";
+
+            m_RotoVrBlock.m_RumbleDuration.onValueChanged.AddListener((val) =>
+            {
+                m_RotoVrBlock.m_RumbleDurationView.text =
+                    $"Rumble duration {RoundFloat(val * 10f)} seconds";
+            });
+
+
+            m_RotoVrBlock.m_RumblePowerView.text =
+                $"Rumble power {RoundFloat(m_RotoVrBlock.m_RumblePower.value * 100f)} %";
+
+
+            m_RotoVrBlock.m_RumblePower.onValueChanged.AddListener((val) =>
+            {
+                m_RotoVrBlock.m_RumblePowerView.text =
+                    $"Rumble power {RoundFloat(val * 100f)} %";
+            });
+
+
             m_RotoVrBlock.PlayRumble.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.Rumble((int)(m_RotoVrBlock.m_RumbleDuration.value * 10),
+                m_RotoBerhaviour.Rumble(m_RotoVrBlock.m_RumbleDuration.value * 10,
                     (int)(m_RotoVrBlock.m_RumblePower.value * 100));
             });
 
 
             m_RotoBerhaviour.OnConnectionStatusChanged += OnConnectionHandler;
             SetUIState(UIState.Connection);
+        }
+
+        float RoundFloat(float val)
+        {
+            return (float)Math.Round((decimal)val, 1);
         }
 
         private void OnConnectionHandler(ConnectionStatus status)
@@ -99,6 +145,7 @@ namespace Example.UI
         {
             public GameObject ConnectionPanel;
             public Button ConnectionButton;
+            public GameObject Connecting;
         }
 
         [Serializable]
@@ -114,10 +161,14 @@ namespace Example.UI
         public class RotoVrBlock
         {
             public GameObject RotoVrPanel;
+            public Slider m_RotationPower;
+            public TMP_Text m_RotationPowerView;
             public Button TurnLeft;
             public Button TurnRight;
             public Button PlayRumble;
+            public TMP_Text m_RumbleDurationView;
             public Slider m_RumbleDuration;
+            public TMP_Text m_RumblePowerView;
             public Slider m_RumblePower;
         }
     }
