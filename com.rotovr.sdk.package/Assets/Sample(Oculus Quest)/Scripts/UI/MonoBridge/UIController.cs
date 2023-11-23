@@ -48,75 +48,52 @@ namespace Example.UI
             });
             m_RotoVrBlock.PlayRumble.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.Rumble((int)(m_RotoVrBlock.RumbleDuration.value * 10),
+                m_RotoBerhaviour.Rumble((m_RotoVrBlock.RumbleDuration.value * 10),
                     (int)(m_RotoVrBlock.RumblePower.value * 100));
             });
 
-            m_RotoVrBlock.RumbleDurationView.text = $"Duration {m_RotoVrBlock.RumbleDuration.value * 10f} seconds";
+            m_RotoVrBlock.RumbleDurationView.text =
+                $"Duration {RoundFloat(m_RotoVrBlock.RumbleDuration.value * 10f)} seconds";
 
             m_RotoVrBlock.RumbleDuration.onValueChanged.AddListener((val) =>
             {
-                m_RotoVrBlock.RumbleDurationView.text = $"Duration {val * 10f} seconds";
+                m_RotoVrBlock.RumbleDurationView.text = $"Duration {RoundFloat(val * 10f)} seconds";
             });
 
-            m_RotoVrBlock.RumblePowerView.text = $"Power {m_RotoVrBlock.RumblePower.value * 100f} %";
+            m_RotoVrBlock.RumblePowerView.text = $"Power {RoundFloat(m_RotoVrBlock.RumblePower.value * 100f)} %";
 
             m_RotoVrBlock.RumblePower.onValueChanged.AddListener((val) =>
             {
-                m_RotoVrBlock.RumblePowerView.text = $"Power {val * 100f} %";
+                m_RotoVrBlock.RumblePowerView.text = $"Power {RoundFloat(val * 100f)} %";
             });
 
-            m_RotoVrBlock.RotatePowerView.text = $"Power {m_RotoVrBlock.RotatePower.value * 100f} %";
+            m_RotoVrBlock.RotatePowerView.text = $"Power {RoundFloat(m_RotoVrBlock.RotatePower.value * 100f)} %";
 
             m_RotoVrBlock.RotatePower.onValueChanged.AddListener((val) =>
             {
-                m_RotoVrBlock.RotatePowerView.text = $"Power {val * 100f} %";
+                m_RotoVrBlock.RotatePowerView.text = $"Power {RoundFloat(val * 100f)} %";
             });
 
             m_RotoVrBlock.RotationModeToggle.onValueChanged.AddListener((val) =>
             {
-                m_RotoVrBlock.RotationBlock.SetActive(val);
-                m_RotoVrBlock.ApplyBlock.SetActive(!val);
+                //m_RotoVrBlock.RotationBlock.SetActive(val);
+                //  m_RotoVrBlock.ApplyBlock.SetActive(!val);
             });
 
-            m_RotoVrBlock.RotationBlock.SetActive(m_RotoVrBlock.RotationModeToggle.isOn);
-            m_RotoVrBlock.ApplyBlock.SetActive(!m_RotoVrBlock.RotationModeToggle.isOn);
+            //m_RotoVrBlock.RotationBlock.SetActive(m_RotoVrBlock.RotationModeToggle.isOn);
+            // m_RotoVrBlock.ApplyBlock.SetActive(!m_RotoVrBlock.RotationModeToggle.isOn);
 
+            KeyboardButton.OnClick += SetKeyboardValue;
 
-            m_RotoVrBlock.KeyBoardButton.onClick.AddListener(() => { m_RotoVrBlock.Keyboard.SetActive(true); });
-
-            KeyboardButton.OnClick += SetValue;
-
-            void SetValue(string val)
-            {
-                if (val == "Clear")
-                {
-                    m_RotoVrBlock.KeyboardView.text = "0";
-                    return;
-                }
-
-                var old = m_RotoVrBlock.KeyboardView.text;
-
-                var newText = old;
-                
-                if (newText == "0")
-                    newText = val;
-                else
-                    newText += val;
-
-                int angle = int.Parse(newText);
-                if (angle > 360)
-                {
-                    m_RotoVrBlock.KeyboardView.text = old;
-                }
-                else
-                    m_RotoVrBlock.KeyboardView.text = newText;
-            }
+            m_RotoVrBlock.KeyboardView.text = "10";
 
             m_RotoVrBlock.ApplyAngle.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.RotateToAngleByCloserDirection(int.Parse(m_RotoVrBlock.KeyboardView.text),
-                    (int)(m_RotoVrBlock.RotatePower.value * 100));
+                int angle = int.Parse(m_RotoVrBlock.KeyboardView.text);
+
+                Debug.LogError($"ApplyAngle angle: {angle}");
+
+                m_RotoBerhaviour.RotateToAngleByCloserDirection(angle, (int)(m_RotoVrBlock.RotatePower.value * 100));
             });
 
             m_ModeBlock.ModeSelector.onValueChanged.AddListener((val) =>
@@ -130,17 +107,12 @@ namespace Example.UI
                         break;
                     case 1:
                         //Custom Headtrack
-                        m_RotoBerhaviour.SwitchMode(ModeType.CustomHeadTrack);
+                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack);
                         m_RotoVrBlock.MovementBlock.SetActive(false);
                         break;
                     case 2:
-                        //Custom Headtrack
-                        m_RotoBerhaviour.SwitchMode(ModeType.CustomHeadTrack);
-                        m_RotoVrBlock.MovementBlock.SetActive(false);
-                        break;
-                    case 3:
                         //CockpitMode
-                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack);
+                        m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
                         m_RotoVrBlock.MovementBlock.SetActive(true);
                         break;
                 }
@@ -151,6 +123,39 @@ namespace Example.UI
             m_RotoBerhaviour.OnModeChanged += OnModeChangedHandler;
 
             SetUIState(UIState.Connection);
+        }
+
+        void SetKeyboardValue(string val)
+        {
+            if (val == "Clear")
+            {
+                m_RotoVrBlock.KeyboardView.text = "0";
+                return;
+            }
+
+            var old = m_RotoVrBlock.KeyboardView.text;
+            var newText = old;
+
+            if (old == "0")
+                newText = val;
+            else
+                newText += val;
+
+            int angle = int.Parse(newText);
+            if (angle > 360)
+            {
+                m_RotoVrBlock.KeyboardView.text = old;
+            }
+            else
+                m_RotoVrBlock.KeyboardView.text = newText;
+
+            Debug.LogError(
+                $"SetKeyboardValue old: {old}  newText: {newText} angle: {angle}  m_RotoVrBlock.KeyboardView.text: {m_RotoVrBlock.KeyboardView.text}");
+        }
+
+        float RoundFloat(float val)
+        {
+            return (float)Math.Round((decimal)val, 1);
         }
 
         private void OnModeChangedHandler(ModeType modeType)
@@ -241,8 +246,6 @@ namespace Example.UI
             public GameObject RotationBlock;
             public Slider RotatePower;
             public TMP_Text RotatePowerView;
-            public Button KeyBoardButton;
-            public GameObject Keyboard;
             public TMP_Text KeyboardView;
             public Button ApplyAngle;
             public Button TurnLeft;
