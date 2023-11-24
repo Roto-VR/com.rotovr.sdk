@@ -37,44 +37,44 @@ namespace Example.UI
                 Calibration(CalibrationMode.SetToZero);
             });
 
-            m_RotoVrBlock.m_RotationPowerView.text =
-                $"Rotation power {RoundFloat(m_RotoVrBlock.m_RotationPower.value * 100f)} %";
+            m_RotoVrBlock.RotationPowerView.text =
+                $"Rotation power {RoundFloat(m_RotoVrBlock.RotationPower.value * 100f)} %";
 
 
-            m_RotoVrBlock.m_RotationPower.onValueChanged.AddListener((val) =>
+            m_RotoVrBlock.RotationPower.onValueChanged.AddListener((val) =>
             {
-                m_RotoVrBlock.m_RotationPowerView.text =
+                m_RotoVrBlock.RotationPowerView.text =
                     $"Rotation power {RoundFloat(val * 100f)} %";
             });
 
             m_RotoVrBlock.TurnLeft.onClick.AddListener(() =>
             {
                 m_RotoBerhaviour.RotateOnAngle(Direction.Left, 20,
-                    (int)(m_RotoVrBlock.m_RotationPower.value * 100));
+                    (int)(m_RotoVrBlock.RotationPower.value * 100));
             });
 
             m_RotoVrBlock.TurnRight.onClick.AddListener(() =>
             {
                 m_RotoBerhaviour.RotateOnAngle(Direction.Right, 20,
-                    (int)(m_RotoVrBlock.m_RotationPower.value * 100));
+                    (int)(m_RotoVrBlock.RotationPower.value * 100));
             });
 
 
-            m_RotoVrBlock.m_RumbleDurationView.text =
-                $"Rumble duration {RoundFloat(m_RotoVrBlock.m_RumbleDuration.value * 10f)} seconds";
+            m_RotoVrBlock.RumbleDurationView.text =
+                $"Rumble duration {RoundFloat(m_RotoVrBlock.RumbleDuration.value * 10f)} seconds";
 
-            m_RotoVrBlock.m_RumbleDuration.onValueChanged.AddListener((val) =>
+            m_RotoVrBlock.RumbleDuration.onValueChanged.AddListener((val) =>
             {
-                m_RotoVrBlock.m_RumbleDurationView.text =
+                m_RotoVrBlock.RumbleDurationView.text =
                     $"Rumble duration {RoundFloat(val * 10f)} seconds";
             });
 
 
             m_RotoVrBlock.m_RumblePowerView.text =
-                $"Rumble power {RoundFloat(m_RotoVrBlock.m_RumblePower.value * 100f)} %";
+                $"Rumble power {RoundFloat(m_RotoVrBlock.RumblePower.value * 100f)} %";
 
 
-            m_RotoVrBlock.m_RumblePower.onValueChanged.AddListener((val) =>
+            m_RotoVrBlock.RumblePower.onValueChanged.AddListener((val) =>
             {
                 m_RotoVrBlock.m_RumblePowerView.text =
                     $"Rumble power {RoundFloat(val * 100f)} %";
@@ -83,8 +83,8 @@ namespace Example.UI
 
             m_RotoVrBlock.PlayRumble.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.Rumble(m_RotoVrBlock.m_RumbleDuration.value * 10,
-                    (int)(m_RotoVrBlock.m_RumblePower.value * 100));
+                m_RotoBerhaviour.Rumble(m_RotoVrBlock.RumbleDuration.value * 10,
+                    (int)(m_RotoVrBlock.RumblePower.value * 100));
             });
 
 
@@ -161,15 +161,15 @@ namespace Example.UI
         public class RotoVrBlock
         {
             public GameObject RotoVrPanel;
-            public Slider m_RotationPower;
-            public TMP_Text m_RotationPowerView;
+            public Slider RotationPower;
+            public TMP_Text RotationPowerView;
             public Button TurnLeft;
             public Button TurnRight;
             public Button PlayRumble;
-            public TMP_Text m_RumbleDurationView;
-            public Slider m_RumbleDuration;
+            public TMP_Text RumbleDurationView;
+            public Slider RumbleDuration;
             public TMP_Text m_RumblePowerView;
-            public Slider m_RumblePower;
+            public Slider RumblePower;
         }
     }
 }
