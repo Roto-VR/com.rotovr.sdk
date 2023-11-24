@@ -99,7 +99,7 @@ namespace RotoVR.SDK.Components
                     if (m_ModeType == ModeType.CustomHeadTrack)
                     {
                         m_Roto.SetMode(ModeType.FreeMode);
-                        m_Roto.AddToAngleObservable(this, m_Target);
+                        m_Roto.FollowTarget(this, m_Target);
                     }
                     else
                     {
@@ -107,7 +107,9 @@ namespace RotoVR.SDK.Components
 
                         if (m_ModeType == ModeType.HeadTrack)
                         {
-                            m_Roto.AddOnAngleObservable(this, m_Target);
+                            var headCamera = Camera.main;
+                            if (headCamera != null)
+                                m_Roto.StartHeadTracking(this, headCamera.gameObject.transform);
                         }
                     }
 
@@ -158,7 +160,7 @@ namespace RotoVR.SDK.Components
             m_Roto.RotateToAngle(direction, angle, power);
 
         public void RotateToAngleByCloserDirection(int angle, int power) =>
-            m_Roto.RotateToAngleByCloserDirection(angle, power);
+            m_Roto.RotateToAngleCloserDirection(angle, power);
 
         /// <summary>
         /// Play rumble
@@ -173,7 +175,7 @@ namespace RotoVR.SDK.Components
         /// <param name="mode">New mode</param>
         public void SwitchMode(ModeType mode)
         {
-            m_Roto.RemoveObservable(this);
+            m_Roto.StopRoutine(this);
 
             if (mode == ModeType.HeadTrack)
             {
@@ -186,12 +188,11 @@ namespace RotoVR.SDK.Components
                 {
                     case ModeType.HeadTrack:
                         OnModeChanged -= OnModeChangedHandler;
-                        m_Roto.AddOnAngleObservable(this, m_Target);
+                        m_Roto.StartHeadTracking(this, m_Target);
                         break;
                 }
             }
-
-            Debug.LogError($"SwitchMode mode: {mode}");
+       
             m_Roto.SetMode(mode);
         }
     }
