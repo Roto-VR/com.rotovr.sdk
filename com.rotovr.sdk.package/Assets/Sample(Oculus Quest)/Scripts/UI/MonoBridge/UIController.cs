@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using RotoVR.SDK.Components;
 using RotoVR.SDK.Enum;
+using RotoVR.SDK.Model;
 using TMPro;
 
 namespace Example.UI
@@ -14,6 +16,10 @@ namespace Example.UI
         [SerializeField] CalibrationBlock m_CalibrationBlock;
         [SerializeField] RotoVrBlock m_RotoVrBlock;
         [SerializeField] ModeBlock m_ModeBlock;
+        Coroutine m_TelemetryRoutine;
+        RotoDataModel m_CachedDataModel = new();
+        float m_StartTargetAngle;
+        int m_StartRotoAngle;
 
         void Awake()
         {
@@ -74,28 +80,6 @@ namespace Example.UI
                 m_RotoVrBlock.RotatePowerView.text = $"Power {RoundFloat(val * 100f)} %";
             });
 
-            m_RotoVrBlock.RotationModeToggle.onValueChanged.AddListener((val) =>
-            {
-                //m_RotoVrBlock.RotationBlock.SetActive(val);
-                //  m_RotoVrBlock.ApplyBlock.SetActive(!val);
-            });
-
-            //m_RotoVrBlock.RotationBlock.SetActive(m_RotoVrBlock.RotationModeToggle.isOn);
-            // m_RotoVrBlock.ApplyBlock.SetActive(!m_RotoVrBlock.RotationModeToggle.isOn);
-
-            KeyboardButton.OnClick += SetKeyboardValue;
-
-            m_RotoVrBlock.KeyboardView.text = "10";
-
-            m_RotoVrBlock.ApplyAngle.onClick.AddListener(() =>
-            {
-                int angle = int.Parse(m_RotoVrBlock.KeyboardView.text);
-
-                Debug.LogError($"ApplyAngle angle: {angle}");
-
-                m_RotoBerhaviour.RotateToAngleByCloserDirection(angle, (int)(m_RotoVrBlock.RotatePower.value * 100));
-            });
-
             m_ModeBlock.ModeSelector.onValueChanged.AddListener((val) =>
             {
                 switch (val)
@@ -104,16 +88,26 @@ namespace Example.UI
                         //FreeMode
                         m_RotoBerhaviour.SwitchMode(ModeType.FreeMode);
                         m_RotoVrBlock.MovementBlock.SetActive(true);
+                        m_RotoVrBlock.SensitivityPanel.SetActive(false);
+                        StopTelemetry();
+
                         break;
+
                     case 1:
                         //Custom Headtrack
                         m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack);
                         m_RotoVrBlock.MovementBlock.SetActive(false);
+                        m_RotoVrBlock.SensitivityPanel.SetActive(true);
+                        StartTelemetry();
+
                         break;
                     case 2:
                         //CockpitMode
                         m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
                         m_RotoVrBlock.MovementBlock.SetActive(true);
+                        m_RotoVrBlock.SensitivityPanel.SetActive(false);
+                        StopTelemetry();
+
                         break;
                 }
             });
@@ -121,36 +115,15 @@ namespace Example.UI
 
             m_RotoBerhaviour.OnConnectionStatusChanged += OnConnectionHandler;
             m_RotoBerhaviour.OnModeChanged += OnModeChangedHandler;
-
+            m_RotoBerhaviour.OnDataChanged += OnDataChangedHandler;
             SetUIState(UIState.Connection);
         }
 
-        void SetKeyboardValue(string val)
+        private void OnDestroy()
         {
-            if (val == "Clear")
-            {
-                m_RotoVrBlock.KeyboardView.text = "0";
-                return;
-            }
-
-            var old = m_RotoVrBlock.KeyboardView.text;
-            var newText = old;
-
-            if (old == "0")
-                newText = val;
-            else
-                newText += val;
-
-            int angle = int.Parse(newText);
-            if (angle > 360)
-            {
-                m_RotoVrBlock.KeyboardView.text = old;
-            }
-            else
-                m_RotoVrBlock.KeyboardView.text = newText;
-
-            Debug.LogError(
-                $"SetKeyboardValue old: {old}  newText: {newText} angle: {angle}  m_RotoVrBlock.KeyboardView.text: {m_RotoVrBlock.KeyboardView.text}");
+            m_RotoBerhaviour.OnConnectionStatusChanged -= OnConnectionHandler;
+            m_RotoBerhaviour.OnModeChanged -= OnModeChangedHandler;
+            m_RotoBerhaviour.OnDataChanged -= OnDataChangedHandler;
         }
 
         float RoundFloat(float val)
@@ -212,6 +185,79 @@ namespace Example.UI
             }
         }
 
+        void StartTelemetry()
+        {
+            if (m_TelemetryRoutine == null)
+            {
+                m_TelemetryRoutine = StartCoroutine(ViewTelemetry());
+            }
+        }
+
+        void StopTelemetry()
+        {
+            if (m_TelemetryRoutine != null)
+            {
+                StopCoroutine(m_TelemetryRoutine);
+                m_TelemetryRoutine = null;
+            }
+        }
+
+        private void OnDataChangedHandler(RotoDataModel model)
+        {
+            m_CachedDataModel = model;
+        }
+
+        IEnumerator ViewTelemetry()
+        {
+            m_StartTargetAngle = m_RotoBerhaviour.Target.eulerAngles.y;
+            m_StartRotoAngle = m_CachedDataModel.Angle;
+
+            while (true)
+            {
+                yield return null;
+
+                SetChairAngle(m_CachedDataModel.Angle);
+                SetHeadsetAbsoluteAngle(NormalizeAngle(m_RotoBerhaviour.Target.eulerAngles.y));
+
+                float currentTargetAngle = NormalizeAngle(m_RotoBerhaviour.Target.eulerAngles.y);
+                float deltaTargetAngle = currentTargetAngle - m_StartTargetAngle;
+
+                float currentRotoAngle = m_CachedDataModel.Angle;
+                float deltaRotoAngle = currentRotoAngle - m_StartRotoAngle;
+
+                float angle = deltaTargetAngle - deltaRotoAngle;
+
+                angle = NormalizeAngle(angle);
+                angle += m_StartRotoAngle;
+                SetTargetAngle((int)NormalizeAngle(angle));
+            }
+        }
+
+        float NormalizeAngle(float angle)
+        {
+            if (angle < 0)
+                angle += 360;
+            else if (angle > 360)
+                angle -= 360;
+
+            return angle;
+        }
+
+        void SetChairAngle(int angle)
+        {
+            m_RotoVrBlock.RotoAngleView.text = $"Chair angle: {angle}";
+        }
+
+        void SetHeadsetAbsoluteAngle(float angle)
+        {
+            m_RotoVrBlock.HeadsetAbsoluteAngleView.text = $"Headset absolute angle: {angle}";
+        }
+
+        void SetTargetAngle(int angle)
+        {
+            m_RotoVrBlock.TargetAngleView.text = $"Target angle: {angle}";
+        }
+
         public enum UIState
         {
             Connection,
@@ -241,13 +287,8 @@ namespace Example.UI
         {
             public GameObject RotoVrPanel;
             public GameObject MovementBlock;
-            public Toggle RotationModeToggle;
-            public GameObject ApplyBlock;
-            public GameObject RotationBlock;
             public Slider RotatePower;
             public TMP_Text RotatePowerView;
-            public TMP_Text KeyboardView;
-            public Button ApplyAngle;
             public Button TurnLeft;
             public Button TurnRight;
             public Button PlayRumble;
@@ -255,6 +296,10 @@ namespace Example.UI
             public TMP_Text RumbleDurationView;
             public Slider RumblePower;
             public TMP_Text RumblePowerView;
+            public GameObject SensitivityPanel;
+            public TMP_Text RotoAngleView;
+            public TMP_Text HeadsetAbsoluteAngleView;
+            public TMP_Text TargetAngleView;
         }
 
         [Serializable]

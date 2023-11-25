@@ -2,7 +2,7 @@
     "name": "comrotovr.sdk.runtime",
     "rootNamespace": "",
     "references": [
-        ""
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -26,13 +26,18 @@ namespace RotoVR.SDK.API
         Transform m_ObservableTarger;
         Coroutine m_TargetRoutine;
         bool m_IsInit = false;
-        int m_StartTargetAngle;
+        float m_StartTargetAngle;
         int m_StartRotoAngle;
 
         /// <summary>
         /// Invoke when change roto vr mode
         /// </summary>
         public event Action<ModeType> OnRotoMode;
+
+        /// <summary>
+        /// Invoke when a chare data changed
+        /// </summary>
+        public event Action<RotoDataModel> OnDataChanged;
 
         /// <summary>
         /// Invoke when change connection status of roto vr
@@ -103,6 +108,7 @@ namespace RotoVR.SDK.API
                 }
             }
 
+            OnDataChanged?.Invoke(model);
             m_RotoData = model;
         }
 
@@ -231,7 +237,7 @@ namespace RotoVR.SDK.API
         public void FollowTarget(MonoBehaviour behaviour, Transform target)
         {
             m_ObservableTarger = target;
-            m_StartTargetAngle = (int)m_ObservableTarger.eulerAngles.y;
+            m_StartTargetAngle = m_ObservableTarger.eulerAngles.y;
             m_StartRotoAngle = m_RotoData.Angle;
 
             if (m_TargetRoutine != null)
@@ -250,7 +256,7 @@ namespace RotoVR.SDK.API
         public void StartHeadTracking(MonoBehaviour behaviour, Transform target)
         {
             m_ObservableTarger = target;
-            m_StartTargetAngle = (int)m_ObservableTarger.eulerAngles.y;
+            m_StartTargetAngle = m_ObservableTarger.eulerAngles.y;
             m_StartRotoAngle = m_RotoData.Angle;
 
             if (m_TargetRoutine != null)
@@ -310,7 +316,7 @@ namespace RotoVR.SDK.API
                         {
                             angle = NormalizeAngle(angle);
 
-                            rotoAngle = m_StartRotoAngle + angle;
+                            rotoAngle = (int)(m_StartRotoAngle + angle);
                             rotoAngle = NormalizeAngle(rotoAngle);
 
                             RotateToAngle(GetDirection(rotoAngle), rotoAngle, 100);
@@ -336,23 +342,20 @@ namespace RotoVR.SDK.API
                     yield return null;
                     deltaTime += Time.deltaTime;
 
+                    float currentTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
+                    float deltaTargetAngle = currentTargetAngle - m_StartTargetAngle;
+
+                    float currentRotoAngle = m_RotoData.Angle;
+                    float deltaRotoAngle = currentRotoAngle - m_StartRotoAngle;
+
+                    float angle = deltaTargetAngle - deltaRotoAngle;
+
+
                     if (deltaTime > 0.1f)
                     {
-                        int currentTargetAngle = (int)m_ObservableTarger.eulerAngles.y;
-                        var deltaTargetAngle = currentTargetAngle - m_StartTargetAngle;
-
-                        var currentRotoAngle = m_RotoData.Angle;
-                        var deltaRotoAngle = currentRotoAngle - m_StartRotoAngle;
-
-                        var angle = deltaTargetAngle - deltaRotoAngle;
-
-                        if (angle != 0)
-                        {
-                            angle = NormalizeAngle(angle);
-                            angle += m_StartRotoAngle;
-                            RotateToAngle(Direction.Left, NormalizeAngle(angle), 100);
-                        }
-
+                        angle = NormalizeAngle(angle);
+                        angle += m_StartRotoAngle;
+                        RotateToAngle(Direction.Left, (int)NormalizeAngle(angle), 0);
                         deltaTime = 0;
                     }
                 }
@@ -383,6 +386,16 @@ namespace RotoVR.SDK.API
                     return Direction.Left;
                 }
             }
+        }
+
+        float NormalizeAngle(float angle)
+        {
+            if (angle < 0)
+                angle += 360;
+            else if (angle > 360)
+                angle -= 360;
+
+            return angle;
         }
 
         int NormalizeAngle(int angle)
