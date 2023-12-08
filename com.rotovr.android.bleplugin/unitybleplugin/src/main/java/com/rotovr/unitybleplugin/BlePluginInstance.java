@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.rotovr.unitybleplugin.connection.ConnectionService;
 import com.rotovr.unitybleplugin.model.DeviceDataModel;
 import com.rotovr.unitybleplugin.model.MessageModel;
+import com.rotovr.unitybleplugin.model.ModeModel;
 import com.rotovr.unitybleplugin.model.RotateToAngleModel;
 import com.rotovr.unitybleplugin.model.RotoDataModel;
 import com.rotovr.unitybleplugin.model.RumbleModel;
@@ -308,7 +309,10 @@ public class BlePluginInstance {
         m_GattMessage[0] = (byte) (0xF1 & 0xFF);
         m_GattMessage[1] = (byte) 'S';
 
-        switch (data) {
+        ModeModel model = (ModeModel) PluginUtility.ConvertJsonToObject(gson, data, ModeModel.class);
+
+
+        switch (model.Mode) {
             case "IdleMode":
                 m_GattMessage[2] = (byte) (0x00 & 0xFF);
                 break;
@@ -325,15 +329,17 @@ public class BlePluginInstance {
                 m_GattMessage[2] = (byte) (0x04 & 0xFF);
                 break;
         }
-        m_GattMessage[9] = (byte) (70 & 0xFF);
+        m_GattMessage[9] = (byte) (model.TargetCockpit & 0xFF);
         m_GattMessage[11] = (byte) (40 & 0xFF);
-        m_GattMessage[12] = (byte) (100 & 0xFF);
+        m_GattMessage[12] = (byte) (model.MaxPower & 0xFF);
         m_GattMessage[14] = (byte) (0x01 & 0xFF);
 
         byte sum = ByteSum(m_GattMessage);
         m_GattMessage[18] = sum;
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
+
+        UnityLogError("SetMode " + model.Mode + " MaxPower " + model.MaxPower );
     }
 
     public void TurnToAngle(String data) {

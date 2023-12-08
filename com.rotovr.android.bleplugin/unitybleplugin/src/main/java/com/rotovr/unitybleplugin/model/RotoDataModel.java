@@ -9,8 +9,9 @@ public class RotoDataModel implements Serializable {
 
     public RotoDataModel() {
         Mode = "";
-
         Angle = 0;
+        TargetCockpit = 140;
+        MaxPower = 100;
     }
 
     public RotoDataModel(byte[] data) {
@@ -46,16 +47,18 @@ public class RotoDataModel implements Serializable {
                 break;
 
         }
-
-
+        TargetCockpit = data[9] & 0xFF;
+        MaxPower = data[12] & 0xFF;
     }
 
     public String Mode;
     public int Angle;
+    public int TargetCockpit;
+    public int MaxPower;
 
 
     public boolean Compare(RotoDataModel model) {
-        return Mode == model.Mode && Angle == model.Angle;
+        return Mode == model.Mode && Angle == model.Angle && TargetCockpit == model.TargetCockpit && MaxPower == model.MaxPower;
     }
 
     public String toJson() {
@@ -63,6 +66,8 @@ public class RotoDataModel implements Serializable {
         try {
             obj.put("Mode", Mode);
             obj.put("Angle", Angle);
+            obj.put("TargetCockpit", TargetCockpit);
+            obj.put("MaxPower", MaxPower);
 
             return obj.toString();
         } catch (JSONException e) {
