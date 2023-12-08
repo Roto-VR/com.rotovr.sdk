@@ -142,9 +142,13 @@ namespace RotoVR.SDK.API
         /// Set RotoVR mode
         /// </summary>
         /// <param name="mode">Mode type</param>
-        public void SetMode(ModeType mode)
+        /// <param name="targetCockpit">Target cockpit angle im range 60-140</param>
+        /// <param name="maxPower">Max value of rotation power in range 30-100</param>
+        public void SetMode(ModeType mode, int targetCockpit, int maxPower)
         {
-            SendMessage(new SetModeMessage(mode.ToString()));
+            SendMessage(
+                new SetModeMessage(
+                    JsonConvert.SerializeObject(new ModeModel(mode.ToString(), targetCockpit, maxPower))));
         }
 
         /// <summary>
@@ -162,14 +166,14 @@ namespace RotoVR.SDK.API
                     if (PlayerPrefs.HasKey(m_Calibrationkey))
                     {
                         var defaultAngle = PlayerPrefs.GetInt(m_Calibrationkey);
-                        RotateToAngle(GetDirection(defaultAngle), defaultAngle, 100);
+                        RotateToAngle(GetDirection(defaultAngle, m_RotoData.Angle), defaultAngle, 100);
                     }
                     else
-                        RotateToAngle(GetDirection(0), 0, 100);
+                        RotateToAngle(GetDirection(0, m_RotoData.Angle), 0, 100);
 
                     break;
                 case CalibrationMode.SetToZero:
-                    RotateToAngle(GetDirection(0), 0, 100);
+                    RotateToAngle(GetDirection(0, m_RotoData.Angle), 0, 100);
                     break;
             }
         }
@@ -201,7 +205,7 @@ namespace RotoVR.SDK.API
         {
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
-                    GetDirection(angle).ToString()))));
+                    GetDirection(angle, m_RotoData.Angle).ToString()))));
         }
 
         /// <summary>
@@ -256,7 +260,7 @@ namespace RotoVR.SDK.API
         public void StartHeadTracking(MonoBehaviour behaviour, Transform target)
         {
             m_ObservableTarger = target;
-            m_StartTargetAngle = m_ObservableTarger.eulerAngles.y;
+            m_StartTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
             m_StartRotoAngle = m_RotoData.Angle;
 
             if (m_TargetRoutine != null)
@@ -301,7 +305,7 @@ namespace RotoVR.SDK.API
                 int rotoAngle = 0;
 
                 yield return new WaitForSeconds(0.5f);
-                SetMode(ModeType.FreeMode);
+                SetMode(ModeType.FreeMode, 0, 100);
 
                 while (true)
                 {
@@ -319,7 +323,7 @@ namespace RotoVR.SDK.API
                             rotoAngle = (int)(m_StartRotoAngle + angle);
                             rotoAngle = NormalizeAngle(rotoAngle);
 
-                            RotateToAngle(GetDirection(rotoAngle), rotoAngle, 100);
+                            RotateToAngle(GetDirection(rotoAngle, m_RotoData.Angle), rotoAngle, 30);
                         }
 
                         deltaTime = 0;
@@ -336,37 +340,76 @@ namespace RotoVR.SDK.API
                 Debug.LogError("For Had Tracking Mode you need to set target transform");
             else
             {
+                float lastTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
+                Direction direction = Direction.Left;
+                float angle = 0;
+                float deltaTargetAngle = 0;
+                float deltaRotoAngle = 0;
+
                 float deltaTime = 0;
                 while (true)
                 {
                     yield return null;
                     deltaTime += Time.deltaTime;
 
-                    float currentTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
-                    float deltaTargetAngle = currentTargetAngle - m_StartTargetAngle;
-
-                    float currentRotoAngle = m_RotoData.Angle;
-                    float deltaRotoAngle = currentRotoAngle - m_StartRotoAngle;
-
-                    float angle = deltaTargetAngle - deltaRotoAngle;
-
-
                     if (deltaTime > 0.1f)
                     {
+                        float currentTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
+                        float currentRotoAngle = m_RotoData.Angle;
+
+                        direction = GetDirection((int)currentTargetAngle, (int)lastTargetAngle);
+
+                        deltaTargetAngle = GetDelta(m_StartTargetAngle, currentTargetAngle, direction);
+                        deltaRotoAngle = GetDelta(m_StartRotoAngle, currentRotoAngle, direction);
+
+                        angle = deltaTargetAngle - deltaRotoAngle;
+
                         angle = NormalizeAngle(angle);
-                        angle += m_StartRotoAngle;
-                        RotateToAngle(Direction.Left, (int)NormalizeAngle(angle), 0);
+                        angle += m_RotoData.Angle;
+
+                        RotateToAngle(Direction.Left, (int)NormalizeAngle(angle), 30);
                         deltaTime = 0;
+
+                        lastTargetAngle = currentTargetAngle;
                     }
                 }
             }
         }
 
-        Direction GetDirection(int targetAngle)
+        float GetDelta(float startAngle, float currentAngle, Direction direction)
         {
-            if (targetAngle > m_RotoData.Angle)
+            float delta = 0;
+
+            switch (direction)
             {
-                if (Mathf.Abs(targetAngle - m_RotoData.Angle) > 180)
+                case Direction.Left:
+                    if (currentAngle < startAngle)
+                        delta = currentAngle - startAngle;
+                    else
+                    {
+                        delta = currentAngle - startAngle - 360;
+                    }
+
+                    break;
+                case Direction.Right:
+                    if (currentAngle > startAngle)
+                        delta = currentAngle - startAngle;
+                    else
+                    {
+                        delta = currentAngle - startAngle + 360;
+                    }
+
+                    break;
+            }
+
+            return delta;
+        }
+
+        Direction GetDirection(int targetAngle, int sourceAngle)
+        {
+            if (targetAngle > sourceAngle)
+            {
+                if (Mathf.Abs(targetAngle - sourceAngle) > 180)
                 {
                     return Direction.Left;
                 }
@@ -377,7 +420,7 @@ namespace RotoVR.SDK.API
             }
             else
             {
-                if (Mathf.Abs(targetAngle - m_RotoData.Angle) > 180)
+                if (Mathf.Abs(targetAngle - sourceAngle) > 180)
                 {
                     return Direction.Right;
                 }
