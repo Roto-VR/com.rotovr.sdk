@@ -18,7 +18,7 @@ PlayerSettings:
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
-  m_ShowUnitySplashLogo: 1
+  m_ShowUnitySplashLogo: 0
   m_SplashScreenOverlayOpacity: 1
   m_SplashScreenAnimation: 1
   m_SplashScreenLogoStyle: 1
@@ -40,7 +40,7 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos: []
-  m_VirtualRealitySplashScreen: {fileID: 0}
+  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: 1813c9ffe0f486e4f94cf73fc403fdb7, type: 3}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1920
   defaultScreenHeight: 1080
@@ -142,10 +142,8 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: c08a720b94d2f8d4facbda61dbc103c7, type: 2}
-  - {fileID: 11400000, guid: 731c0bf414443d74b82703623a406e5b, type: 2}
-  - {fileID: -2975062282096001153, guid: cc3e5e89a3f28eb409474fc9ef383809, type: 2}
-  - {fileID: 4758662703306744669, guid: 29fed57e5b036dd428012540d6be9707, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1

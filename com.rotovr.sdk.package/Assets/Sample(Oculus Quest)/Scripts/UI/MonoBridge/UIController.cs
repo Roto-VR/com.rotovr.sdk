@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using RotoVR.SDK.Components;
@@ -20,6 +21,7 @@ namespace Example.UI
         RotoDataModel m_CachedDataModel = new();
         float m_StartTargetAngle;
         int m_StartRotoAngle;
+        string m_Log;
 
         void Awake()
         {
@@ -189,6 +191,7 @@ namespace Example.UI
         {
             if (m_TelemetryRoutine == null)
             {
+                m_Log = String.Empty;
                 m_TelemetryRoutine = StartCoroutine(ViewTelemetry());
             }
         }
@@ -197,6 +200,7 @@ namespace Example.UI
         {
             if (m_TelemetryRoutine != null)
             {
+                //  WriteToFile(m_Log);
                 StopCoroutine(m_TelemetryRoutine);
                 m_TelemetryRoutine = null;
             }
@@ -205,32 +209,149 @@ namespace Example.UI
         private void OnDataChangedHandler(RotoDataModel model)
         {
             m_CachedDataModel = model;
+            Debug.LogError(
+                $"New data mode: {model.Mode} angle: {model.Angle}  power: {model.MaxPower} cockpit: {model.TargetCockpit}");
         }
 
         IEnumerator ViewTelemetry()
         {
-            m_StartTargetAngle = m_RotoBerhaviour.Target.eulerAngles.y;
+            m_StartTargetAngle = NormalizeAngle(m_RotoBerhaviour.Target.eulerAngles.y);
             m_StartRotoAngle = m_CachedDataModel.Angle;
 
+            string message = String.Empty;
+            Direction direction = Direction.Left;
+            float angle = 0;
+            float deltaTargetAngle = 0;
+            float deltaRotoAngle = 0;
+            float lastTargetAngle = m_StartTargetAngle;
             while (true)
             {
                 yield return null;
 
-                SetChairAngle(m_CachedDataModel.Angle);
-                SetHeadsetAbsoluteAngle(NormalizeAngle(m_RotoBerhaviour.Target.eulerAngles.y));
-
                 float currentTargetAngle = NormalizeAngle(m_RotoBerhaviour.Target.eulerAngles.y);
-                float deltaTargetAngle = currentTargetAngle - m_StartTargetAngle;
-
                 float currentRotoAngle = m_CachedDataModel.Angle;
-                float deltaRotoAngle = currentRotoAngle - m_StartRotoAngle;
 
-                float angle = deltaTargetAngle - deltaRotoAngle;
+                direction = GetDirection((int)currentTargetAngle, (int)lastTargetAngle);
+
+                deltaTargetAngle = GetDelta(m_StartTargetAngle, currentTargetAngle, direction);
+                deltaRotoAngle = GetDelta(m_StartRotoAngle, currentRotoAngle, direction);
+
+                angle = deltaTargetAngle - deltaRotoAngle;
+
+                //  message += $"Headset rotate direction: {direction}{Environment.NewLine}";
+
+                message += $"Chair angle: {m_CachedDataModel.Angle}{Environment.NewLine}";
+
+                message += $"Headset angle: {currentTargetAngle}{Environment.NewLine}";
+
+                //  message += $"Delta headset angle: {deltaTargetAngle}{Environment.NewLine}";
+
+                // message += $"Delta chair angle: {deltaRotoAngle}{Environment.NewLine}";
+
+                // message += $"Delta angle: {angle}{Environment.NewLine}";
 
                 angle = NormalizeAngle(angle);
-                angle += m_StartRotoAngle;
-                SetTargetAngle((int)NormalizeAngle(angle));
+                //  message += $"Normalized Delta angle: {angle}  {Environment.NewLine}";
+                angle += m_CachedDataModel.Angle;
+                var normalizeAngle = (int)NormalizeAngle(angle);
+
+                message += $"Target angle: {normalizeAngle}";
+
+                SetChairAngle(message);
+                message = String.Empty;
+
+                lastTargetAngle = currentTargetAngle;
             }
+        }
+
+        Direction GetDirection(int targetAngle, int sourceAngle)
+        {
+            if (targetAngle > sourceAngle)
+            {
+                if (Mathf.Abs(targetAngle - sourceAngle) > 180)
+                {
+                    return Direction.Left;
+                }
+                else
+                {
+                    return Direction.Right;
+                }
+            }
+            else
+            {
+                if (Mathf.Abs(targetAngle - sourceAngle) > 180)
+                {
+                    return Direction.Right;
+                }
+                else
+                {
+                    return Direction.Left;
+                }
+            }
+        }
+
+        float GetDelta(float startAngle, float currentAngle, Direction direction)
+        {
+            float delta = 0;
+
+            switch (direction)
+            {
+                case Direction.Left:
+                    if (currentAngle < startAngle)
+                        delta = currentAngle - startAngle;
+                    else
+                    {
+                        delta = currentAngle - startAngle - 360;
+                    }
+
+                    break;
+                case Direction.Right:
+                    if (currentAngle > startAngle)
+                        delta = currentAngle - startAngle;
+                    else
+                    {
+                        delta = currentAngle - startAngle + 360;
+                    }
+
+                    break;
+            }
+
+            return delta;
+        }
+
+        public void WriteToFile(string message)
+        {
+            var path = Path.Combine(Application.persistentDataPath, "RotoVRLogs");
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+
+            path += $"/{DateTime.Now.ToLongTimeString()}.log";
+
+            try
+            {
+                StreamWriter fileWriter = new StreamWriter(path, true);
+
+                fileWriter.Write(message);
+                fileWriter.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("[Utils Script]: Cannot write in the GPS File Log - Exception: " + e);
+            }
+        }
+
+        float NormalizeDirection(float angle)
+        {
+            if (angle > 180)
+            {
+                angle -= 360;
+            }
+            else if (angle < -180)
+                angle += 360;
+
+            return angle;
         }
 
         float NormalizeAngle(float angle)
@@ -243,14 +364,20 @@ namespace Example.UI
             return angle;
         }
 
-        void SetChairAngle(int angle)
+        void SetChairAngle(string message)
         {
-            m_RotoVrBlock.RotoAngleView.text = $"Chair angle: {angle}";
+            m_RotoVrBlock.RotoAngleView.text = message;
+            // m_RotoVrBlock.RotoAngleView.text = $"Chair angle: {angle}";
         }
 
         void SetHeadsetAbsoluteAngle(float angle)
         {
-            m_RotoVrBlock.HeadsetAbsoluteAngleView.text = $"Headset absolute angle: {angle}";
+            m_RotoVrBlock.HeadsetAbsoluteAngleView.text = $"Headset angle: {angle}";
+        }
+
+        void SetHeadsetLocalAngle(string message)
+        {
+            m_RotoVrBlock.HeadsetLocalAngleView.text = message;
         }
 
         void SetTargetAngle(int angle)
@@ -299,6 +426,7 @@ namespace Example.UI
             public GameObject SensitivityPanel;
             public TMP_Text RotoAngleView;
             public TMP_Text HeadsetAbsoluteAngleView;
+            public TMP_Text HeadsetLocalAngleView;
             public TMP_Text TargetAngleView;
         }
 
