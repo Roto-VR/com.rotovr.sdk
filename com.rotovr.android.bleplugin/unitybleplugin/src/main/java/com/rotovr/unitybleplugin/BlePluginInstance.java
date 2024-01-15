@@ -311,7 +311,6 @@ public class BlePluginInstance {
 
         ModeModel model = (ModeModel) PluginUtility.ConvertJsonToObject(gson, data, ModeModel.class);
 
-
         switch (model.Mode) {
             case "IdleMode":
                 m_GattMessage[2] = (byte) (0x00 & 0xFF);
@@ -329,9 +328,20 @@ public class BlePluginInstance {
                 m_GattMessage[2] = (byte) (0x04 & 0xFF);
                 break;
         }
-        m_GattMessage[9] = (byte) (model.TargetCockpit & 0xFF);
+
+        switch (model.ModeParametersModel.SimulationMode) {
+            case "Smooth":
+                m_GattMessage[3] = (byte) (0x00 & 0xFF);
+                break;
+            case "Jerky":
+                m_GattMessage[3] = (byte) (0x01 & 0xFF);
+                break;
+        }
+
+
+        m_GattMessage[9] = (byte) (model.ModeParametersModel.TargetCockpit & 0xFF);
         m_GattMessage[11] = (byte) (40 & 0xFF);
-        m_GattMessage[12] = (byte) (model.MaxPower & 0xFF);
+        m_GattMessage[12] = (byte) (model.ModeParametersModel.MaxPower & 0xFF);
         m_GattMessage[14] = (byte) (0x01 & 0xFF);
 
         byte sum = ByteSum(m_GattMessage);
@@ -339,7 +349,7 @@ public class BlePluginInstance {
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
 
-        UnityLogError("SetMode " + model.Mode + " MaxPower " + model.MaxPower );
+        UnityLogError("SetMode " + model.Mode + " MaxPower " + model.ModeParametersModel.MaxPower);
     }
 
     public void TurnToAngle(String data) {
