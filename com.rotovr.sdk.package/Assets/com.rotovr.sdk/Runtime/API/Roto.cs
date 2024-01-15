@@ -142,13 +142,13 @@ namespace RotoVR.SDK.API
         /// Set RotoVR mode
         /// </summary>
         /// <param name="mode">Mode type</param>
-        /// <param name="targetCockpit">Target cockpit angle im range 60-140</param>
+        /// <param name="targetCockpit">Target cockpit angle in range 60-140</param>
         /// <param name="maxPower">Max value of rotation power in range 30-100</param>
-        public void SetMode(ModeType mode, int targetCockpit, int maxPower)
+        public void SetMode(ModeType mode, ModeParametersModel parametersModel)
         {
             SendMessage(
                 new SetModeMessage(
-                    JsonConvert.SerializeObject(new ModeModel(mode.ToString(), targetCockpit, maxPower))));
+                    JsonConvert.SerializeObject(new ModeModel(mode.ToString(), parametersModel))));
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace RotoVR.SDK.API
                 int rotoAngle = 0;
 
                 yield return new WaitForSeconds(0.5f);
-                SetMode(ModeType.FreeMode, 0, 100);
+                SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
 
                 while (true)
                 {

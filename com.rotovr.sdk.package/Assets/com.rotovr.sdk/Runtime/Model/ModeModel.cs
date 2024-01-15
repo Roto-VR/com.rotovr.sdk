@@ -9,15 +9,34 @@ namespace RotoVR.SDK.Model
         {
         }
 
-        public ModeModel(string mode, int targetCockpit, int maxPower)
+        public ModeModel(string mode, ModeParametersModel parametersModel)
         {
             Mode = mode;
+            ModeParametersModel = parametersModel;
+        }
+
+        public string Mode { get; set; }
+        public ModeParametersModel ModeParametersModel { get; set; }
+    }
+
+    [Serializable]
+    public class ModeParametersModel
+    {
+        public ModeParametersModel(int targetCockpit, int maxPower)
+        {
             TargetCockpit = targetCockpit;
             MaxPower = maxPower;
         }
 
-        public string Mode { get; set; }
+        public ModeParametersModel(int targetCockpit, int maxPower, string simulationMode)
+        {
+            TargetCockpit = targetCockpit;
+            MaxPower = maxPower;
+            SimulationMode = simulationMode;
+        }
+
         public int TargetCockpit { get; set; }
         public int MaxPower { get; set; }
+        public string SimulationMode { get; set; }
     }
 }
