@@ -26,6 +26,7 @@ namespace RotoVR.SDK.Model
         {
             TargetCockpit = targetCockpit;
             MaxPower = maxPower;
+            SimulationMode = String.Empty;
         }
 
         public ModeParametersModel(int targetCockpit, int maxPower, string simulationMode)

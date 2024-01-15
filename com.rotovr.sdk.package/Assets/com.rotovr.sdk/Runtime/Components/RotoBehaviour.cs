@@ -229,7 +229,7 @@ namespace RotoVR.SDK.Components
         /// <summary>
         /// Switch to Headtreacking mode 
         /// </summary>
-        /// <param name="type">Type of simulation mode</param>
+        /// <param name="mode">Simulation mode</param>
         public void SwitchToHeadTracking(SimulationMode mode)
         {
             OnModeChanged += OnModeChangedHandler;

@@ -4585,15 +4585,15 @@ MonoBehaviour:
     CalibrationAsZeroButton: {fileID: 747763735}
   m_RotoVrBlock:
     RotoVrPanel: {fileID: 206372753}
-    m_RotationPower: {fileID: 1875679915}
-    m_RotationPowerView: {fileID: 1119036381}
+    RotationPower: {fileID: 1875679915}
+    RotationPowerView: {fileID: 1119036381}
     TurnLeft: {fileID: 62617819}
     TurnRight: {fileID: 2952596}
     PlayRumble: {fileID: 371114740}
-    m_RumbleDurationView: {fileID: 753790166}
-    m_RumbleDuration: {fileID: 1695882844}
+    RumbleDurationView: {fileID: 753790166}
+    RumbleDuration: {fileID: 1695882844}
     m_RumblePowerView: {fileID: 1443325204}
-    m_RumblePower: {fileID: 1879754945}
+    RumblePower: {fileID: 1879754945}
 --- !u!1 &2063471661
 GameObject:
   m_ObjectHideFlags: 0
