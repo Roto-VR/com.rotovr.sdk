@@ -7,6 +7,7 @@ using RotoVR.SDK.Components;
 using RotoVR.SDK.Enum;
 using RotoVR.SDK.Model;
 using TMPro;
+using SimulationMode = UnityEngine.SimulationMode;
 
 namespace Example.UI
 {
@@ -88,32 +89,53 @@ namespace Example.UI
                 {
                     case 0:
                         //FreeMode
-                        m_RotoBerhaviour.SwitchMode(ModeType.FreeMode);
+
                         m_RotoVrBlock.MovementBlock.SetActive(true);
                         m_RotoVrBlock.SensitivityPanel.SetActive(false);
-                        StopTelemetry();
-
+                        m_ModeBlock.SimulationModePanel.SetActive(false);
                         break;
 
                     case 1:
-                        //Custom Headtrack
-                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack);
+                        //Headtrack
+
                         m_RotoVrBlock.MovementBlock.SetActive(false);
                         m_RotoVrBlock.SensitivityPanel.SetActive(true);
-                        StartTelemetry();
+                        m_ModeBlock.SimulationModePanel.SetActive(true);
+
 
                         break;
                     case 2:
                         //CockpitMode
-                        m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
+
                         m_RotoVrBlock.MovementBlock.SetActive(true);
                         m_RotoVrBlock.SensitivityPanel.SetActive(false);
-                        StopTelemetry();
-
+                        m_ModeBlock.SimulationModePanel.SetActive(false);
                         break;
                 }
             });
 
+            m_ModeBlock.ApplyButton.onClick.AddListener(() =>
+            {
+                switch (m_ModeBlock.ModeSelector.value)
+                {
+                    case 0:
+                        m_RotoBerhaviour.SwitchMode(ModeType.FreeMode);
+                        StopTelemetry();
+                        break;
+                    case 1:
+
+                        RotoVR.SDK.Enum.SimulationMode mode =
+                            (RotoVR.SDK.Enum.SimulationMode)m_ModeBlock.SimulationModeSelector.value;
+
+                        m_RotoBerhaviour.SwitchToHeadTracking(mode);
+                        StartTelemetry();
+                        break;
+                    case 2:
+                        m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
+                        StopTelemetry();
+                        break;
+                }
+            });
 
             m_RotoBerhaviour.OnConnectionStatusChanged += OnConnectionHandler;
             m_RotoBerhaviour.OnModeChanged += OnModeChangedHandler;
@@ -238,20 +260,12 @@ namespace Example.UI
 
                 angle = deltaTargetAngle - deltaRotoAngle;
 
-                //  message += $"Headset rotate direction: {direction}{Environment.NewLine}";
-
                 message += $"Chair angle: {m_CachedDataModel.Angle}{Environment.NewLine}";
 
                 message += $"Headset angle: {currentTargetAngle}{Environment.NewLine}";
 
-                //  message += $"Delta headset angle: {deltaTargetAngle}{Environment.NewLine}";
-
-                // message += $"Delta chair angle: {deltaRotoAngle}{Environment.NewLine}";
-
-                // message += $"Delta angle: {angle}{Environment.NewLine}";
-
                 angle = NormalizeAngle(angle);
-                //  message += $"Normalized Delta angle: {angle}  {Environment.NewLine}";
+
                 angle += m_CachedDataModel.Angle;
                 var normalizeAngle = (int)NormalizeAngle(angle);
 
@@ -367,22 +381,6 @@ namespace Example.UI
         void SetChairAngle(string message)
         {
             m_RotoVrBlock.RotoAngleView.text = message;
-            // m_RotoVrBlock.RotoAngleView.text = $"Chair angle: {angle}";
-        }
-
-        void SetHeadsetAbsoluteAngle(float angle)
-        {
-            m_RotoVrBlock.HeadsetAbsoluteAngleView.text = $"Headset angle: {angle}";
-        }
-
-        void SetHeadsetLocalAngle(string message)
-        {
-            m_RotoVrBlock.HeadsetLocalAngleView.text = message;
-        }
-
-        void SetTargetAngle(int angle)
-        {
-            m_RotoVrBlock.TargetAngleView.text = $"Target angle: {angle}";
         }
 
         public enum UIState
@@ -425,9 +423,6 @@ namespace Example.UI
             public TMP_Text RumblePowerView;
             public GameObject SensitivityPanel;
             public TMP_Text RotoAngleView;
-            public TMP_Text HeadsetAbsoluteAngleView;
-            public TMP_Text HeadsetLocalAngleView;
-            public TMP_Text TargetAngleView;
         }
 
         [Serializable]
@@ -435,6 +430,9 @@ namespace Example.UI
         {
             public GameObject ModePanel;
             public TMP_Dropdown ModeSelector;
+            public GameObject SimulationModePanel;
+            public TMP_Dropdown SimulationModeSelector;
+            public Button ApplyButton;
         }
     }
 }
