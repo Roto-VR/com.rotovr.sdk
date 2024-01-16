@@ -311,7 +311,6 @@ public class BlePluginInstance {
 
         ModeModel model = (ModeModel) PluginUtility.ConvertJsonToObject(gson, data, ModeModel.class);
 
-
         switch (model.Mode) {
             case "IdleMode":
                 m_GattMessage[2] = (byte) (0x00 & 0xFF);

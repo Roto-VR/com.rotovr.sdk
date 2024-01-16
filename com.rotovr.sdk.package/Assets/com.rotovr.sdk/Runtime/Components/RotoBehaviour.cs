@@ -3,7 +3,6 @@ using RotoVR.SDK.API;
 using RotoVR.SDK.Enum;
 using RotoVR.SDK.Model;
 using UnityEngine;
-using SimulationMode = RotoVR.SDK.Enum.SimulationMode;
 
 
 namespace RotoVR.SDK.Components
@@ -227,17 +226,36 @@ namespace RotoVR.SDK.Components
         }
 
         /// <summary>
-        /// Switch to Headtreacking mode 
+        /// Switch RotoVr mode with custom parameters
         /// </summary>
         /// <param name="mode">Simulation mode</param>
-        public void SwitchToHeadTracking(SimulationMode mode)
+        /// <param name="parametersModel">Mode parameters</param>
+        public void SwitchMode(ModeType mode, ModeParametersModel parametersModel)
         {
-            OnModeChanged += OnModeChangedHandler;
+            m_Roto.StopRoutine(this);
 
-            m_Roto.SetMode(ModeType.HeadTrack, new ModeParametersModel(0, 30, mode.ToString()));
-            var headCamera = Camera.main;
-            if (headCamera != null)
-                m_Roto.StartHeadTracking(this, headCamera.gameObject.transform);
+            switch (mode)
+            {
+                case ModeType.FreeMode:
+                    m_Roto.SetMode(mode, parametersModel);
+                    break;
+                case ModeType.HeadTrack:
+                    OnModeChanged += OnModeChangedHandler;
+
+                    m_Roto.SetMode(mode, parametersModel);
+                    var headCamera = Camera.main;
+                    if (headCamera != null)
+                        m_Roto.StartHeadTracking(this, headCamera.gameObject.transform);
+                    break;
+                case ModeType.CockpitMode:
+                    m_Roto.SetMode(mode, parametersModel);
+                    break;
+                case ModeType.CustomHeadTrack:
+                    m_Roto.SetMode(ModeType.FreeMode, parametersModel);
+                    m_Roto.FollowTarget(this, m_Target);
+                    break;
+            }
+
 
             void OnModeChangedHandler(ModeType newMode)
             {
