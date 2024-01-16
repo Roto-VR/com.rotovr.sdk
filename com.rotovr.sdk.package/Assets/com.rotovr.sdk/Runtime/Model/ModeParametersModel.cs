@@ -3,7 +3,7 @@ using System;
 namespace RotoVR.SDK.Model
 {
     [Serializable]
-    public struct ModeParametersModel
+    public class ModeParametersModel
     {
         public ModeParametersModel(int targetCockpit, int maxPower)
         {
