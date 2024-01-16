@@ -330,7 +330,7 @@ public class BlePluginInstance {
                 break;
         }
 
-        switch (model.ModeParametersModel.SimulationMode) {
+        switch (model.ModeParametersModel.MovementMode) {
             case "Smooth":
                 m_GattMessage[3] = (byte) (0x00 & 0xFF);
                 break;
