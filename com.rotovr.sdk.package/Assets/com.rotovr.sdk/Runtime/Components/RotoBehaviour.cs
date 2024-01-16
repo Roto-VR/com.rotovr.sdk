@@ -120,7 +120,7 @@ namespace RotoVR.SDK.Components
                         case ModeType.CockpitMode:
                             m_Roto.SetMode(m_ModeType, new ModeParametersModel(140, 30));
                             break;
-                        case ModeType.CustomHeadTrack:
+                        case ModeType.SimulationMode:
                             m_Roto.SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
                             m_Roto.FollowTarget(this, m_Target);
                             break;
@@ -206,7 +206,7 @@ namespace RotoVR.SDK.Components
                 case ModeType.CockpitMode:
                     m_Roto.SetMode(mode, new ModeParametersModel(140, 30));
                     break;
-                case ModeType.CustomHeadTrack:
+                case ModeType.SimulationMode:
                     m_Roto.SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
                     m_Roto.FollowTarget(this, m_Target);
                     break;
@@ -250,7 +250,7 @@ namespace RotoVR.SDK.Components
                 case ModeType.CockpitMode:
                     m_Roto.SetMode(mode, parametersModel);
                     break;
-                case ModeType.CustomHeadTrack:
+                case ModeType.SimulationMode:
                     m_Roto.SetMode(ModeType.FreeMode, parametersModel);
                     m_Roto.FollowTarget(this, m_Target);
                     break;
