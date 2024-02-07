@@ -1,14 +1,12 @@
 {
-    "name": "com.rotovr.sdk.sample",
+    "name": "com.hid.library",
     "rootNamespace": "",
-    "references": [
-        "Unity.TextMeshPro",
-        "com.rotovr.sdk.runtime",
-        "com.rotovr.common"
+    "references": [],
+    "includePlatforms": [
+        "Editor"
     ],
-    "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,

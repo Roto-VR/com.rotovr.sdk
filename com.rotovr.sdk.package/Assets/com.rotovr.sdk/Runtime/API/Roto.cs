@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using com.rotovr.sdk.Runtime.USB;
 using Newtonsoft.Json;
 using RotoVR.SDK.BLE;
 using RotoVR.SDK.Enum;
@@ -88,18 +89,41 @@ namespace RotoVR.SDK.API
 
             m_IsInit = true;
 
+#if !UNITY_EDITOR
             BleManager.Instance.Init();
             Subscribe(MessageType.ModelChanged.ToString(), OnModelChangeHandler);
             Subscribe(MessageType.DeviceConnected.ToString(),
                 (data) => { OnConnectionStatus?.Invoke(ConnectionStatus.Connected); });
             Subscribe(MessageType.Disconnected.ToString(),
                 (data) => { OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected); });
+#else
+
+#endif
+        }
+
+        void OnConnectionStatusChange(ConnectionStatus status)
+        {
+            OnConnectionStatus?.Invoke(status);
         }
 
         void OnModelChangeHandler(string data)
         {
             RotoDataModel model = JsonConvert.DeserializeObject<RotoDataModel>(data);
 
+            if (model.Mode != m_RotoData.Mode)
+            {
+                if (System.Enum.TryParse(model.Mode, out ModeType value))
+                {
+                    OnRotoMode.Invoke(value);
+                }
+            }
+
+            OnDataChanged?.Invoke(model);
+            m_RotoData = model;
+        }
+
+        void OnModelChangeHandler(RotoDataModel model)
+        {
             if (model.Mode != m_RotoData.Mode)
             {
                 if (System.Enum.TryParse(model.Mode, out ModeType value))
@@ -126,7 +150,13 @@ namespace RotoVR.SDK.API
         /// <param name="deviceName">Data with device parameters</param>
         public void Connect(string deviceName)
         {
+#if !UNITY_EDITOR
             SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
+#else
+            UsbConnector.Instance.OnConnectionStatus += OnConnectionStatusChange;
+            UsbConnector.Instance.OnRotoDataChange += OnModelChangeHandler;
+            UsbConnector.Instance.Connect();
+#endif
         }
 
         /// <summary>
@@ -135,7 +165,13 @@ namespace RotoVR.SDK.API
         /// <param name="deviceData">Data with device parameters</param>
         public void Disconnect(string deviceData)
         {
+#if !UNITY_EDITOR
             SendMessage(new DisconnectMessage(deviceData));
+#else
+            UsbConnector.Instance.OnConnectionStatus -= OnConnectionStatusChange;
+            UsbConnector.Instance.OnRotoDataChange -= OnModelChangeHandler;
+            UsbConnector.Instance.Disconnect();
+#endif
         }
 
         /// <summary>
@@ -146,9 +182,13 @@ namespace RotoVR.SDK.API
         /// <param name="maxPower">Max value of rotation power in range 30-100</param>
         public void SetMode(ModeType mode, ModeParametersModel parametersModel)
         {
+#if !UNITY_EDITOR
             SendMessage(
                 new SetModeMessage(
                     JsonConvert.SerializeObject(new ModeModel(mode.ToString(), parametersModel))));
+#else
+            UsbConnector.Instance.SetMode(new ModeModel(mode.ToString(), parametersModel));
+#endif
         }
 
         /// <summary>
@@ -192,8 +232,12 @@ namespace RotoVR.SDK.API
         /// <param name="power">Rotational power. In range 0-100</param>
         public void RotateToAngle(Direction direction, int angle, int power)
         {
+#if !UNITY_EDITOR
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power, direction.ToString()))));
+#else
+            UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power, direction.ToString()));
+#endif
         }
 
         /// <summary>
@@ -203,9 +247,15 @@ namespace RotoVR.SDK.API
         /// <param name="power">Rotational power. In range 0-100</param>
         public void RotateToAngleCloserDirection(int angle, int power)
         {
+#if !UNITY_EDITOR
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
                     GetDirection(angle, m_RotoData.Angle).ToString()))));
+#else
+            UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power,
+                GetDirection(angle, m_RotoData.Angle).ToString()));
+
+#endif
         }
 
         /// <summary>
@@ -227,10 +277,14 @@ namespace RotoVR.SDK.API
                     targetAngle = m_RotoData.Angle + angle;
                     break;
             }
-
+#if !UNITY_EDITOR
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
                     direction.ToString()))));
+#else
+            UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
+                direction.ToString()));
+#endif
         }
 
 
@@ -292,7 +346,11 @@ namespace RotoVR.SDK.API
         /// <param name="power">Power of rumble</param>
         public void Rumble(float duration, int power)
         {
+#if !UNITY_EDITOR
             SendMessage(new PlayRumbleMessage(JsonConvert.SerializeObject(new RumbleModel(duration, power))));
+#else
+            UsbConnector.Instance.PlayRumble(new RumbleModel(duration, power));
+#endif
         }
 
         IEnumerator FollowTargetRoutine()
