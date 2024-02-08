@@ -1,11 +1,9 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using RotoVR.SDK.Enum;
 using RotoVR.SDK.Model;
 using UnityEngine;
-using HidLibrary;
 using PimDeWitte.UnityMainThreadDispatcher;
 
 namespace com.rotovr.sdk.Runtime.USB
@@ -32,10 +30,9 @@ namespace com.rotovr.sdk.Runtime.USB
         const UInt16 k_pid = 0xB564;
 
         byte[] m_usbMessage = new byte[19];
-
-        //HidDevice m_hidDevice;
+        byte[] m_writeBuffer = new byte[33];
         RotoDataModel m_runtimeModel;
-        private UnityMainThreadDispatcher m_dispatcher;
+        UnityMainThreadDispatcher m_dispatcher;
         IntPtr m_device;
         Thread m_connectionThread;
 
@@ -54,24 +51,45 @@ namespace com.rotovr.sdk.Runtime.USB
 
         void ConnectToDevice()
         {
-            // m_hidDevice = HidDevices.Enumerate(k_vid, k_pid).FirstOrDefault();
-            //  if (m_hidDevice == null)
-            return;
+            m_device = Native.OpenFirstHIDDevice(k_vid, k_pid);
 
+            if (m_device == IntPtr.Zero)
+                return;
 
-            //  m_hidDevice.Inserted += DeviceAttachedHandler;
-            // m_hidDevice.Removed += DeviceRemovedHandler;
-            //  m_hidDevice.MonitorDeviceEvents = true;
+            byte[] feature = ConfigureFeature();
+            Native.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
+            var success = Native.GetFeature(m_device, feature, 9);
 
+            Debug.LogError($"SetFeature success: {success}");
 
-            // var setFeatureTask = Task.Run(async () =>
-            // {
-            //     m_hidDevice.WriteFeatureData(ConfigureFeature());
-            //
-            //     await Task.Delay(2000);
+            if (success)
+            {
+                Debug.LogError(LogBuffer(feature));
+            }
 
-            //  m_hidDevice.OpenDevice();
-            // });
+            SendConnect();
+
+            var setFeatureTask = Task.Run(async () =>
+            {
+                m_reaDevice = true;
+
+                while (m_reaDevice)
+                {
+                    await Task.Delay(500);
+                    ReadDevice();
+                }
+            });
+        }
+
+        string LogBuffer(byte[] data)
+        {
+            if (data.Length == 0)
+                return "Buffer is Empty";
+
+            string message = $"";
+            message = $"{message} {BitConverter.ToString(data).Replace("-", "  ")}";
+
+            return message;
         }
 
         byte[] ConfigureFeature()
@@ -115,101 +133,44 @@ namespace com.rotovr.sdk.Runtime.USB
             return array;
         }
 
-        // private void OnReport(HidReport report)
-        // {
-        //     if (!m_hidDevice.IsConnected)
-        //         return;
-        //
-        //     var rowData = report.Data;
-        //
-        //     int index = 0;
-        //
-        //     foreach (var element in rowData)
-        //     {
-        //         Debug.LogError($"element[{index}]: {element}");
-        //         index++;
-        //     }
-        // }
-
         public void Disconnect()
         {
             Debug.LogError("Disconnect");
-
-
-            // if (m_hidDevice != null)
-            // {
-            //     m_reaDevice = false;
-            //     SendDisconnect();
-            //     m_hidDevice.Inserted -= DeviceAttachedHandler;
-            //     m_hidDevice.Removed -= DeviceRemovedHandler;
-            //     m_hidDevice.CloseDevice();
-            OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected);
-            if (m_connectionThread != null)
-                m_connectionThread.Abort();
-            //  }
-        }
-
-        private void DeviceRemovedHandler()
-        {
-            Debug.LogError("DeviceRemovedHandler");
             m_reaDevice = false;
-            Disconnect();
-        }
 
-        private void DeviceAttachedHandler()
-        {
-            Debug.LogError("DeviceAttachedHandler");
-
-            var setFeatureTask = Task.Run(async () =>
+            SendDisconnect(() =>
             {
-                // m_hidDevice.WriteFeatureData(ConfigureFeature());
-                //
-                // await Task.Delay(500);
-                //
-                // m_hidDevice.ReadFeatureData(out var featureData);
-                //
-                // for (int i = 0; i < featureData.Length; i++)
-                // {
-                //     Debug.LogError($"feature element[{i}]: {featureData[i]}");
-                // }
+                if (m_device != IntPtr.Zero)
+                {
+                    Native.CloseHIDDevice(m_device);
+                }
 
-
-                // UnityMainThreadDispatcher.Instance().Enqueue(() =>
-                // {
-                //     if (m_hidDevice.IsConnected)
-                //         OnConnectionStatus?.Invoke(ConnectionStatus.Connected);
-                // });
-                m_reaDevice = true;
-
-                SendConnect();
-
-                // while (m_reaDevice)
-                // {
-                //     await Task.Delay(500);
-                //     ReadDevice();
-                // }
+                OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected);
+                if (m_connectionThread != null)
+                    m_connectionThread.Abort();
             });
-
-
-            //  SendConnect();
         }
 
         void SendConnect()
         {
-            Debug.LogError("SendConnect");
-
-            byte[] message = new byte[32];
+            byte[] message = new byte[33];
             for (int i = 0; i < message.Length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        message[i] = 0xF1;
+                        message[i] = 0x00;
                         break;
                     case 1:
+                        message[i] = 19;
+                        break;
+                    case 2:
+                        message[i] = 0xF1;
+                        break;
+                    case 3:
                         message[i] = 0x41;
                         break;
-                    case 18:
+                    case 20:
                         message[i] = 0x32;
                         break;
                     default:
@@ -218,93 +179,52 @@ namespace com.rotovr.sdk.Runtime.USB
                 }
             }
 
-            int index = 0;
-            foreach (var el in message)
+            Debug.LogError($"Send connect message: {LogBuffer(message)}");
+
+            var write = Task.Run(() =>
             {
-                Debug.LogError($"write message el[{index}]: {el}");
-                index++;
-            }
+                var success = Native.WriteFile(m_device, message);
 
-            // var write = Task.Run(async () =>
-            // {
-            //     m_hidDevice.WriteReport(new HidReport(32, new HidDeviceData(message, HidDeviceData.ReadStatus.Success)),
-            //         (success) => { Debug.LogError($"Connect Write: {success}"); });
-            //
-            //     await Task.Delay(1000);
-            // });
+                Debug.LogError($"Write file success: {success}");
 
-
-            //  write.Wait();
-
-
-            //
-            //
-            // var read = Task.Run(() =>
-            // {
-            //     Debug.LogError("Read");
-            //
-            //     m_hidDevice.Read((result) =>
-            //     {
-            //         Debug.LogError("Read result");
-            //
-            //         index = 0;
-            //         foreach (var el in result.Data)
-            //         {
-            //             Debug.LogError($"new el[{index}]: {el}");
-            //             index++;
-            //         }
-            //     });
-            // });
-            // read.Wait();
-
-            //   if (m_hidDevice.IsConnected)
-            //       OnConnectionStatus?.Invoke(ConnectionStatus.Connected);
-
-            m_reaDevice = true;
-
-            Task.Run(async () =>
-            {
-                while (m_reaDevice)
-                {
-                    await Task.Delay(100);
-                    ReadDevice();
-                }
+                OnConnectionStatus?.Invoke(ConnectionStatus.Connected);
             });
         }
 
         void ReadDevice()
         {
-            int index;
-
-            string message = String.Empty;
             var read = Task.Run(() =>
             {
-                // m_hidDevice.ReadReport((result) =>
-                // {
-                //     foreach (var el in result.Data)
-                //     {
-                //         message = $"{message} {el}";
-                //     }
-                //
-                //     Debug.LogError($"message[{result.Data.Length}]: {message}");
-                // });
+                byte[] readBuffer = new byte[33];
+
+                var result = Native.ReadFile(m_device, ref readBuffer);
+
+                if (readBuffer[2] == 0xF1)
+                    Debug.LogError(
+                        $"Read [ packet length: {readBuffer[1]} ]  result: {result}   {LogBuffer(readBuffer)}");
             });
         }
 
-        void SendDisconnect()
+        void SendDisconnect(Action action)
         {
-            byte[] message = new byte[32];
+            byte[] message = new byte[33];
             for (int i = 0; i < message.Length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        message[i] = 0xF1;
+                        message[i] = 0x00;
                         break;
                     case 1:
+                        message[i] = 32;
+                        break;
+                    case 2:
+                        message[i] = 0xF1;
+                        break;
+                    case 3:
                         message[i] = 0x5A;
                         break;
-                    case 18:
+                    case 20:
                         message[i] = 0x4B;
                         break;
                     default:
@@ -313,10 +233,15 @@ namespace com.rotovr.sdk.Runtime.USB
                 }
             }
 
-            // var write = Task.Run(async () =>
-            // {
-            //     m_hidDevice.Write(message, (success) => { Debug.LogError($"Disconnect Write: {success}"); });
-            // });
+            var write = Task.Run(() =>
+            {
+                var success = Native.WriteFile(m_device, message);
+
+                Debug.LogError($"Disconnect success: {success}");
+            });
+
+            write.Wait();
+            action?.Invoke();
         }
 
         bool IsConnectedAndOpen()
@@ -326,73 +251,71 @@ namespace com.rotovr.sdk.Runtime.USB
 
         public void SetMode(ModeModel model)
         {
-            Debug.LogError("----------------------SetMode---------------");
-
             if (!IsConnectedAndOpen())
                 return;
 
-            Debug.LogError("22");
-
             ResetMessage();
 
-            m_usbMessage[0] = (byte)(0xF1 & 0xFF);
+            m_usbMessage[0] = 0xF1;
             m_usbMessage[1] = (byte)'S';
 
             switch (model.Mode)
             {
                 case "IdleMode":
-                    m_usbMessage[2] = (byte)(0x00 & 0xFF);
+                    m_usbMessage[2] = 0x00;
                     break;
                 case "Calibration":
-                    m_usbMessage[2] = (byte)(0x01 & 0xFF);
+                    m_usbMessage[2] = 0x01;
                     break;
                 case "HeadTrack":
-                    m_usbMessage[2] = (byte)(0x02 & 0xFF);
+                    m_usbMessage[2] = 0x02;
                     break;
                 case "FreeMode":
-                    m_usbMessage[2] = (byte)(0x03 & 0xFF);
+                    m_usbMessage[2] = 0x03;
                     break;
                 case "CockpitMode":
-                    m_usbMessage[2] = (byte)(0x04 & 0xFF);
+                    m_usbMessage[2] = 0x04;
                     break;
             }
 
             switch (model.ModeParametersModel.MovementMode)
             {
                 case "Smooth":
-                    m_usbMessage[3] = (byte)(0x00 & 0xFF);
+                    m_usbMessage[3] = 0x00;
                     break;
                 case "Jerky":
-                    m_usbMessage[3] = (byte)(0x01 & 0xFF);
+                    m_usbMessage[3] = 0x01;
                     break;
             }
 
             Debug.LogError($"Set Mode: {model.Mode}");
 
-            m_usbMessage[9] = (byte)(model.ModeParametersModel.TargetCockpit & 0xFF);
-            m_usbMessage[11] = (byte)(40 & 0xFF);
-            m_usbMessage[12] = (byte)(model.ModeParametersModel.MaxPower & 0xFF);
-            m_usbMessage[14] = (byte)(0x01 & 0xFF);
+            m_usbMessage[9] = (byte)(model.ModeParametersModel.TargetCockpit);
+            m_usbMessage[11] = 40;
+            m_usbMessage[12] = (byte)(model.ModeParametersModel.MaxPower);
+            m_usbMessage[14] = 0x01;
 
             byte sum = ByteSum(m_usbMessage);
             m_usbMessage[18] = sum;
+
             Task.Run(() =>
             {
-                //  m_hidDevice.Write(m_usbMessage, (result) => { Debug.LogError($"Write Set Mode: {result}"); });
+                var buffer = PrepareWriteBuffer(m_usbMessage);
+                var result = Native.WriteFile(m_device, buffer);
+                Debug.LogError($"SetMode success: {result} message: {LogBuffer(buffer)}");
             });
+        }
 
+        byte[] PrepareWriteBuffer(byte[] message)
+        {
+            m_writeBuffer[0] = 0x00;
+            m_writeBuffer[1] = 19;
+            for (int i = 0; i < message.Length; i++)
+            {
+                m_writeBuffer[i + 2] = message[i];
+            }
 
-            // var read = m_hidDevice.ReadAsync();
-            //
-            // read.Wait();
-            //
-            // var result = read.Result;
-            // int index = 0;
-            // foreach (var bt in result.Data)
-            // {
-            //     Debug.LogError($"bt[{index}]: {bt}");
-            //     index++;
-            // }
+            return m_writeBuffer;
         }
 
         public void TurnToAngle(RotateToAngleModel model)
@@ -402,17 +325,17 @@ namespace com.rotovr.sdk.Runtime.USB
 
             ResetMessage();
 
-            m_usbMessage[0] = (byte)(0xF1 & 0xFF);
+            m_usbMessage[0] = 0xF1;
             m_usbMessage[1] = (byte)'M';
-            m_usbMessage[2] = (byte)0x01 & 0xFF;
+            m_usbMessage[2] = 0x01;
 
             if (model.Direction.Equals("Right"))
             {
-                m_usbMessage[3] = (byte)(0x52 & 0xFF);
+                m_usbMessage[3] = 0x52;
             }
             else
             {
-                m_usbMessage[3] = (byte)(0x4C & 0xFF);
+                m_usbMessage[3] = 0x4C;
             }
 
             var angle = model.Angle;
@@ -422,44 +345,26 @@ namespace com.rotovr.sdk.Runtime.USB
 
             if (angle >= 256)
             {
-                m_usbMessage[4] = (byte)0x01 & 0xFF;
-                m_usbMessage[5] = (byte)((angle - 256) & 0xFF);
+                m_usbMessage[4] = 0x01;
+                m_usbMessage[5] = (byte)((angle - 256));
             }
             else
             {
-                m_usbMessage[4] = (byte)0x00 & 0xFF;
-                m_usbMessage[5] = (byte)(angle & 0xFF);
+                m_usbMessage[4] = 0x00;
+                m_usbMessage[5] = (byte)angle;
             }
 
-            m_usbMessage[6] = (byte)(model.Power & 0xFF);
-            m_usbMessage[7] = (byte)0x00 & 0xFF;
+            m_usbMessage[6] = (byte)model.Power;
+            m_usbMessage[7] = 0x00;
 
             byte sum = ByteSum(m_usbMessage);
             m_usbMessage[18] = sum;
 
             Task.Run(() =>
             {
-                //  m_hidDevice.Write(m_usbMessage, (result) => { Debug.LogError($"Write Turn To Angle: {result}"); });
+                var result = Native.WriteFile(m_device, PrepareWriteBuffer(m_usbMessage));
+                Debug.LogError($"TurnToAngle success: {result}");
             });
-
-            // var task = m_hidDevice.WriteAsync(m_usbMessage);
-            // task.Wait();
-            //
-            //
-            // //  m_hidDevice.ReadReport(OnReport);
-            // var read = m_hidDevice.ReadAsync();
-            //
-            // read.Wait();
-            //
-            // Debug.LogError("2");
-            //
-            // var result = read.Result;
-            // int index = 0;
-            // foreach (var bt in result.Data)
-            // {
-            //     Debug.LogError($"bt[{index}]: {bt}");
-            //     index++;
-            // }
         }
 
         public void PlayRumble(RumbleModel model)
@@ -469,50 +374,32 @@ namespace com.rotovr.sdk.Runtime.USB
 
             ResetMessage();
 
-            m_usbMessage[0] = (byte)(0xF1 & 0xFF);
+            m_usbMessage[0] = 0xF1;
             m_usbMessage[1] = (byte)'M';
-            m_usbMessage[2] = (byte)(0x00 & 0xFF);
-            m_usbMessage[3] = (byte)(0x00 & 0xFF);
-            m_usbMessage[4] = (byte)(0x00 & 0xFF);
-            m_usbMessage[5] = (byte)(0x00 & 0xFF);
-            m_usbMessage[6] = (byte)(0x00 & 0xFF);
-            m_usbMessage[7] = (byte)0x01 & 0xFF;
-            m_usbMessage[8] = (byte)(model.Power & 0xFF);
-            m_usbMessage[9] = (byte)(((int)(model.Duration * 10)) & 0xFF);
+            m_usbMessage[2] = 0x00;
+            m_usbMessage[3] = 0x00;
+            m_usbMessage[4] = 0x00;
+            m_usbMessage[5] = 0x00;
+            m_usbMessage[6] = 0x00;
+            m_usbMessage[7] = 0x01;
+            m_usbMessage[8] = (byte)model.Power;
+            m_usbMessage[9] = (byte)(int)(model.Duration * 10);
 
             byte sum = ByteSum(m_usbMessage);
             m_usbMessage[18] = sum;
 
             Task.Run(() =>
             {
-                //  m_hidDevice.Write(m_usbMessage, (result) => { Debug.LogError($"Write Turn To Angle: {result}"); });
+                var result = Native.WriteFile(m_device, PrepareWriteBuffer(m_usbMessage));
+                Debug.LogError($"PlayRumble success: {result}");
             });
-
-            // var task = m_hidDevice.WriteAsync(m_usbMessage);
-            // task.Wait();
-            //
-            //
-            // //  m_hidDevice.ReadReport(OnReport);
-            // var read = m_hidDevice.ReadAsync();
-            //
-            // read.Wait();
-            //
-            // Debug.LogError("2");
-            //
-            // var result = read.Result;
-            // int index = 0;
-            // foreach (var bt in result.Data)
-            // {
-            //     Debug.LogError($"bt[{index}]: {bt}");
-            //     index++;
-            // }
         }
 
         void ResetMessage()
         {
             for (int i = 0; i < m_usbMessage.Length; i++)
             {
-                m_usbMessage[i] = (byte)(0 & 0xFF);
+                m_usbMessage[i] = 0x00;
             }
         }
 
