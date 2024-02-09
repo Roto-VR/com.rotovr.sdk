@@ -124,10 +124,11 @@ namespace Example.UI
                         break;
                     case 1:
 
-                        RotoVR.SDK.Enum.SimulationMode mode =
-                            (RotoVR.SDK.Enum.SimulationMode)m_ModeBlock.SimulationModeSelector.value;
+                        MovementMode mode =
+                            (MovementMode)m_ModeBlock.SimulationModeSelector.value;
 
-                        m_RotoBerhaviour.SwitchToHeadTracking(mode);
+                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack,
+                            new ModeParametersModel(0, 100, mode.ToString()));
                         StartTelemetry();
                         break;
                     case 2:
