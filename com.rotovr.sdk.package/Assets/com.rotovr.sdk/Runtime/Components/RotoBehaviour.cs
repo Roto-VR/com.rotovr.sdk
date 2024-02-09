@@ -56,9 +56,9 @@ namespace RotoVR.SDK.Components
 
         void OnDestroy()
         {
-            m_Roto.Disconnect(m_DeviceName);
             m_Roto.OnConnectionStatus -= OnConnectionStatusHandler;
             m_Roto.OnRotoMode -= OnRotoModeHandler;
+            m_Roto.Disconnect(m_DeviceName);
         }
 
         /// <summary>

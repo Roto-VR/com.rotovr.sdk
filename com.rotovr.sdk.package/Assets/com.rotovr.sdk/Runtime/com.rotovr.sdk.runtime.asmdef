@@ -1,9 +1,8 @@
 {
-    "name": "com.rotovr.sdk.sample.oculus",
+    "name": "com.rotovr.sdk.runtime",
     "rootNamespace": "",
     "references": [
-        "Unity.TextMeshPro",
-        "com.rotovr.sdk.runtime",
+        "com.rotovr.sdk.usb",
         "com.rotovr.common"
     ],
     "includePlatforms": [],
