@@ -27,14 +27,14 @@ namespace com.rotovr.sdk.Runtime.USB
 
         byte[] m_usbMessage = new byte[19];
         byte[] m_writeBuffer = new byte[33];
-        byte[] m_readBuffer = new byte[33];
-        RotoDataModel m_runtimeModel = new();
+        byte[] m_readMessage = new byte[19];
+        static RotoDataModel m_runtimeModel;
         UnityMainThreadDispatcher m_dispatcher;
         IntPtr m_device;
         Thread m_connectionThread;
-
-
-        bool m_reaDevice;
+        static int m_messageSize;
+        static bool m_initPacket;
+        static bool m_reaDevice;
         public event Action<ConnectionStatus> OnConnectionStatus;
         public event Action<RotoDataModel> OnDataChange;
 
@@ -56,17 +56,17 @@ namespace com.rotovr.sdk.Runtime.USB
             byte[] feature = ConfigureFeature();
             Native.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
             var success = Native.GetFeature(m_device, feature, 9);
-            
+
             Debug.Log($"Set Feature success: {success}");
             SendConnect();
 
-            var setFeatureTask = Task.Run(async () =>
+            Task.Run(async () =>
             {
                 m_reaDevice = true;
 
                 while (m_reaDevice)
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(30);
                     ReadDevice();
                 }
             });
@@ -184,21 +184,48 @@ namespace com.rotovr.sdk.Runtime.USB
 
         void ReadDevice()
         {
-        
-
             var result = Native.ReadFile(m_device, out var buffer, 33);
+
             if (!result)
                 return;
 
             if (buffer[2] == 0xF1)
             {
-                Debug.Log(
-                    $"Read [ packet length: {buffer[1]} ]  result: {result}   {LogBuffer(buffer)}");
-                var newModel = GetModel(buffer);
-                if (newModel != m_runtimeModel)
+                m_initPacket = true;
+                for (int i = 0; i < m_readMessage.Length; i++)
                 {
-                    // m_runtimeModel = newModel;
-                    // m_dispatcher.Enqueue(() => { OnDataChange?.Invoke(m_runtimeModel); });
+                    m_readMessage[i] = 0x00;
+                }
+
+                m_messageSize = 0;
+                m_messageSize = buffer[1];
+                for (int i = 0; i < m_messageSize; i++)
+                {
+                    m_readMessage[i] = buffer[i + 2];
+                }
+            }
+            else
+            {
+                if (!m_initPacket)
+                    return;
+
+                int startIndex = m_messageSize;
+                m_messageSize += buffer[1];
+
+                for (int i = 0; i < buffer[1]; i++)
+                {
+                    var index = startIndex + i;
+                    if (index < m_readMessage.Length)
+                        m_readMessage[index] = buffer[i + 2];
+                }
+
+                if (m_messageSize >= 19)
+                {
+                    Debug.LogError($"Read [ packet length: {m_messageSize} ]  {LogBuffer(m_readMessage)}");
+                    m_initPacket = false;
+
+                    m_runtimeModel = GetModel(m_readMessage);
+                    m_dispatcher.Enqueue(() => { OnDataChange?.Invoke(m_runtimeModel); });
                 }
             }
         }
@@ -415,7 +442,7 @@ namespace com.rotovr.sdk.Runtime.USB
         RotoDataModel GetModel(byte[] rawData)
         {
             RotoDataModel model = new RotoDataModel();
-            switch (rawData[4])
+            switch (rawData[2])
             {
                 case 0:
                     model.Mode = "IdleMode";
@@ -437,13 +464,13 @@ namespace com.rotovr.sdk.Runtime.USB
                     break;
             }
 
-            switch (rawData[7])
+            switch (rawData[5])
             {
                 case 0:
-                    model.Angle = rawData[8] & 0xFF;
+                    model.Angle = rawData[6];
                     break;
                 case 1:
-                    int angle = rawData[8] & 0xFF;
+                    int angle = rawData[6];
                     model.Angle = (angle + 256);
                     break;
             }
