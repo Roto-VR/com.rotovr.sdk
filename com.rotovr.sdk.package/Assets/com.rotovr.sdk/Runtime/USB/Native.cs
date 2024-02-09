@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using UnityEngine;
 
 namespace com.rotovr.sdk.Runtime.USB
 {
@@ -28,17 +29,23 @@ namespace com.rotovr.sdk.Runtime.USB
             out uint lpNumberOfBytesWritten, [In] ref NativeOverlapped lpOverlapped);
 
 
-        internal static bool ReadFile(IntPtr handle, ref byte[] data)
+        internal static bool ReadFile(IntPtr handle, out byte[] data, int length)
         {
+            data = new byte[length];
             bool success = false;
             IntPtr nonManagedBuffer = Marshal.AllocHGlobal(data.Length);
             uint bytesRead;
             try
             {
                 var overlapped = new NativeOverlapped();
-                ReadFile(handle, nonManagedBuffer, (uint)data.Length, out bytesRead, ref overlapped);
-                Marshal.Copy(nonManagedBuffer, data, 0, (int)bytesRead);
-                success = true;
+
+                var result = ReadFile(handle, nonManagedBuffer, (ushort)data.Length, out bytesRead, ref overlapped);
+
+                if (result)
+                {
+                    Marshal.Copy(nonManagedBuffer, data, 0, (int)bytesRead);
+                    success = true;
+                }
             }
             catch
             {

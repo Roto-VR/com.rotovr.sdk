@@ -114,7 +114,7 @@ namespace RotoVR.SDK.API
             {
                 if (System.Enum.TryParse(model.Mode, out ModeType value))
                 {
-                    OnRotoMode.Invoke(value);
+                    OnRotoMode?.Invoke(value);
                 }
             }
 
@@ -128,7 +128,7 @@ namespace RotoVR.SDK.API
             {
                 if (System.Enum.TryParse(model.Mode, out ModeType value))
                 {
-                    OnRotoMode.Invoke(value);
+                    OnRotoMode?.Invoke(value);
                 }
             }
 
@@ -154,7 +154,7 @@ namespace RotoVR.SDK.API
             SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
 #else
             UsbConnector.Instance.OnConnectionStatus += OnConnectionStatusChange;
-            UsbConnector.Instance.OnRotoDataChange += OnModelChangeHandler;
+            UsbConnector.Instance.OnDataChange += OnModelChangeHandler;
             UsbConnector.Instance.Connect();
 #endif
         }
@@ -169,7 +169,7 @@ namespace RotoVR.SDK.API
             SendMessage(new DisconnectMessage(deviceData));
 #else
             UsbConnector.Instance.OnConnectionStatus -= OnConnectionStatusChange;
-            UsbConnector.Instance.OnRotoDataChange -= OnModelChangeHandler;
+            UsbConnector.Instance.OnDataChange -= OnModelChangeHandler;
             UsbConnector.Instance.Disconnect();
 #endif
         }

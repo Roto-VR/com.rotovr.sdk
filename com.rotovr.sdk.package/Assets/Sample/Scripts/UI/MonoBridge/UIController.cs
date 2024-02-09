@@ -99,8 +99,6 @@ namespace Example.UI
 
         private void OnConnectionHandler(ConnectionStatus status)
         {
-            Debug.LogError($"OnConnectionHandler: {status}");
-
             if (status == ConnectionStatus.Connected)
             {
                 SetUIState(UIState.Calibration);
@@ -116,8 +114,6 @@ namespace Example.UI
 
         void SetUIState(UIState state)
         {
-            Debug.LogError($"SetUIState: {state}");
-
             switch (state)
             {
                 case UIState.Connection:

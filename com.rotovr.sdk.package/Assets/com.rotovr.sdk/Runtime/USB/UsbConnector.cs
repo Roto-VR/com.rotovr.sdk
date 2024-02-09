@@ -20,10 +20,6 @@ namespace com.rotovr.sdk.Runtime.USB
             }
         }
 
-        public UsbConnector()
-        {
-        }
-
         private static UsbConnector m_instance;
 
         const UInt16 k_vid = 0x04D9;
@@ -31,7 +27,8 @@ namespace com.rotovr.sdk.Runtime.USB
 
         byte[] m_usbMessage = new byte[19];
         byte[] m_writeBuffer = new byte[33];
-        RotoDataModel m_runtimeModel;
+        byte[] m_readBuffer = new byte[33];
+        RotoDataModel m_runtimeModel = new();
         UnityMainThreadDispatcher m_dispatcher;
         IntPtr m_device;
         Thread m_connectionThread;
@@ -39,7 +36,7 @@ namespace com.rotovr.sdk.Runtime.USB
 
         bool m_reaDevice;
         public event Action<ConnectionStatus> OnConnectionStatus;
-        public event Action<RotoDataModel> OnRotoDataChange;
+        public event Action<RotoDataModel> OnDataChange;
 
 
         public void Connect()
@@ -59,14 +56,8 @@ namespace com.rotovr.sdk.Runtime.USB
             byte[] feature = ConfigureFeature();
             Native.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
             var success = Native.GetFeature(m_device, feature, 9);
-
-            Debug.LogError($"SetFeature success: {success}");
-
-            if (success)
-            {
-                Debug.LogError(LogBuffer(feature));
-            }
-
+            
+            Debug.Log($"Set Feature success: {success}");
             SendConnect();
 
             var setFeatureTask = Task.Run(async () =>
@@ -75,7 +66,7 @@ namespace com.rotovr.sdk.Runtime.USB
 
                 while (m_reaDevice)
                 {
-                    await Task.Delay(500);
+                    await Task.Delay(100);
                     ReadDevice();
                 }
             });
@@ -135,7 +126,7 @@ namespace com.rotovr.sdk.Runtime.USB
 
         public void Disconnect()
         {
-            Debug.LogError("Disconnect");
+            Debug.Log("Disconnect");
             m_reaDevice = false;
 
             SendDisconnect(() =>
@@ -145,9 +136,10 @@ namespace com.rotovr.sdk.Runtime.USB
                     Native.CloseHIDDevice(m_device);
                 }
 
-                OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected);
+
                 if (m_connectionThread != null)
                     m_connectionThread.Abort();
+                m_dispatcher.Enqueue(() => { OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected); });
             });
         }
 
@@ -179,30 +171,36 @@ namespace com.rotovr.sdk.Runtime.USB
                 }
             }
 
-            Debug.LogError($"Send connect message: {LogBuffer(message)}");
+            Debug.Log($"Send connect message: {LogBuffer(message)}");
 
-            var write = Task.Run(() =>
+            Task.Run(() =>
             {
                 var success = Native.WriteFile(m_device, message);
+                Debug.Log($"Write file success: {success}");
 
-                Debug.LogError($"Write file success: {success}");
-
-                OnConnectionStatus?.Invoke(ConnectionStatus.Connected);
+                m_dispatcher.Enqueue(() => { OnConnectionStatus?.Invoke(ConnectionStatus.Connected); });
             });
         }
 
         void ReadDevice()
         {
-            var read = Task.Run(() =>
+        
+
+            var result = Native.ReadFile(m_device, out var buffer, 33);
+            if (!result)
+                return;
+
+            if (buffer[2] == 0xF1)
             {
-                byte[] readBuffer = new byte[33];
-
-                var result = Native.ReadFile(m_device, ref readBuffer);
-
-                if (readBuffer[2] == 0xF1)
-                    Debug.LogError(
-                        $"Read [ packet length: {readBuffer[1]} ]  result: {result}   {LogBuffer(readBuffer)}");
-            });
+                Debug.Log(
+                    $"Read [ packet length: {buffer[1]} ]  result: {result}   {LogBuffer(buffer)}");
+                var newModel = GetModel(buffer);
+                if (newModel != m_runtimeModel)
+                {
+                    // m_runtimeModel = newModel;
+                    // m_dispatcher.Enqueue(() => { OnDataChange?.Invoke(m_runtimeModel); });
+                }
+            }
         }
 
         void SendDisconnect(Action action)
@@ -216,7 +214,7 @@ namespace com.rotovr.sdk.Runtime.USB
                         message[i] = 0x00;
                         break;
                     case 1:
-                        message[i] = 32;
+                        message[i] = 19;
                         break;
                     case 2:
                         message[i] = 0xF1;
@@ -236,8 +234,7 @@ namespace com.rotovr.sdk.Runtime.USB
             var write = Task.Run(() =>
             {
                 var success = Native.WriteFile(m_device, message);
-
-                Debug.LogError($"Disconnect success: {success}");
+                Debug.Log($"Disconnect success: {success}");
             });
 
             write.Wait();
@@ -246,7 +243,7 @@ namespace com.rotovr.sdk.Runtime.USB
 
         bool IsConnectedAndOpen()
         {
-            return true; //m_hidDevice != null && m_hidDevice.IsConnected;
+            return m_device != IntPtr.Zero;
         }
 
         public void SetMode(ModeModel model)
@@ -288,7 +285,7 @@ namespace com.rotovr.sdk.Runtime.USB
                     break;
             }
 
-            Debug.LogError($"Set Mode: {model.Mode}");
+            Debug.Log($"Set Mode: {model.Mode}");
 
             m_usbMessage[9] = (byte)(model.ModeParametersModel.TargetCockpit);
             m_usbMessage[11] = 40;
@@ -298,16 +295,16 @@ namespace com.rotovr.sdk.Runtime.USB
             byte sum = ByteSum(m_usbMessage);
             m_usbMessage[18] = sum;
 
-            Task.Run(() =>
-            {
-                var buffer = PrepareWriteBuffer(m_usbMessage);
-                var result = Native.WriteFile(m_device, buffer);
-                Debug.LogError($"SetMode success: {result} message: {LogBuffer(buffer)}");
-            });
+            Task.Run(() => { Native.WriteFile(m_device, PrepareWriteBuffer(m_usbMessage)); });
         }
 
         byte[] PrepareWriteBuffer(byte[] message)
         {
+            for (int i = 0; i < m_writeBuffer.Length; i++)
+            {
+                m_writeBuffer[i] = 0x00;
+            }
+
             m_writeBuffer[0] = 0x00;
             m_writeBuffer[1] = 19;
             for (int i = 0; i < message.Length; i++)
@@ -363,7 +360,7 @@ namespace com.rotovr.sdk.Runtime.USB
             Task.Run(() =>
             {
                 var result = Native.WriteFile(m_device, PrepareWriteBuffer(m_usbMessage));
-                Debug.LogError($"TurnToAngle success: {result}");
+                Debug.Log($"Turn To Angle success: {result}");
             });
         }
 
@@ -391,7 +388,7 @@ namespace com.rotovr.sdk.Runtime.USB
             Task.Run(() =>
             {
                 var result = Native.WriteFile(m_device, PrepareWriteBuffer(m_usbMessage));
-                Debug.LogError($"PlayRumble success: {result}");
+                Debug.Log($"Play Rumble success: {result}");
             });
         }
 
@@ -418,7 +415,7 @@ namespace com.rotovr.sdk.Runtime.USB
         RotoDataModel GetModel(byte[] rawData)
         {
             RotoDataModel model = new RotoDataModel();
-            switch (rawData[2])
+            switch (rawData[4])
             {
                 case 0:
                     model.Mode = "IdleMode";
@@ -440,19 +437,17 @@ namespace com.rotovr.sdk.Runtime.USB
                     break;
             }
 
-            switch (rawData[5])
+            switch (rawData[7])
             {
                 case 0:
-                    model.Angle = rawData[6] & 0xFF;
+                    model.Angle = rawData[8] & 0xFF;
                     break;
                 case 1:
-                    int angle = rawData[6] & 0xFF;
+                    int angle = rawData[8] & 0xFF;
                     model.Angle = (angle + 256);
                     break;
             }
 
-            model.TargetCockpit = rawData[9] & 0xFF;
-            model.MaxPower = rawData[12] & 0xFF;
             return model;
         }
     }
