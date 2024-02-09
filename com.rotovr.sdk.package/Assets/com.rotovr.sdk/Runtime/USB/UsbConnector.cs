@@ -221,9 +221,7 @@ namespace com.rotovr.sdk.Runtime.USB
 
                 if (m_messageSize >= 19)
                 {
-                    Debug.LogError($"Read [ packet length: {m_messageSize} ]  {LogBuffer(m_readMessage)}");
                     m_initPacket = false;
-
                     m_runtimeModel = GetModel(m_readMessage);
                     m_dispatcher.Enqueue(() => { OnDataChange?.Invoke(m_runtimeModel); });
                 }
