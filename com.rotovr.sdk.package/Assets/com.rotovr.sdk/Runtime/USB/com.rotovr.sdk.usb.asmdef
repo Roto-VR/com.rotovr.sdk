@@ -2,8 +2,7 @@
     "name": "com.rotovr.sdk.usb",
     "rootNamespace": "",
     "references": [
-        "GUID:3e7663dca75a94f49a7e2aac3f015b4a",
-        "GUID:cce1ff3abeda27343bd0300476ed4909"
+        "GUID:3e7663dca75a94f49a7e2aac3f015b4a"
     ],
     "includePlatforms": [
         "Android",
