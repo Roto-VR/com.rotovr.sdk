@@ -232,8 +232,6 @@ namespace Example.UI
         private void OnDataChangedHandler(RotoDataModel model)
         {
             m_CachedDataModel = model;
-            Debug.LogError(
-                $"New data mode: {model.Mode} angle: {model.Angle}  power: {model.MaxPower} cockpit: {model.TargetCockpit}");
         }
 
         IEnumerator ViewTelemetry()

@@ -134,12 +134,11 @@ namespace com.rotovr.sdk.Runtime.USB
                 if (m_device != IntPtr.Zero)
                 {
                     Native.CloseHIDDevice(m_device);
+                    m_dispatcher.Enqueue(() => { OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected); });
                 }
-
 
                 if (m_connectionThread != null)
                     m_connectionThread.Abort();
-                m_dispatcher.Enqueue(() => { OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected); });
             });
         }
 

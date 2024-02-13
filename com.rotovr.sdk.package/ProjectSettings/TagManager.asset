@@ -3,8 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - SamplesInfoPanel
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -37,7 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - Spatial Awareness
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
