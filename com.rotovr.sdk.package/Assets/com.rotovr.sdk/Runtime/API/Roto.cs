@@ -232,6 +232,8 @@ namespace RotoVR.SDK.API
         /// <param name="power">Rotational power. In range 0-100</param>
         public void RotateToAngle(Direction direction, int angle, int power)
         {
+            if (angle == m_RotoData.Angle)
+                return;
 #if !UNITY_EDITOR
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power, direction.ToString()))));
@@ -247,6 +249,8 @@ namespace RotoVR.SDK.API
         /// <param name="power">Rotational power. In range 0-100</param>
         public void RotateToAngleCloserDirection(int angle, int power)
         {
+            if (angle == m_RotoData.Angle)
+                return;
 #if !UNITY_EDITOR
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
@@ -266,6 +270,9 @@ namespace RotoVR.SDK.API
         /// <param name="power">Rotational power. In range 0-100</param>
         public void RotateOnAngle(Direction direction, int angle, int power)
         {
+            if (angle == m_RotoData.Angle)
+                return;
+
             int targetAngle = 0;
 
             switch (direction)
