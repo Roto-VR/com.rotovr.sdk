@@ -79,21 +79,6 @@ namespace RotoVR.SDK.Components
 
         void OnRotoModeHandler(ModeType mode)
         {
-            switch (mode)
-            {
-                case ModeType.FreeMode:
-                case ModeType.CockpitMode:
-                case ModeType.IdleMode:
-                case ModeType.Calibration:
-                case ModeType.Error:
-
-
-                    break;
-                case ModeType.HeadTrack:
-
-                    break;
-            }
-
             OnModeChanged?.Invoke(mode);
         }
 
@@ -122,7 +107,7 @@ namespace RotoVR.SDK.Components
                             break;
                         case ModeType.SimulationMode:
                             m_Roto.SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
-                            m_Roto.FollowTarget(this, m_Target);
+                            m_Roto.FollowTarget(this, m_Target, 100);
                             break;
                     }
 
@@ -194,10 +179,10 @@ namespace RotoVR.SDK.Components
             {
                 case ModeType.FreeMode:
                     m_Roto.SetMode(mode, new ModeParametersModel(0, 30));
+                    OnModeChanged?.Invoke(mode);
                     break;
                 case ModeType.HeadTrack:
                     OnModeChanged += OnModeChangedHandler;
-
                     m_Roto.SetMode(mode, new ModeParametersModel(0, 30));
                     var headCamera = Camera.main;
                     if (headCamera != null)
@@ -208,7 +193,8 @@ namespace RotoVR.SDK.Components
                     break;
                 case ModeType.SimulationMode:
                     m_Roto.SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
-                    m_Roto.FollowTarget(this, m_Target);
+                    m_Roto.FollowTarget(this, m_Target, 100);
+                    OnModeChanged?.Invoke(mode);
                     break;
             }
 
@@ -252,7 +238,8 @@ namespace RotoVR.SDK.Components
                     break;
                 case ModeType.SimulationMode:
                     m_Roto.SetMode(ModeType.FreeMode, parametersModel);
-                    m_Roto.FollowTarget(this, m_Target);
+                    m_Roto.FollowTarget(this, m_Target, parametersModel.MaxPower);
+                    OnModeChanged?.Invoke(mode);
                     break;
             }
 
