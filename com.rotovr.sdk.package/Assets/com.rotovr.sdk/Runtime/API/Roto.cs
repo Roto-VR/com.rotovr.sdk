@@ -299,7 +299,7 @@ namespace RotoVR.SDK.API
         /// Follow rotation of a target object
         /// </summary>
         /// <param name="target">Target object which rotation need to follow</param>
-        public void FollowTarget(MonoBehaviour behaviour, Transform target)
+        public void FollowTarget(MonoBehaviour behaviour, Transform target, int power)
         {
             m_ObservableTarger = target;
             m_StartTargetAngle = m_ObservableTarger.eulerAngles.y;
@@ -311,7 +311,7 @@ namespace RotoVR.SDK.API
                 m_TargetRoutine = null;
             }
 
-            m_TargetRoutine = behaviour.StartCoroutine(FollowTargetRoutine());
+            m_TargetRoutine = behaviour.StartCoroutine(FollowTargetRoutine(power));
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace RotoVR.SDK.API
 #endif
         }
 
-        IEnumerator FollowTargetRoutine()
+        IEnumerator FollowTargetRoutine(int power)
         {
             if (m_ObservableTarger == null)
                 Debug.LogError("For Had Tracking Mode you need to set target transform");
@@ -370,7 +370,7 @@ namespace RotoVR.SDK.API
                 int rotoAngle = 0;
 
                 yield return new WaitForSeconds(0.5f);
-                SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
+                SetMode(ModeType.FreeMode, new ModeParametersModel(0, power));
 
                 while (true)
                 {
@@ -388,7 +388,12 @@ namespace RotoVR.SDK.API
                             rotoAngle = (int)(m_StartRotoAngle + angle);
                             rotoAngle = NormalizeAngle(rotoAngle);
 
-                            RotateToAngle(GetDirection(rotoAngle, m_RotoData.Angle), rotoAngle, 30);
+                            Debug.LogError($"rotoAngle: {rotoAngle}  m_RotoData.Angle: {m_RotoData.Angle}");
+
+                            var delta = Mathf.Abs(rotoAngle - m_RotoData.Angle);
+
+                            if (delta > 5)
+                                RotateToAngle(GetDirection(rotoAngle, m_RotoData.Angle), rotoAngle, power);
                         }
 
                         deltaTime = 0;
