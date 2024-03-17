@@ -7,7 +7,6 @@ using RotoVR.SDK.Components;
 using RotoVR.SDK.Enum;
 using RotoVR.SDK.Model;
 using TMPro;
-using SimulationMode = UnityEngine.SimulationMode;
 
 namespace Example.UI
 {
@@ -85,9 +84,9 @@ namespace Example.UI
 
             m_ModeBlock.ModeSelector.onValueChanged.AddListener((val) =>
             {
-                switch (val)
+                switch (m_ModeBlock.ModeSelector.options[val].text)
                 {
-                    case 0:
+                    case "Free Mode":
                         //FreeMode
 
                         m_RotoVrBlock.MovementBlock.SetActive(true);
@@ -95,7 +94,7 @@ namespace Example.UI
                         m_ModeBlock.SimulationModePanel.SetActive(false);
                         break;
 
-                    case 1:
+                    case "Headtrack Mode":
                         //Headtrack
 
                         m_RotoVrBlock.MovementBlock.SetActive(false);
@@ -104,36 +103,46 @@ namespace Example.UI
 
 
                         break;
-                    case 2:
+                    case "Cockpit Mode":
                         //CockpitMode
 
                         m_RotoVrBlock.MovementBlock.SetActive(true);
                         m_RotoVrBlock.SensitivityPanel.SetActive(false);
                         m_ModeBlock.SimulationModePanel.SetActive(false);
                         break;
+                    case "Simulation Mode":
+                        //SimulationMode
+
+                        m_RotoVrBlock.MovementBlock.SetActive(false);
+                        m_RotoVrBlock.SensitivityPanel.SetActive(true);
+                        m_ModeBlock.SimulationModePanel.SetActive(true);
+                        break;
                 }
             });
 
             m_ModeBlock.ApplyButton.onClick.AddListener(() =>
             {
-                switch (m_ModeBlock.ModeSelector.value)
+                switch (m_ModeBlock.ModeSelector.options[m_ModeBlock.ModeSelector.value].text)
                 {
-                    case 0:
+                    case "Free Mode":
                         m_RotoBerhaviour.SwitchMode(ModeType.FreeMode);
                         StopTelemetry();
                         break;
-                    case 1:
+                    case "Headtrack Mode":
 
-                        MovementMode mode =
-                            (MovementMode)m_ModeBlock.SimulationModeSelector.value;
-
+                        MovementMode mode = (MovementMode)m_ModeBlock.SimulationModeSelector.value;
                         m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack,
                             new ModeParametersModel(0, 100, mode.ToString()));
                         StartTelemetry();
                         break;
-                    case 2:
+                    case "Cockpit Mode":
                         m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
                         StopTelemetry();
+                        break;
+                    case "Simulation Mode":
+                        mode = (MovementMode)m_ModeBlock.SimulationModeSelector.value;
+                        m_RotoBerhaviour.SwitchMode(ModeType.SimulationMode,
+                            new ModeParametersModel(0, 100, mode.ToString()));
                         break;
                 }
             });
