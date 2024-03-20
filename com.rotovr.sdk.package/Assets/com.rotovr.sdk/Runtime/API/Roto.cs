@@ -29,7 +29,7 @@ namespace RotoVR.SDK.API
         bool m_IsInit = false;
         float m_StartTargetAngle;
         int m_StartRotoAngle;
-        BehaviourType m_BehaviourMode;
+        ConnectionType m_ConnectionType;
 
         /// <summary>
         /// Invoke when change roto vr mode
@@ -84,13 +84,13 @@ namespace RotoVR.SDK.API
         /// Invoke for ble sdk initialization
         /// </summary>
         /// <param name="mBehaviourMode"></param>
-        public void Initialize(BehaviourType mode)
+        public void Initialize(ConnectionType connectionType)
         {
             if (m_IsInit)
                 return;
 
             m_IsInit = true;
-            m_BehaviourMode = mode;
+            m_ConnectionType = connectionType;
 
 #if !UNITY_EDITOR
             m_BehaviourMode = BehaviourType.Runtime;
@@ -157,7 +157,7 @@ namespace RotoVR.SDK.API
 #if !UNITY_EDITOR
             SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
 #else
-            if (m_BehaviourMode == BehaviourType.Runtime)
+            if (m_ConnectionType == ConnectionType.Chair)
             {
                 UsbConnector.Instance.OnConnectionStatus += OnConnectionStatusChange;
                 UsbConnector.Instance.OnDataChange += OnModelChangeHandler;
@@ -179,7 +179,7 @@ namespace RotoVR.SDK.API
 #if !UNITY_EDITOR
             SendMessage(new DisconnectMessage(deviceData));
 #else
-            if (m_BehaviourMode == BehaviourType.Runtime)
+            if (m_ConnectionType == ConnectionType.Chair)
             {
                 UsbConnector.Instance.OnConnectionStatus -= OnConnectionStatusChange;
                 UsbConnector.Instance.OnDataChange -= OnModelChangeHandler;
@@ -205,7 +205,7 @@ namespace RotoVR.SDK.API
                 new SetModeMessage(
                     JsonConvert.SerializeObject(new ModeModel(mode.ToString(), parametersModel))));
 #else
-            if (m_BehaviourMode == BehaviourType.Runtime)
+            if (m_ConnectionType == ConnectionType.Chair)
             {
                 UsbConnector.Instance.SetMode(new ModeModel(mode.ToString(), parametersModel));
             }
@@ -259,7 +259,7 @@ namespace RotoVR.SDK.API
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power, direction.ToString()))));
 #else
-            if (m_BehaviourMode == BehaviourType.Runtime)
+            if (m_ConnectionType == ConnectionType.Chair)
             {
                 UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power, direction.ToString()));
             }
@@ -288,7 +288,7 @@ namespace RotoVR.SDK.API
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
                     GetDirection(angle, m_RotoData.Angle).ToString()))));
 #else
-            if (m_BehaviourMode == BehaviourType.Runtime)
+            if (m_ConnectionType == ConnectionType.Chair)
             {
                 UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power,
                     GetDirection(angle, m_RotoData.Angle).ToString()));
@@ -328,7 +328,7 @@ namespace RotoVR.SDK.API
                 JsonConvert.SerializeObject(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
                     direction.ToString()))));
 #else
-            if (m_BehaviourMode == BehaviourType.Runtime)
+            if (m_ConnectionType == ConnectionType.Chair)
             {
                 UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
                     direction.ToString()));
@@ -406,7 +406,7 @@ namespace RotoVR.SDK.API
 #if !UNITY_EDITOR
             SendMessage(new PlayRumbleMessage(JsonConvert.SerializeObject(new RumbleModel(duration, power))));
 #else
-            if (m_BehaviourMode == BehaviourType.Runtime)
+            if (m_ConnectionType == ConnectionType.Chair)
             {
                 UsbConnector.Instance.PlayRumble(new RumbleModel(duration, power));
             }
