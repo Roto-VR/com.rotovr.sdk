@@ -2,9 +2,9 @@ using System.Runtime.InteropServices;
 
 namespace RotoVR.SDK.Enum
 {
-    public enum BehaviourType
+    public enum ConnectionType
     {
-        Runtime,
+        Chair,
         Simulation,
     }
 }
