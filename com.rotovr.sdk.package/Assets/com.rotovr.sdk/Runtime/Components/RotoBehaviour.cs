@@ -10,6 +10,11 @@ namespace RotoVR.SDK.Components
     public class RotoBehaviour : MonoBehaviour
     {
         /// <summary>
+        /// Behaviour mode. Works only in an editor. Select Runtime if you have rotoVR chair, select Simulation if you don't have the chair and want to simulate it behaviour
+        /// </summary>
+        [SerializeField] BehaviourType m_BehaviourMode;
+
+        /// <summary>
         /// Setup on the component in a scene roto vr device name
         /// </summary>
         [SerializeField] string m_DeviceName = "rotoVR Base Station";
@@ -74,7 +79,7 @@ namespace RotoVR.SDK.Components
             m_Roto.OnConnectionStatus += OnConnectionStatusHandler;
             m_Roto.OnRotoMode += OnRotoModeHandler;
             m_Roto.OnDataChanged += (data) => { OnDataChanged?.Invoke(data); };
-            m_Roto.Initialize();
+            m_Roto.Initialize(m_BehaviourMode);
         }
 
         void OnRotoModeHandler(ModeType mode)
@@ -116,7 +121,7 @@ namespace RotoVR.SDK.Components
 
                     break;
             }
-
+           
             OnConnectionStatusChanged?.Invoke(status);
         }
 

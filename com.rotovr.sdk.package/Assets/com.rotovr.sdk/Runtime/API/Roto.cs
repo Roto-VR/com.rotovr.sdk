@@ -29,6 +29,7 @@ namespace RotoVR.SDK.API
         bool m_IsInit = false;
         float m_StartTargetAngle;
         int m_StartRotoAngle;
+        BehaviourType m_BehaviourMode;
 
         /// <summary>
         /// Invoke when change roto vr mode
@@ -82,14 +83,17 @@ namespace RotoVR.SDK.API
         /// <summary>
         /// Invoke for ble sdk initialization
         /// </summary>
-        public void Initialize()
+        /// <param name="mBehaviourMode"></param>
+        public void Initialize(BehaviourType mode)
         {
             if (m_IsInit)
                 return;
 
             m_IsInit = true;
+            m_BehaviourMode = mode;
 
 #if !UNITY_EDITOR
+            m_BehaviourMode = BehaviourType.Runtime;
             BleManager.Instance.Init();
             Subscribe(MessageType.ModelChanged.ToString(), OnModelChangeHandler);
             Subscribe(MessageType.DeviceConnected.ToString(),
@@ -153,9 +157,16 @@ namespace RotoVR.SDK.API
 #if !UNITY_EDITOR
             SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
 #else
-            UsbConnector.Instance.OnConnectionStatus += OnConnectionStatusChange;
-            UsbConnector.Instance.OnDataChange += OnModelChangeHandler;
-            UsbConnector.Instance.Connect();
+            if (m_BehaviourMode == BehaviourType.Runtime)
+            {
+                UsbConnector.Instance.OnConnectionStatus += OnConnectionStatusChange;
+                UsbConnector.Instance.OnDataChange += OnModelChangeHandler;
+                UsbConnector.Instance.Connect();
+            }
+            else
+            {
+                OnConnectionStatusChange(ConnectionStatus.Connected);
+            }
 #endif
         }
 
@@ -168,9 +179,16 @@ namespace RotoVR.SDK.API
 #if !UNITY_EDITOR
             SendMessage(new DisconnectMessage(deviceData));
 #else
-            UsbConnector.Instance.OnConnectionStatus -= OnConnectionStatusChange;
-            UsbConnector.Instance.OnDataChange -= OnModelChangeHandler;
-            UsbConnector.Instance.Disconnect();
+            if (m_BehaviourMode == BehaviourType.Runtime)
+            {
+                UsbConnector.Instance.OnConnectionStatus -= OnConnectionStatusChange;
+                UsbConnector.Instance.OnDataChange -= OnModelChangeHandler;
+                UsbConnector.Instance.Disconnect();
+            }
+            else
+            {
+                OnConnectionStatusChange(ConnectionStatus.Connected);
+            }
 #endif
         }
 
@@ -187,7 +205,10 @@ namespace RotoVR.SDK.API
                 new SetModeMessage(
                     JsonConvert.SerializeObject(new ModeModel(mode.ToString(), parametersModel))));
 #else
-            UsbConnector.Instance.SetMode(new ModeModel(mode.ToString(), parametersModel));
+            if (m_BehaviourMode == BehaviourType.Runtime)
+            {
+                UsbConnector.Instance.SetMode(new ModeModel(mode.ToString(), parametersModel));
+            }
 #endif
         }
 
@@ -238,7 +259,18 @@ namespace RotoVR.SDK.API
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power, direction.ToString()))));
 #else
-            UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power, direction.ToString()));
+            if (m_BehaviourMode == BehaviourType.Runtime)
+            {
+                UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power, direction.ToString()));
+            }
+            else
+            {
+                m_RotoData = new RotoDataModel()
+                {
+                    Angle = angle
+                };
+                OnDataChanged?.Invoke(m_RotoData);
+            }
 #endif
         }
 
@@ -256,9 +288,19 @@ namespace RotoVR.SDK.API
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
                     GetDirection(angle, m_RotoData.Angle).ToString()))));
 #else
-            UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power,
-                GetDirection(angle, m_RotoData.Angle).ToString()));
-
+            if (m_BehaviourMode == BehaviourType.Runtime)
+            {
+                UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(angle, power,
+                    GetDirection(angle, m_RotoData.Angle).ToString()));
+            }
+            else
+            {
+                m_RotoData = new RotoDataModel()
+                {
+                    Angle = angle
+                };
+                OnDataChanged?.Invoke(m_RotoData);
+            }
 #endif
         }
 
@@ -270,9 +312,6 @@ namespace RotoVR.SDK.API
         /// <param name="power">Rotational power. In range 0-100</param>
         public void RotateOnAngle(Direction direction, int angle, int power)
         {
-            if (angle == m_RotoData.Angle)
-                return;
-
             int targetAngle = 0;
 
             switch (direction)
@@ -289,8 +328,19 @@ namespace RotoVR.SDK.API
                 JsonConvert.SerializeObject(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
                     direction.ToString()))));
 #else
-            UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
-                direction.ToString()));
+            if (m_BehaviourMode == BehaviourType.Runtime)
+            {
+                UsbConnector.Instance.TurnToAngle(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
+                    direction.ToString()));
+            }
+            else
+            {
+                m_RotoData = new RotoDataModel()
+                {
+                    Angle = NormalizeAngle(targetAngle)
+                };
+                OnDataChanged?.Invoke(m_RotoData);
+            }
 #endif
         }
 
@@ -356,7 +406,10 @@ namespace RotoVR.SDK.API
 #if !UNITY_EDITOR
             SendMessage(new PlayRumbleMessage(JsonConvert.SerializeObject(new RumbleModel(duration, power))));
 #else
-            UsbConnector.Instance.PlayRumble(new RumbleModel(duration, power));
+            if (m_BehaviourMode == BehaviourType.Runtime)
+            {
+                UsbConnector.Instance.PlayRumble(new RumbleModel(duration, power));
+            }
 #endif
         }
 
@@ -388,11 +441,9 @@ namespace RotoVR.SDK.API
                             rotoAngle = (int)(m_StartRotoAngle + angle);
                             rotoAngle = NormalizeAngle(rotoAngle);
 
-                            Debug.LogError($"rotoAngle: {rotoAngle}  m_RotoData.Angle: {m_RotoData.Angle}");
-
                             var delta = Mathf.Abs(rotoAngle - m_RotoData.Angle);
 
-                            if (delta > 5)
+                            if (delta > 2)
                                 RotateToAngle(GetDirection(rotoAngle, m_RotoData.Angle), rotoAngle, power);
                         }
 

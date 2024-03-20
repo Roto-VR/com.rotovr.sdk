@@ -1,3 +1,17 @@
 {
-	"name": "com.rotovr.sdk.editor"
+    "name": "com.rotovr.sdk.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:112e9bc2420ed9746a137df85f837467",
+        "GUID:3e7663dca75a94f49a7e2aac3f015b4a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
