@@ -93,7 +93,6 @@ namespace RotoVR.SDK.API
             m_ConnectionType = connectionType;
 
 #if !UNITY_EDITOR
-            m_BehaviourMode = BehaviourType.Runtime;
             BleManager.Instance.Init();
             Subscribe(MessageType.ModelChanged.ToString(), OnModelChangeHandler);
             Subscribe(MessageType.DeviceConnected.ToString(),
