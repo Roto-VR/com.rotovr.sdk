@@ -31,7 +31,7 @@ public class ConnectionService {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                BlePluginInstance.UnityLogError("onConnectionStateChange to state " + "CONNECTED");
+                BlePluginInstance.UnityLog("onConnectionStateChange to state " + "CONNECTED");
 
                 connectionState = newState;
                 m_BlePluginInstance.ConnectedToGattServer(gatt);
@@ -46,7 +46,7 @@ public class ConnectionService {
                 m_BlePluginInstance.DeviceDisconnected(gatt.getDevice().getAddress());
 
                 gatt.close();
-                BlePluginInstance.UnityLogError("onConnectionStateChange to state " + "DISCONNECTED");
+                BlePluginInstance.UnityLog("onConnectionStateChange to state " + "DISCONNECTED");
             }
 
         }
@@ -67,7 +67,7 @@ public class ConnectionService {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             byte[] data = characteristic.getValue();
 
-            BlePluginInstance.UnityLogError("On Characteristic Read");
+            BlePluginInstance.UnityLog("On Characteristic Read");
         }
 
         @Override

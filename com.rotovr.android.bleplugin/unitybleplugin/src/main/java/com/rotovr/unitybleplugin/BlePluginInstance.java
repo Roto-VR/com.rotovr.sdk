@@ -110,7 +110,7 @@ public class BlePluginInstance {
 
         //Checks to see if the device features Bluetooth Low Energy
         if (!m_Context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            UnityLogError("Device doesn't support Bluetooth Low Energy");
+            UnityLog("Device doesn't support Bluetooth Low Energy");
         }
         m_MessageData = new byte[20];
 
@@ -204,7 +204,7 @@ public class BlePluginInstance {
             m_CurrentDeviceModel = model;
 
         } else {
-            UnityLogError("BluetoothDevice hasn't been discovered yet");
+            UnityLog("Bluetooth Device hasn't been discovered yet");
             Scan();
         }
     }
@@ -212,7 +212,7 @@ public class BlePluginInstance {
     @SuppressLint("MissingPermission")
     public void DeviceConnected() {
 
-        SendToUnity(new MessageModel(MessageType.Connected, ""));
+        SendToUnity(new MessageModel(MessageType.Connected, m_CurrentDeviceModel.toJson()));
     }
 
     public void ConnectedToGattServer(BluetoothGatt gattServer) {
@@ -237,7 +237,7 @@ public class BlePluginInstance {
             m_ConnectedServers.remove(m_LeDeviceListAdapter.getItem(model.Address));
             m_LeGattServers.remove(device);
         } else {
-            UnityLogError("Can't find connected device with address " + model.Address);
+            UnityLog("Can't find connected device with address " + model.Address);
         }
 
         SendToUnity(new MessageModel(MessageType.Disconnected, model.toJson()));
@@ -267,7 +267,7 @@ public class BlePluginInstance {
             m_LeGattServers.remove(device);
             m_LeDeviceListAdapter.RemoveDevice(device);
         } else {
-            UnityLogError("Can't find connected device with address " + deviceAddress);
+            UnityLog("Can't find connected device with address " + deviceAddress);
         }
 
         SendToUnity(new MessageModel(MessageType.Disconnected));
@@ -303,6 +303,8 @@ public class BlePluginInstance {
     }
 
     public void SetMode(String data) {
+
+        UnityLog("SetMode rawData: " + data);
 
         ResetMessage();
 
@@ -349,7 +351,7 @@ public class BlePluginInstance {
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
 
-        UnityLogError("SetMode " + model.Mode + " MaxPower " + model.ModeParametersModel.MaxPower);
+        UnityLog("SetMode " + model.Mode + " MaxPower " + model.ModeParametersModel.MaxPower);
     }
 
     public void TurnToAngle(String data) {
@@ -385,7 +387,7 @@ public class BlePluginInstance {
         m_GattMessage[18] = sum;
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-        UnityLogError("Turn " + model.Direction + " to angle " + model.Angle + "   with power " + model.Power);
+        UnityLog("Turn " + model.Direction + " on angle " + model.Angle + "   with power " + model.Power);
 
     }
 
@@ -408,7 +410,7 @@ public class BlePluginInstance {
         m_GattMessage[18] = sum;
 
         WriteToGattCharacteristic(m_CurrentDeviceModel.Address, "ffc0", "ffc9", m_GattMessage);
-        UnityLogError("Play rumble " + model.Duration + " seconds   with power " + model.Power);
+        UnityLog("Play rumble " + model.Duration + " seconds   with power " + model.Power);
     }
 
     private byte ByteSum(byte[] blk) {
@@ -429,9 +431,9 @@ public class BlePluginInstance {
         BluetoothGattCharacteristic gattCharacteristic = GetCharacteristic(gattService, characteristic);
 
         if ((gattCharacteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
-            UnityLogError(" ReadFromCharacteristic CAN READ");
+            UnityLog(" ReadFromCharacteristic CAN READ");
         } else {
-            UnityLogError(" ReadFromCharacteristic CAN NOT READ");
+            UnityLog(" ReadFromCharacteristic CAN NOT READ");
             return;
         }
 
