@@ -1,0 +1,17 @@
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\Debug\net7.0-windows\com.rotovr.monitor.exe
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\Debug\net7.0-windows\com.rotovr.monitor.deps.json
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\Debug\net7.0-windows\com.rotovr.monitor.runtimeconfig.json
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\Debug\net7.0-windows\com.rotovr.monitor.dll
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\Debug\net7.0-windows\com.rotovr.monitor.pdb
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\RotoVR.Monitor.MonitorForm.resources
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.csproj.GenerateResource.cache
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.GeneratedMSBuildEditorConfig.editorconfig
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.AssemblyInfoInputs.cache
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.AssemblyInfo.cs
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.csproj.CoreCompileInputs.cache
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.sourcelink.json
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.dll
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\refint\com.rotovr.monitor.dll
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.pdb
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.genruntimeconfig.cache
+E:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\ref\com.rotovr.monitor.dll
