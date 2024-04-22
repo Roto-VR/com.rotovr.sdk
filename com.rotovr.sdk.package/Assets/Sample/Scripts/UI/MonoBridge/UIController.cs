@@ -36,6 +36,11 @@ namespace Example.UI
             {
                 Calibration(CalibrationMode.SetToZero);
             });
+            
+            m_CalibrationBlock.Disconnect.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.Disconnect();
+            });
 
             m_RotoVrBlock.RotationPowerView.text =
                 $"Rotation power {RoundFloat(m_RotoVrBlock.RotationPower.value * 100f)} %";
@@ -102,6 +107,9 @@ namespace Example.UI
             if (status == ConnectionStatus.Connected)
             {
                 SetUIState(UIState.Calibration);
+            }else if (status == ConnectionStatus.Disconnected)
+            {
+                SetUIState(UIState.Connection); 
             }
         }
 
@@ -117,6 +125,8 @@ namespace Example.UI
             switch (state)
             {
                 case UIState.Connection:
+                    m_ConnectionBlock.ConnectionButton.gameObject.SetActive(true);
+                    m_ConnectionBlock.Connecting.SetActive(false);
                     m_ConnectionBlock.ConnectionPanel.SetActive(true);
                     m_CalibrationBlock.CalibrationPanel.SetActive(false);
                     m_RotoVrBlock.RotoVrPanel.SetActive(false);
@@ -155,6 +165,7 @@ namespace Example.UI
             public Button CalibrationAsCurrentButton;
             public Button CalibrationAsPrevButton;
             public Button CalibrationAsZeroButton;
+            public Button Disconnect;
         }
 
         [Serializable]
