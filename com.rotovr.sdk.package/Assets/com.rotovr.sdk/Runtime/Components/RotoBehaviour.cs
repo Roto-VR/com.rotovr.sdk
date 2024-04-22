@@ -51,6 +51,7 @@ namespace RotoVR.SDK.Components
 
         void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             var behaviour = FindObjectOfType<RotoBehaviour>();
             if (behaviour != null && behaviour != this)
                 Destroy(behaviour);
@@ -109,9 +110,9 @@ namespace RotoVR.SDK.Components
                         case ModeType.CockpitMode:
                             m_Roto.SetMode(m_ModeType, new ModeParametersModel(140, 30));
                             break;
-                        case ModeType.SimulationMode:
-                            m_Roto.SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
-                            m_Roto.FollowTarget(this, m_Target, 100);
+                        case ModeType.FollowObject:
+                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParametersModel(0, 100));
+                            m_Roto.FollowTarget(this, m_Target);
                             break;
                     }
 
@@ -132,6 +133,14 @@ namespace RotoVR.SDK.Components
             if (!m_IsInit)
                 InitRoto();
             m_Roto.Connect(m_DeviceName);
+        }
+
+        /// <summary>
+        /// Disconnect RotoVR chair
+        /// </summary>
+        public void Disconnect()
+        {
+            m_Roto.Disconnect(m_DeviceName);
         }
 
         /// <summary>
@@ -195,9 +204,9 @@ namespace RotoVR.SDK.Components
                 case ModeType.CockpitMode:
                     m_Roto.SetMode(mode, new ModeParametersModel(140, 30));
                     break;
-                case ModeType.SimulationMode:
-                    m_Roto.SetMode(ModeType.FreeMode, new ModeParametersModel(0, 100));
-                    m_Roto.FollowTarget(this, m_Target, 100);
+                case ModeType.FollowObject:
+                    m_Roto.SetMode(ModeType.HeadTrack, new ModeParametersModel(0, 100));
+                    m_Roto.FollowTarget(this, m_Target);
                     OnModeChanged?.Invoke(mode);
                     break;
             }
@@ -240,9 +249,9 @@ namespace RotoVR.SDK.Components
                 case ModeType.CockpitMode:
                     m_Roto.SetMode(mode, parametersModel);
                     break;
-                case ModeType.SimulationMode:
-                    m_Roto.SetMode(ModeType.FreeMode, parametersModel);
-                    m_Roto.FollowTarget(this, m_Target, parametersModel.MaxPower);
+                case ModeType.FollowObject:
+                    m_Roto.SetMode(ModeType.HeadTrack, parametersModel);
+                    m_Roto.FollowTarget(this, m_Target);
                     OnModeChanged?.Invoke(mode);
                     break;
             }
