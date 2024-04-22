@@ -15,7 +15,7 @@ namespace RotoVR.SDK.BLE
         /// </summary>
         public void OnBleStringMessage(string data)
         {
-            Debug.LogError($"Incoming message type {data}");
+            Debug.Log($"Incoming message type {data}");
             BleJsonMessage message = JsonConvert.DeserializeObject<BleJsonMessage>(data);
             OnJsonMessageReceived?.Invoke(message);
         }
