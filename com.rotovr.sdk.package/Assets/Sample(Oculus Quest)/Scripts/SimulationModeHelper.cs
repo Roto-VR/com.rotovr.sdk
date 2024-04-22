@@ -19,7 +19,7 @@ namespace Sample_Oculus_Quest_.Scripts
         {
             switch (mode)
             {
-                case ModeType.SimulationMode:
+                case ModeType.FollowObject:
                     m_Component.StartRotation();
                     break;
                 default:

@@ -6452,7 +6452,7 @@ MonoBehaviour:
     m_Options:
     - m_Text: Free Mode
       m_Image: {fileID: 0}
-    - m_Text: Simulation Mode
+    - m_Text: FollowObject Mode
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

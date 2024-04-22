@@ -111,7 +111,7 @@ namespace Example.UI
                         m_ModeBlock.SimulationModePanel.SetActive(false);
                         break;
                     case "Simulation Mode":
-                        //SimulationMode
+                        //FollowObject Mode
 
                         m_RotoVrBlock.MovementBlock.SetActive(false);
                         m_RotoVrBlock.SensitivityPanel.SetActive(true);
@@ -139,9 +139,9 @@ namespace Example.UI
                         m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
                         StopTelemetry();
                         break;
-                    case "Simulation Mode":
+                    case "FollowObject Mode":
                         mode = (MovementMode)m_ModeBlock.SimulationModeSelector.value;
-                        m_RotoBerhaviour.SwitchMode(ModeType.SimulationMode,
+                        m_RotoBerhaviour.SwitchMode(ModeType.FollowObject,
                             new ModeParametersModel(0, 100, mode.ToString()));
                         break;
                 }
