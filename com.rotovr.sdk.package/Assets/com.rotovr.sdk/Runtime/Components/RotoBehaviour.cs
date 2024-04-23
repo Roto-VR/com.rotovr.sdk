@@ -47,8 +47,6 @@ namespace RotoVR.SDK.Components
         /// </summary>
         public event Action<RotoDataModel> OnDataChanged;
 
-        float m_StartTargetAngle = 0;
-
         void Awake()
         {
             DontDestroyOnLoad(gameObject);
