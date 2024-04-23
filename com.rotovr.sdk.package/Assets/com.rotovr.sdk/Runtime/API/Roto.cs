@@ -434,7 +434,7 @@ namespace RotoVR.SDK.API
         IEnumerator FollowTargetRoutine()
         {
             if (m_ObservableTarger == null)
-                Debug.LogError("For Had Tracking Mode you need to set target transform");
+                Debug.LogError("For FollowObject Mode you need to set target transform");
             else
             {
                 float deltaTime = 0;
