@@ -214,8 +214,7 @@ namespace RotoVR.SDK.API
         /// Set RotoVR mode
         /// </summary>
         /// <param name="mode">Mode type</param>
-        /// <param name="targetCockpit">Target cockpit angle in range 60-140</param>
-        /// <param name="maxPower">Max value of rotation power in range 30-100</param>
+        /// <param name="parametersModel"></param>
         public void SetMode(ModeType mode, ModeParametersModel parametersModel)
         {
 #if !UNITY_EDITOR
@@ -228,6 +227,21 @@ namespace RotoVR.SDK.API
                 UsbConnector.Instance.SetMode(new ModeModel(mode.ToString(), parametersModel));
             }
 #endif
+        }
+
+        /// <summary>
+        /// Set RotoVR power. Working only in Free Mode 
+        /// </summary>
+        /// <param name="power">Value of rotation power in range 30-100</param>
+        public void SetPower(int power)
+        {
+            if (m_RotoData.Mode != ModeType.FreeMode.ToString())
+            {
+                Debug.LogError("You can set a power only in FreeMode");
+                return;
+            }
+
+            SetMode(ModeType.FreeMode, new ModeParametersModel(m_RotoData.TargetCockpit, power));
         }
 
         /// <summary>
