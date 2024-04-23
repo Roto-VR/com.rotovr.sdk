@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using RotoVR.Communication;
+﻿using RotoVR.Communication;
 using RotoVR.Core;
 
 namespace RotoVR.Monitor
@@ -11,32 +9,57 @@ namespace RotoVR.Monitor
         {
             new Bootstrapper(this).Bootstrap(() =>
             {
-                InitializeComponent();
+                Initialize();
                 WindowState = FormWindowState.Minimized;
             });
         }
 
-        private IConnector m_connector;
+        private IConnector m_usbConnector;
+        private IConnector m_bleConnector;
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            m_usbConnector.Disconnect();
+            if (disposing && (m_components != null))
+            {
+                m_components.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Hide "Close" button for the form
+        /// </summary>
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
 
         private void MonitorFormSizeChanged(object sender, EventArgs e)
         {
             if (WindowState != FormWindowState.Minimized)
                 return;
             SizeChanged -= MonitorFormSizeChanged;
-            NotifyIcon.ShowBalloonTip(500);
+            m_notifyIcon.ShowBalloonTip(300);
         }
 
-        private void ApplicationConnectHandler(object sender, EventArgs e)
-        {
-            m_connector.Connect();
-        }
-
-        private void OpenConsoleHandler(object sender, EventArgs e)
+        private void OnClickOpenConsole(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Normal;
         }
 
-        private void ApplicationQuitHandler(object sender, EventArgs e)
+        private void ApplicationQuitMenuItemHandler(object sender, EventArgs e)
         {
             DialogResult dialog = new DialogResult();
 
@@ -48,9 +71,25 @@ namespace RotoVR.Monitor
             }
         }
 
-        public void BindConnector(IConnector connector)
+        public void BindConnector(IConnector usbConnectror, IConnector bleConnector)
         {
-            m_connector = connector;
+            m_usbConnector = usbConnectror;
+            m_bleConnector = bleConnector;
+        }
+
+
+        private void OnClickUsbMenuItemMConnect(object sender, EventArgs e)
+        {
+            m_usbConnector.Connect();
+        }
+
+        private void OnClickBleMenuItemMConnect(object sender, EventArgs e)
+        {
+            m_bleConnector.Connect();
+        }
+
+        private void OnClickApplicationDisconnect(object sender, EventArgs e)
+        {
         }
     }
 }

@@ -4,6 +4,6 @@ namespace RotoVR.Core
 {
     public interface IMonitor
     {
-        void BindConnector(IConnector connector);
+        void BindConnector(IConnector usbConnector, IConnector bleConnector);
     }
 }

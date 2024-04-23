@@ -1,4 +1,4 @@
-using System;
+using RotoVR.Communication.BLE;
 using RotoVR.Communication.USB;
 
 namespace RotoVR.Core
@@ -14,7 +14,7 @@ namespace RotoVR.Core
 
         public void Bootstrap(Action complete)
         {
-            m_monitor.BindConnector(new UsbConnector());
+            m_monitor.BindConnector(new UsbConnector(),new BleConnector());
             complete?.Invoke();
         }
     }

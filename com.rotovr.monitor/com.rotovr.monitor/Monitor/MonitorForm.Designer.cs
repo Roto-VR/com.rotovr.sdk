@@ -6,121 +6,141 @@ namespace RotoVR.Monitor
 {
     partial class MonitorForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private IContainer components = null;
-        private System.Windows.Forms.NotifyIcon NotifyIcon;
-        private ContextMenuStrip NotifyIconContextMenu;
-        private ToolStripMenuItem about;
-        private ToolStripMenuItem openConsole;
-        private System.Windows.Forms.ToolStripMenuItem applicationQuit;
-        private ToolStripMenuItem applicationConnect;
-        private const int CP_NOCLOSE_BUTTON = 0x200;
-        
-        /// <summary>
-        /// Hide "Close" button for the form
-        /// </summary>
-        protected override CreateParams CreateParams
+    
+        private IContainer m_components = null;
+        private NotifyIcon m_notifyIcon;
+        private ContextMenuStrip m_notifyIconContextMenu;
+    
+        private void Initialize()
         {
-            get
-            {
-                CreateParams myCp = base.CreateParams;
-                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON ;
-                return myCp;
-            }
+            m_components = new Container();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(MonitorForm));
+           
+            m_notifyIconContextMenu = new ContextMenuStrip(m_components);
+            m_notifyIcon= GetNotifyIcon(m_components,resources);
+            m_notifyIconContextMenu.SuspendLayout();
+            
+            SuspendLayout();
+       
+            m_notifyIconContextMenu.Items.AddRange(new ToolStripItem[] { GetApplicationConnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+            m_notifyIconContextMenu.Name = "contextMenuStrip";
+            m_notifyIconContextMenu.Size = new Size(150, 92);
+
+            InitFormView(resources);
+     
+            m_notifyIconContextMenu.ResumeLayout(false);
+            ResumeLayout(false);
+        }
+
+        ToolStripMenuItem GetApplicationQuitMenuItem()
+        {
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+            iten.Name = "applicationQuit";
+            iten.Size = new Size(149, 22);
+            iten.Text = "Quit";
+            iten.Click += ApplicationQuitMenuItemHandler;
+            return iten;
+        }
+
+        ToolStripMenuItem GetAboutMenuItem()
+        {
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+            iten.Name = "about";
+            iten.Size = new Size(149, 22);
+            iten.Text = "About";
+            return iten;
+        }
+
+        ToolStripMenuItem GetOpenConsoleMenuItem()
+        {
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+            iten.Name = "openConsole";
+            iten.Size = new Size(149, 22);
+            iten.Text = "Open Console";
+            iten.Click += OnClickOpenConsole;
+            return iten;
+        }
+
+        NotifyIcon GetNotifyIcon(IContainer container,ComponentResourceManager resources)
+        {
+            var notifyIcon = new NotifyIcon(container);
+            notifyIcon.BalloonTipText = "RotoVR Monitor is started";
+            notifyIcon.ContextMenuStrip = m_notifyIconContextMenu;
+            notifyIcon.Icon = (Icon)resources.GetObject("NotifyIcon.Icon");
+            notifyIcon.Text = "RotoVR Monitor";
+            notifyIcon.Visible = true;
+            return notifyIcon;
+        }
+
+        ToolStripMenuItem GetApplicationConnectMenuItem()
+        {
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+            iten.DropDownItems.AddRange(new ToolStripItem[] { GetConnectUsbMenuItem(), GetConnectBleMenuItem() });
+            iten.Name = "applicationConnect";
+            iten.Size = new Size(149, 22);
+            iten.Text = "Connect";
+            return iten;
         }
         
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        ToolStripMenuItem GetApplicationDisconnectMenuItem()
         {
-            m_connector.Disconnect();
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-
-            base.Dispose(disposing);
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+           
+            iten.Name = "applicationDisconnect";
+            iten.Size = new Size(149, 22);
+            iten.Text = "Disconnect";
+            iten.Click += OnClickApplicationDisconnect;
+            return iten;
         }
 
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+        ToolStripMenuItem GetConnectUsbMenuItem()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MonitorForm));
-            this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.NotifyIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.applicationConnect = new System.Windows.Forms.ToolStripMenuItem();
-            this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
-            this.about = new System.Windows.Forms.ToolStripMenuItem();
-            this.applicationQuit = new System.Windows.Forms.ToolStripMenuItem();
-            this.NotifyIconContextMenu.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // NotifyIcon
-            // 
-            this.NotifyIcon.BalloonTipText = "RotoVR Monitor is started";
-            this.NotifyIcon.ContextMenuStrip = this.NotifyIconContextMenu;
-            this.NotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyIcon.Icon")));
-            this.NotifyIcon.Text = "RotoVR Monitor";
-            this.NotifyIcon.Visible = true;
-            // 
-            // NotifyIconContextMenu
-            // 
-            this.NotifyIconContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.applicationConnect, this.openConsole, this.about, this.applicationQuit });
-            this.NotifyIconContextMenu.Name = "contextMenuStrip";
-            this.NotifyIconContextMenu.Size = new System.Drawing.Size(150, 92);
-            // 
-            // applicationConnect
-            // 
-            this.applicationConnect.Name = "applicationConnect";
-            this.applicationConnect.Size = new System.Drawing.Size(149, 22);
-            this.applicationConnect.Text = "Connect";
-            this.applicationConnect.Click += new System.EventHandler(this.ApplicationConnectHandler);
-            // 
-            // openConsole
-            // 
-            this.openConsole.Name = "openConsole";
-            this.openConsole.Size = new System.Drawing.Size(149, 22);
-            this.openConsole.Text = "Open Console";
-            this.openConsole.Click += new System.EventHandler(this.OpenConsoleHandler);
-            // 
-            // about
-            // 
-            this.about.Name = "about";
-            this.about.Size = new System.Drawing.Size(149, 22);
-            this.about.Text = "About";
-            // 
-            // applicationQuit
-            // 
-            this.applicationQuit.Name = "applicationQuit";
-            this.applicationQuit.Size = new System.Drawing.Size(149, 22);
-            this.applicationQuit.Text = "Quit";
-            this.applicationQuit.Click += new System.EventHandler(this.ApplicationQuitHandler);
-            // 
-            // MonitorForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MonitorForm";
-            this.ShowInTaskbar = false;
-            this.Text = "RotoVR Monitor";
-            this.SizeChanged += new System.EventHandler(this.MonitorFormSizeChanged);
-            this.NotifyIconContextMenu.ResumeLayout(false);
-            this.ResumeLayout(false);
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+            iten.MergeAction = MergeAction.MatchOnly;
+            iten.Name = "connectUSB";
+            iten.Size = new Size(180, 22);
+            iten.Text = "USB";
+            iten.Click += OnClickUsbMenuItemMConnect;
+            return iten;
+        }
+        
+        ToolStripMenuItem GetConnectBleMenuItem()
+        {
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+            iten.Name = "connectBLE";
+            iten.Size = new Size(180, 22);
+            iten.Text = "BLE";
+            iten.Click += OnClickBleMenuItemMConnect;
+            return iten;
         }
 
-      
+        void InitFormView(ComponentResourceManager resources)
+        {
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Desktop;
+            ClientSize = new Size(933, 519);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "MonitorForm";
+            ShowInTaskbar = false;
+            Text = "RotoVR Monitor";
+            SizeChanged += MonitorFormSizeChanged;
+        }
+
+        void ConnectViewHandler()
+        {
+            m_notifyIconContextMenu.Items.Clear();
+            m_notifyIconContextMenu.Items.AddRange(
+                new ToolStripItem[] { GetApplicationDisconnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+        }
+
+        void DisconnectViewHandler()
+        {
+            m_notifyIconContextMenu.Items.Clear();
+            m_notifyIconContextMenu.Items.AddRange(
+                new ToolStripItem[] { GetApplicationConnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+        }
 
     }
 }
