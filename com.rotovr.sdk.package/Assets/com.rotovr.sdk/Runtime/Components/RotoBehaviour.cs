@@ -233,5 +233,11 @@ namespace RotoVR.SDK.Components
                     break;
             }
         }
+
+        /// <summary>
+        /// Set RotoVR power. Working only in Free Mode 
+        /// </summary>
+        /// <param name="power">Value of rotation power in range 30-100</param>
+        public void SetPower(int power) => m_Roto.SetPower(power);
     }
 }

@@ -7,7 +7,7 @@ namespace RotoVR.SDK.Model
     {
         public RotoDataModel()
         {
-            Mode = string.Empty;
+            Mode = "FreeMode";
             Angle = 0;
         }
 
