@@ -1,3 +1,6 @@
+using RotoVR.Communication.Enum;
+using RotoVR.Communication.Model;
+
 namespace RotoVR.Communication.USB
 {
     public class UsbConnector : IConnector
@@ -17,7 +20,10 @@ namespace RotoVR.Communication.USB
         byte[] m_writeBuffer = new byte[33];
         byte[] m_readMessage = new byte[19];
         static RotoDataModel m_runtimeModel;
+        private ConnectionStatus m_connectionStatus;
 
+        public event Action<string> OnSystemLog;
+        public event Action<ConnectionStatus> OnConnectionStatus;
 
         public void Connect()
         {
@@ -48,7 +54,7 @@ namespace RotoVR.Communication.USB
 
             byte[] feature = ConfigureFeature();
             UsbNative.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
-            var success = UsbNative.GetFeature(m_device, feature, 9);
+            UsbNative.GetFeature(m_device, feature, 9);
 
             SendConnect();
 
@@ -110,7 +116,21 @@ namespace RotoVR.Communication.USB
             var result = UsbNative.ReadFile(m_device, out var buffer, 33);
 
             if (!result)
+            {
+                if (m_connectionStatus == ConnectionStatus.Connected)
+                {
+                    m_connectionStatus = ConnectionStatus.Disconnected;
+                    OnConnectionStatus?.Invoke(m_connectionStatus);
+                }
+
                 return;
+            }
+
+            if (m_connectionStatus != ConnectionStatus.Connected)
+            {
+                m_connectionStatus = ConnectionStatus.Connected;
+                OnConnectionStatus?.Invoke(m_connectionStatus);
+            }
 
             if (buffer[2] == 0xF1)
             {

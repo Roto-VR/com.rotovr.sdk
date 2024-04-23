@@ -128,14 +128,14 @@ namespace RotoVR.Monitor
             SizeChanged += MonitorFormSizeChanged;
         }
 
-        void ConnectViewHandler()
+        void ConnectedHandler()
         {
             m_notifyIconContextMenu.Items.Clear();
             m_notifyIconContextMenu.Items.AddRange(
                 new ToolStripItem[] { GetApplicationDisconnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
         }
 
-        void DisconnectViewHandler()
+        void DisconnectedHandler()
         {
             m_notifyIconContextMenu.Items.Clear();
             m_notifyIconContextMenu.Items.AddRange(

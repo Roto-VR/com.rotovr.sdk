@@ -1,4 +1,5 @@
 ﻿using RotoVR.Communication;
+using RotoVR.Communication.Enum;
 using RotoVR.Core;
 
 namespace RotoVR.Monitor
@@ -14,9 +15,16 @@ namespace RotoVR.Monitor
             });
         }
 
-        private IConnector m_usbConnector;
-        private IConnector m_bleConnector;
+        private ICommunicationLayer m_communicationLayer;
+
         private const int CP_NOCLOSE_BUTTON = 0x200;
+
+        public void BindConnectionLayer(ICommunicationLayer communicationLayer)
+        {
+            m_communicationLayer = communicationLayer;
+            m_communicationLayer.OnConnectionStatus += OnConnectionstatusHandler;
+            m_communicationLayer.OnSystemLog += OnSystemLogHandler;
+        }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -24,7 +32,9 @@ namespace RotoVR.Monitor
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            m_usbConnector.Disconnect();
+            m_communicationLayer.OnConnectionStatus -= OnConnectionstatusHandler;
+            m_communicationLayer.OnSystemLog -= OnSystemLogHandler;
+            m_communicationLayer.Disconnect();
             if (disposing && (m_components != null))
             {
                 m_components.Dispose();
@@ -32,6 +42,7 @@ namespace RotoVR.Monitor
 
             base.Dispose(disposing);
         }
+
 
         /// <summary>
         /// Hide "Close" button for the form
@@ -71,25 +82,37 @@ namespace RotoVR.Monitor
             }
         }
 
-        public void BindConnector(IConnector usbConnectror, IConnector bleConnector)
-        {
-            m_usbConnector = usbConnectror;
-            m_bleConnector = bleConnector;
-        }
-
-
         private void OnClickUsbMenuItemMConnect(object sender, EventArgs e)
         {
-            m_usbConnector.Connect();
+            m_communicationLayer.Connect(CommunicationType.Usb);
         }
 
         private void OnClickBleMenuItemMConnect(object sender, EventArgs e)
         {
-            m_bleConnector.Connect();
+            m_communicationLayer.Connect(CommunicationType.Ble);
         }
 
         private void OnClickApplicationDisconnect(object sender, EventArgs e)
         {
+            m_communicationLayer.Disconnect();
+        }
+
+        private void OnConnectionstatusHandler(ConnectionStatus status)
+        {
+            switch (status)
+            {
+                case ConnectionStatus.Connected:
+                    ConnectedHandler();
+                    break;
+                case ConnectionStatus.Disconnected:
+                    DisconnectedHandler();
+                    break;
+            }
+        }
+
+        private void OnSystemLogHandler(string message)
+        {
+            
         }
     }
 }

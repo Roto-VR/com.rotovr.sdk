@@ -1,4 +1,4 @@
-namespace RotoVR.Communication.USB;
+namespace RotoVR.Communication.Model;
 
 [Serializable]
 public class RotoDataModel
