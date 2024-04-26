@@ -5,44 +5,24 @@ namespace RotoVR.Communication.USB
 {
     public class UsbConnector : IConnector
     {
-        public UsbConnector()
-        {
-        }
-
         const UInt16 k_vid = 0x04D9;
         const UInt16 k_pid = 0xB564;
         IntPtr m_device;
-        Thread m_connectionThread;
         static int m_messageSize;
         static bool m_initPacket;
         static bool m_reaDevice;
-        byte[] m_usbMessage = new byte[19];
-        byte[] m_writeBuffer = new byte[33];
         byte[] m_readMessage = new byte[19];
         static RotoDataModel m_runtimeModel;
         private ConnectionStatus m_connectionStatus;
 
         public event Action<string> OnSystemLog;
         public event Action<ConnectionStatus> OnConnectionStatus;
+        public event Action<RotoDataModel> OnReadData;
 
         public void Connect()
         {
             IntPtr pDll = UsbNative.LoadLibrary(@"HIDApi.dll");
             ConnectToDevice();
-        }
-
-        public void Disconnect()
-        {
-            SendDisconnect(() =>
-            {
-                if (m_device != IntPtr.Zero)
-                {
-                    UsbNative.CloseHIDDevice(m_device);
-                }
-
-                if (m_connectionThread != null)
-                    m_connectionThread.Abort();
-            });
         }
 
         void ConnectToDevice()
@@ -56,8 +36,6 @@ namespace RotoVR.Communication.USB
             UsbNative.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
             UsbNative.GetFeature(m_device, feature, 9);
 
-            SendConnect();
-
             Task.Run(async () =>
             {
                 m_reaDevice = true;
@@ -68,6 +46,17 @@ namespace RotoVR.Communication.USB
                     ReadDevice();
                 }
             });
+        }
+
+        public void Disconnect()
+        {
+            m_reaDevice = false;
+            if (m_device != IntPtr.Zero)
+            {
+                UsbNative.CloseHIDDevice(m_device);
+            }
+
+            ChangeConnectionStatus(ConnectionStatus.Disconnected);
         }
 
         byte[] ConfigureFeature()
@@ -111,26 +100,29 @@ namespace RotoVR.Communication.USB
             return array;
         }
 
+        void ChangeConnectionStatus(ConnectionStatus status)
+        {
+            if (m_connectionStatus != status)
+            {
+                m_connectionStatus = status;
+                OnConnectionStatus?.Invoke(m_connectionStatus);
+            }
+        }
+
         void ReadDevice()
         {
             var result = UsbNative.ReadFile(m_device, out var buffer, 33);
-
             if (!result)
             {
                 if (m_connectionStatus == ConnectionStatus.Connected)
                 {
-                    m_connectionStatus = ConnectionStatus.Disconnected;
-                    OnConnectionStatus?.Invoke(m_connectionStatus);
+                    Disconnect();
                 }
 
                 return;
             }
 
-            if (m_connectionStatus != ConnectionStatus.Connected)
-            {
-                m_connectionStatus = ConnectionStatus.Connected;
-                OnConnectionStatus?.Invoke(m_connectionStatus);
-            }
+            ChangeConnectionStatus(ConnectionStatus.Connected);
 
             if (buffer[2] == 0xF1)
             {
@@ -165,11 +157,17 @@ namespace RotoVR.Communication.USB
                 if (m_messageSize >= 19)
                 {
                     m_initPacket = false;
-                    m_runtimeModel = GetModel(m_readMessage);
+
+                    var sum = ByteSum(m_readMessage);
+                    if (sum == m_readMessage[18])
+                    {
+                        m_runtimeModel = GetModel(m_readMessage);
+                        OnReadData?.Invoke(m_runtimeModel);
+                        Console.WriteLine(
+                            $"ReadDevice: {LogBuffer(m_readMessage)}  chaireAngle: {m_runtimeModel.Angle}");
+                    }
                 }
             }
-
-            Console.WriteLine($"ReadDevice: {LogBuffer(m_readMessage)}");
         }
 
         RotoDataModel GetModel(byte[] rawData)
@@ -209,81 +207,6 @@ namespace RotoVR.Communication.USB
             }
 
             return model;
-        }
-
-        void SendConnect()
-        {
-            byte[] message = new byte[33];
-            for (int i = 0; i < message.Length; i++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        message[i] = 0x00;
-                        break;
-                    case 1:
-                        message[i] = 19;
-                        break;
-                    case 2:
-                        message[i] = 0xF1;
-                        break;
-                    case 3:
-                        message[i] = 0x41;
-                        break;
-                    case 20:
-                        message[i] = 0x32;
-                        break;
-                    default:
-                        message[i] = 0x00;
-                        break;
-                }
-            }
-
-            Console.WriteLine($"Send connect message: {LogBuffer(message)}");
-
-            Task.Run(() =>
-            {
-                var success = UsbNative.WriteFile(m_device, message);
-                Console.WriteLine($"Write file success: {success}");
-            });
-        }
-
-        void SendDisconnect(Action action)
-        {
-            byte[] message = new byte[33];
-            for (int i = 0; i < message.Length; i++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        message[i] = 0x00;
-                        break;
-                    case 1:
-                        message[i] = 19;
-                        break;
-                    case 2:
-                        message[i] = 0xF1;
-                        break;
-                    case 3:
-                        message[i] = 0x5A;
-                        break;
-                    case 20:
-                        message[i] = 0x4B;
-                        break;
-                    default:
-                        message[i] = 0x00;
-                        break;
-                }
-            }
-
-            var write = Task.Run(() =>
-            {
-                var success = UsbNative.WriteFile(m_device, message);
-                Console.WriteLine($"Disconnect success: {success}");
-            });
-
-            write.Wait();
-            action?.Invoke();
         }
 
         string LogBuffer(byte[] data)

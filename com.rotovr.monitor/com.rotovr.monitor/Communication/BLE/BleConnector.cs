@@ -1,4 +1,5 @@
 ﻿using RotoVR.Communication.Enum;
+using RotoVR.Communication.Model;
 
 namespace RotoVR.Communication.BLE
 {
@@ -6,13 +7,16 @@ namespace RotoVR.Communication.BLE
     {
         public event Action<string> OnSystemLog;
         public event Action<ConnectionStatus> OnConnectionStatus;
+        public event Action<RotoDataModel> OnReadData;
 
         public void Connect()
         {
+            OnConnectionStatus?.Invoke(ConnectionStatus.Connected);
         }
 
         public void Disconnect()
         {
+            OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected);
         }
     }
 }

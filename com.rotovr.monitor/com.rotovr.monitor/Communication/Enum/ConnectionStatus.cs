@@ -7,4 +7,5 @@ public enum ConnectionStatus
     Connecting,
     Connected,
     Disconnected,
+    Error,
 }

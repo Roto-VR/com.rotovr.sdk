@@ -107,6 +107,9 @@ namespace RotoVR.Monitor
                 case ConnectionStatus.Disconnected:
                     DisconnectedHandler();
                     break;
+                case ConnectionStatus.Error:
+                    ConnectionErrorHandler();
+                    break;
             }
         }
 

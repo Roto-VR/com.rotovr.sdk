@@ -64,7 +64,7 @@ namespace RotoVR.Monitor
         NotifyIcon GetNotifyIcon(IContainer container,ComponentResourceManager resources)
         {
             var notifyIcon = new NotifyIcon(container);
-            notifyIcon.BalloonTipText = "RotoVR Monitor is started";
+            notifyIcon.BalloonTipText = "Monitor is started";
             notifyIcon.ContextMenuStrip = m_notifyIconContextMenu;
             notifyIcon.Icon = (Icon)resources.GetObject("NotifyIcon.Icon");
             notifyIcon.Text = "RotoVR Monitor";
@@ -133,6 +133,8 @@ namespace RotoVR.Monitor
             m_notifyIconContextMenu.Items.Clear();
             m_notifyIconContextMenu.Items.AddRange(
                 new ToolStripItem[] { GetApplicationDisconnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+            m_notifyIcon.BalloonTipText = "Monitor was successfully connected";
+            m_notifyIcon.ShowBalloonTip(100);
         }
 
         void DisconnectedHandler()
@@ -140,6 +142,17 @@ namespace RotoVR.Monitor
             m_notifyIconContextMenu.Items.Clear();
             m_notifyIconContextMenu.Items.AddRange(
                 new ToolStripItem[] { GetApplicationConnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+            m_notifyIcon.BalloonTipText = "Monitor was disconnected";
+            m_notifyIcon.ShowBalloonTip(100);
+        }
+        
+        private void ConnectionErrorHandler()
+        {
+            m_notifyIconContextMenu.Items.Clear();
+            m_notifyIconContextMenu.Items.AddRange(
+                new ToolStripItem[] { GetApplicationConnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+            m_notifyIcon.BalloonTipText = "Connection failed, please try again";
+            m_notifyIcon.ShowBalloonTip(100);
         }
 
     }
