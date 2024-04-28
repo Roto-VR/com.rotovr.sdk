@@ -1,7 +1,6 @@
-namespace RotoVR.Communication.Model;
+namespace RotoVR.Common.Model;
 
-[Serializable]
-public class RotoDataModel
+public struct RotoDataModel
 {
     public RotoDataModel()
     {

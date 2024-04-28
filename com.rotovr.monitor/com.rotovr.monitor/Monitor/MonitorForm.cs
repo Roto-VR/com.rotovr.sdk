@@ -1,6 +1,8 @@
-﻿using RotoVR.Communication;
+﻿using RotoVR.Common.Model;
+using RotoVR.Communication;
 using RotoVR.Communication.Enum;
 using RotoVR.Core;
+using RotoVR.MotionCompensation;
 
 namespace RotoVR.Monitor
 {
@@ -16,6 +18,7 @@ namespace RotoVR.Monitor
         }
 
         private ICommunicationLayer m_communicationLayer;
+        private ICompensationBridge m_compensationBridge;
         private ApplicationViewState m_applicationViewState;
         private const int CP_NOCLOSE_BUTTON = 0x200;
 
@@ -26,10 +29,12 @@ namespace RotoVR.Monitor
             m_communicationLayer.OnSystemLog += OnSystemLogHandler;
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        public void BindCompensationBridge(ICompensationBridge compensationBridge)
+        {
+            m_compensationBridge = compensationBridge;
+            m_compensationBridge.Init();
+        }
+
         protected override void Dispose(bool disposing)
         {
             m_communicationLayer.OnConnectionStatus -= OnConnectionStatusHandler;
@@ -136,6 +141,11 @@ namespace RotoVR.Monitor
             Default,
             Console,
             Settings,
+        }
+
+        private void CompensationValueChanged(object sender, EventArgs e)
+        {
+            m_compensationBridge.SetCompensationValue(new CompensationModel(m_positionX.Value,m_positionY.Value));
         }
     }
 }

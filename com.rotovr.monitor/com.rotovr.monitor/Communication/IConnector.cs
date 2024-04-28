@@ -1,5 +1,5 @@
+using RotoVR.Common.Model;
 using RotoVR.Communication.Enum;
-using RotoVR.Communication.Model;
 
 namespace RotoVR.Communication
 {

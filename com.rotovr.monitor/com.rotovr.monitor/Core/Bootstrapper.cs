@@ -1,4 +1,5 @@
 using RotoVR.Communication;
+using RotoVR.MotionCompensation;
 
 namespace RotoVR.Core
 {
@@ -14,6 +15,7 @@ namespace RotoVR.Core
         public void Bootstrap(Action complete)
         {
             m_monitor.BindConnectionLayer(new CommunicationLayer());
+            m_monitor.BindCompensationBridge(new CompensationBridge());
             complete?.Invoke();
         }
     }

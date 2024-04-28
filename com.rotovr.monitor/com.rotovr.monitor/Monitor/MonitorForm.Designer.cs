@@ -10,13 +10,10 @@ namespace RotoVR.Monitor
         private IContainer m_components = null;
         private NotifyIcon m_notifyIcon;
         private ContextMenuStrip m_notifyIconContextMenu;
-        private TextBox m_positionX;
-        private TextBox m_positionY;
-        private Button m_settingsButton;
-        private Button m_consoleButton;
+        private NumericUpDown m_positionX;
+        private NumericUpDown m_positionY;
         private Label m_positionXLabel;
         private Label m_positionYLabel;
-        private PictureBox m_settingsBackground;
         private void Initialize()
         {
             m_components = new Container();
@@ -81,10 +78,11 @@ namespace RotoVR.Monitor
         ToolStripMenuItem GetApplicationConnectMenuItem()
         {
             ToolStripMenuItem iten = new ToolStripMenuItem();
-            iten.DropDownItems.AddRange(new ToolStripItem[] { GetConnectUsbMenuItem(), GetConnectBleMenuItem() });
+          //  iten.DropDownItems.AddRange(new ToolStripItem[] { GetConnectUsbMenuItem(), GetConnectBleMenuItem() });
             iten.Name = "applicationConnect";
             iten.Size = new Size(149, 22);
             iten.Text = "Connect";
+            iten.Click += OnClickUsbMenuItemMConnect;
             return iten;
         }
         
@@ -124,7 +122,7 @@ namespace RotoVR.Monitor
         {
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Desktop;
+           // BackColor = SystemColors.Desktop;
             ClientSize = new Size(933, 519);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
@@ -134,7 +132,6 @@ namespace RotoVR.Monitor
             SizeChanged += MonitorFormSizeChanged;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-           // MinimizeBox = false;
             
             Controls.Add(SettingsButton());
             Controls.Add(ConsoleButton());
@@ -201,13 +198,87 @@ namespace RotoVR.Monitor
                 return;
 
             m_applicationViewState = viewState;
-            
             switch (m_applicationViewState)
             {
                 case ApplicationViewState.Console:
+                    InitConsoleView();
                     break;
                 case ApplicationViewState.Settings:
+                    InitSettingsView();
                     break;
+            }
+        }
+
+        void InitSettingsView()
+        {
+            var compensationValue = m_compensationBridge.GetCompensationModel();
+            
+            m_positionX = new NumericUpDown();
+            m_positionX.Minimum = -100;
+            m_positionX.Maximum = 100;
+            m_positionX.DecimalPlaces = 2;
+            m_positionX.Value = compensationValue.X;
+            
+            m_positionY = new NumericUpDown();
+            m_positionY.Minimum = -100;
+            m_positionY.Maximum = 100;
+            m_positionY.DecimalPlaces = 2;
+         
+            m_positionY.Value = compensationValue.Y;
+            m_positionXLabel = new Label();
+            m_positionYLabel = new Label();
+            
+            m_positionX.Location = new Point(86, 22);
+            m_positionX.Name = "PositionX";
+            m_positionX.Size = new Size(59, 23);
+            m_positionX.TabIndex = 0;
+      
+            m_positionY.Location = new Point(238, 22);
+            m_positionY.Name = "PositionY";
+            m_positionY.Size = new Size(56, 23);
+            m_positionY.TabIndex = 1;
+        
+            m_positionXLabel.AutoSize = true;
+            m_positionXLabel.Location = new Point(20, 25);
+            m_positionXLabel.Name = "PositionXLabel";
+            m_positionXLabel.Size = new Size(60, 15);
+            m_positionXLabel.TabIndex = 4;
+            m_positionXLabel.Text = "Position X";
+        
+            m_positionYLabel.AutoSize = true;
+            m_positionYLabel.Location = new Point(172, 25);
+            m_positionYLabel.Name = "PositionYLabel";
+            m_positionYLabel.Size = new Size(60, 15);
+            m_positionYLabel.TabIndex = 5;
+            m_positionYLabel.Text = "Position Y";
+            
+            Controls.Add(m_positionX);
+            Controls.Add(m_positionY);
+        
+            Controls.Add(m_positionXLabel);
+            Controls.Add(m_positionYLabel);
+            
+            m_positionX.ValueChanged += CompensationValueChanged;
+            m_positionY.ValueChanged += CompensationValueChanged;
+        }
+
+        void InitConsoleView()
+        {
+            if (m_positionX != null)
+            {
+                Controls.Remove(m_positionX);
+                Controls.Remove(m_positionY);
+
+                Controls.Remove(m_positionXLabel);
+                Controls.Remove(m_positionYLabel);
+
+                m_positionX.ValueChanged -= CompensationValueChanged;
+                m_positionY.ValueChanged -= CompensationValueChanged;
+                
+                m_positionX = null;
+                m_positionY = null;
+                m_positionXLabel = null;
+                m_positionYLabel = null;
             }
         }
     }
