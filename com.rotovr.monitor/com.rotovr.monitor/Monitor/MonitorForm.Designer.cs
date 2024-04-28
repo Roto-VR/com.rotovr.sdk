@@ -10,7 +10,13 @@ namespace RotoVR.Monitor
         private IContainer m_components = null;
         private NotifyIcon m_notifyIcon;
         private ContextMenuStrip m_notifyIconContextMenu;
-    
+        private TextBox m_positionX;
+        private TextBox m_positionY;
+        private Button m_settingsButton;
+        private Button m_consoleButton;
+        private Label m_positionXLabel;
+        private Label m_positionYLabel;
+        private PictureBox m_settingsBackground;
         private void Initialize()
         {
             m_components = new Container();
@@ -56,7 +62,7 @@ namespace RotoVR.Monitor
             ToolStripMenuItem iten = new ToolStripMenuItem();
             iten.Name = "openConsole";
             iten.Size = new Size(149, 22);
-            iten.Text = "Open Console";
+            iten.Text = "Open";
             iten.Click += OnClickOpenConsole;
             return iten;
         }
@@ -126,6 +132,12 @@ namespace RotoVR.Monitor
             ShowInTaskbar = false;
             Text = "RotoVR Monitor";
             SizeChanged += MonitorFormSizeChanged;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+           // MinimizeBox = false;
+            
+            Controls.Add(SettingsButton());
+            Controls.Add(ConsoleButton());
         }
 
         void ConnectedHandler()
@@ -155,5 +167,48 @@ namespace RotoVR.Monitor
             m_notifyIcon.ShowBalloonTip(100);
         }
 
+        Button SettingsButton()
+        {
+            Button button = new Button();
+            button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button.Location = new Point(840, 12);
+            button.Name = "SettingsButton";
+            button.Size = new Size(77, 41);
+            button.TabIndex = 2;
+            button.Text = "Settings";
+            button.UseVisualStyleBackColor = true;
+            button.Click += SettingsButton_Click;
+            return button;
+        }
+        
+        Button ConsoleButton()
+        {
+            Button button = new Button();
+            button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button.Location = new Point(750, 12);
+            button.Name = "ConsoleButton";
+            button.Size = new Size(75, 41);
+            button.TabIndex = 3;
+            button.Text = "Console";
+            button.UseVisualStyleBackColor = true;
+            button.Click += ConsoleButton_Click;
+            return button;
+        }
+
+        void SetAppViewState(ApplicationViewState viewState)
+        {
+            if(m_applicationViewState==viewState)
+                return;
+
+            m_applicationViewState = viewState;
+            
+            switch (m_applicationViewState)
+            {
+                case ApplicationViewState.Console:
+                    break;
+                case ApplicationViewState.Settings:
+                    break;
+            }
+        }
     }
 }

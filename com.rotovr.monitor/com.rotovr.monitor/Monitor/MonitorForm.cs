@@ -16,13 +16,13 @@ namespace RotoVR.Monitor
         }
 
         private ICommunicationLayer m_communicationLayer;
-
+        private ApplicationViewState m_applicationViewState;
         private const int CP_NOCLOSE_BUTTON = 0x200;
 
         public void BindConnectionLayer(ICommunicationLayer communicationLayer)
         {
             m_communicationLayer = communicationLayer;
-            m_communicationLayer.OnConnectionStatus += OnConnectionstatusHandler;
+            m_communicationLayer.OnConnectionStatus += OnConnectionStatusHandler;
             m_communicationLayer.OnSystemLog += OnSystemLogHandler;
         }
 
@@ -32,7 +32,7 @@ namespace RotoVR.Monitor
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            m_communicationLayer.OnConnectionStatus -= OnConnectionstatusHandler;
+            m_communicationLayer.OnConnectionStatus -= OnConnectionStatusHandler;
             m_communicationLayer.OnSystemLog -= OnSystemLogHandler;
             m_communicationLayer.Disconnect();
             if (disposing && (m_components != null))
@@ -61,6 +61,7 @@ namespace RotoVR.Monitor
         {
             if (WindowState != FormWindowState.Minimized)
                 return;
+
             SizeChanged -= MonitorFormSizeChanged;
             m_notifyIcon.ShowBalloonTip(300);
         }
@@ -68,6 +69,8 @@ namespace RotoVR.Monitor
         private void OnClickOpenConsole(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Normal;
+            ClientSize = new Size(1024, 768);
+            SetAppViewState(ApplicationViewState.Console);
         }
 
         private void ApplicationQuitMenuItemHandler(object sender, EventArgs e)
@@ -97,7 +100,7 @@ namespace RotoVR.Monitor
             m_communicationLayer.Disconnect();
         }
 
-        private void OnConnectionstatusHandler(ConnectionStatus status)
+        private void OnConnectionStatusHandler(ConnectionStatus status)
         {
             switch (status)
             {
@@ -115,7 +118,24 @@ namespace RotoVR.Monitor
 
         private void OnSystemLogHandler(string message)
         {
-            
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            SetAppViewState(ApplicationViewState.Settings);
+        }
+
+        private void ConsoleButton_Click(object? sender, EventArgs e)
+        {
+            SetAppViewState(ApplicationViewState.Console);
+        }
+
+
+        enum ApplicationViewState
+        {
+            Default,
+            Console,
+            Settings,
         }
     }
 }
