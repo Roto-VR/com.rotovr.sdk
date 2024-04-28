@@ -163,8 +163,10 @@ namespace RotoVR.Communication.USB
                     {
                         m_runtimeModel = GetModel(m_readMessage);
                         OnReadData?.Invoke(m_runtimeModel);
-                        Console.WriteLine(
+                        OnSystemLog?.Invoke(
                             $"ReadDevice: {LogBuffer(m_readMessage)}  chaireAngle: {m_runtimeModel.Angle}");
+                        // Console.WriteLine(
+                        //     $"ReadDevice: {LogBuffer(m_readMessage)}  chaireAngle: {m_runtimeModel.Angle}");
                     }
                 }
             }

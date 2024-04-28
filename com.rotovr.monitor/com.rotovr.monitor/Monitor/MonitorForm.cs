@@ -147,5 +147,7 @@ namespace RotoVR.Monitor
         {
             m_compensationBridge.SetCompensationValue(new CompensationModel(m_positionX.Value,m_positionY.Value));
         }
+
+       
     }
 }

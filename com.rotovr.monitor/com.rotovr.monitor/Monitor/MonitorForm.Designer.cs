@@ -14,6 +14,11 @@ namespace RotoVR.Monitor
         private NumericUpDown m_positionY;
         private Label m_positionXLabel;
         private Label m_positionYLabel;
+        private Label m_consoleLabel;
+        private Panel m_consolePanel;
+        private Button m_settingsButton;
+        private Button m_consoleButton;
+        private string m_log;
         private void Initialize()
         {
             m_components = new Container();
@@ -123,7 +128,7 @@ namespace RotoVR.Monitor
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
            // BackColor = SystemColors.Desktop;
-            ClientSize = new Size(933, 519);
+            ClientSize = new Size(1024, 768);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             Name = "MonitorForm";
@@ -166,30 +171,30 @@ namespace RotoVR.Monitor
 
         Button SettingsButton()
         {
-            Button button = new Button();
-            button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button.Location = new Point(840, 12);
-            button.Name = "SettingsButton";
-            button.Size = new Size(77, 41);
-            button.TabIndex = 2;
-            button.Text = "Settings";
-            button.UseVisualStyleBackColor = true;
-            button.Click += SettingsButton_Click;
-            return button;
+            m_settingsButton = new Button();
+            m_settingsButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            m_settingsButton.Location = new Point(944, 10);
+            m_settingsButton.Name = "SettingsButton";
+            m_settingsButton.Size = new Size(60, 30);
+            m_settingsButton.TabIndex = 2;
+            m_settingsButton.Text = "Settings";
+            m_settingsButton.UseVisualStyleBackColor = true;
+            m_settingsButton.Click += SettingsButton_Click;
+            return m_settingsButton;
         }
         
         Button ConsoleButton()
         {
-            Button button = new Button();
-            button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button.Location = new Point(750, 12);
-            button.Name = "ConsoleButton";
-            button.Size = new Size(75, 41);
-            button.TabIndex = 3;
-            button.Text = "Console";
-            button.UseVisualStyleBackColor = true;
-            button.Click += ConsoleButton_Click;
-            return button;
+            m_consoleButton = new Button();
+            m_consoleButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            m_consoleButton.Location = new Point(884, 10);
+            m_consoleButton.Name = "ConsoleButton";
+            m_consoleButton.Size = new Size(60, 30);
+            m_consoleButton.TabIndex = 3;
+            m_consoleButton.Text = "Console";
+            m_consoleButton.UseVisualStyleBackColor = true;
+            m_consoleButton.Click += ConsoleButton_Click;
+            return m_consoleButton;
         }
 
         void SetAppViewState(ApplicationViewState viewState)
@@ -201,9 +206,13 @@ namespace RotoVR.Monitor
             switch (m_applicationViewState)
             {
                 case ApplicationViewState.Console:
+                    m_settingsButton.BackColor = Color.White;
+                    m_consoleButton.BackColor = Color.Silver;
                     InitConsoleView();
                     break;
                 case ApplicationViewState.Settings:
+                    m_consoleButton.BackColor = Color.White;
+                    m_settingsButton.BackColor = Color.Silver;
                     InitSettingsView();
                     break;
             }
@@ -211,6 +220,13 @@ namespace RotoVR.Monitor
 
         void InitSettingsView()
         {
+            if (m_consolePanel != null)
+            {
+                Controls.Remove(m_consolePanel);
+                m_consoleLabel = null;
+                m_communicationLayer.OnSystemLog -= SystemLogHandler;
+            }
+
             var compensationValue = m_compensationBridge.GetCompensationModel();
             
             m_positionX = new NumericUpDown();
@@ -264,6 +280,7 @@ namespace RotoVR.Monitor
 
         void InitConsoleView()
         {
+            m_log = string.Empty;
             if (m_positionX != null)
             {
                 Controls.Remove(m_positionX);
@@ -280,6 +297,30 @@ namespace RotoVR.Monitor
                 m_positionXLabel = null;
                 m_positionYLabel = null;
             }
+
+            m_consolePanel = new Panel();
+            m_consolePanel.AutoScroll = true;
+            m_consolePanel.Location = new Point(20, 50);
+            m_consolePanel.Size = new Size(984, 698);
+            m_consolePanel.BackColor=Color.Black;
+            m_consolePanel.VerticalScroll.Visible = true;
+            
+            m_consoleLabel = new Label();
+            m_consoleLabel.Location = new Point(0, -10);
+            m_consoleLabel.AutoSize = true;
+            m_consoleLabel.ForeColor=Color.Silver;
+            m_consoleLabel.TextAlign = ContentAlignment.TopLeft;
+            m_consoleLabel.Padding = new Padding(5, 5, 5, 5);
+            m_consoleLabel.Font= new Font("Arial", 10);
+            m_consolePanel.Controls.Add(m_consoleLabel);
+            Controls.Add(m_consolePanel);
+            m_communicationLayer.OnSystemLog += SystemLogHandler;
+        }
+        private void SystemLogHandler(string log)
+        {
+            m_log= $"{m_log}{Environment.NewLine}{Environment.NewLine}{log}";
+            m_consoleLabel.Text = m_log;
+            m_consolePanel.VerticalScroll.Value = m_consolePanel.VerticalScroll.Maximum;
         }
     }
 }
