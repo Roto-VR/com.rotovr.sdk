@@ -73,9 +73,24 @@ namespace RotoVR.Monitor
 
         private void OnClickOpenConsole(object sender, EventArgs e)
         {
+            if (WindowState == FormWindowState.Normal)
+                return;
+
             WindowState = FormWindowState.Normal;
             ClientSize = new Size(1024, 768);
             SetAppViewState(ApplicationViewState.Console);
+            
+            m_openConsoleMenuItem.Text = "Hide";
+            m_openConsoleMenuItem.Click -= OnClickOpenConsole;
+            m_openConsoleMenuItem.Click += OnClickHideConsole;
+        }
+
+        private void OnClickHideConsole(object sender, EventArgs e)
+        {
+            m_openConsoleMenuItem.Text = "Open";
+            m_openConsoleMenuItem.Click -= OnClickHideConsole;
+            m_openConsoleMenuItem.Click += OnClickOpenConsole;
+            WindowState = FormWindowState.Minimized;
         }
 
         private void ApplicationQuitMenuItemHandler(object sender, EventArgs e)
@@ -145,9 +160,7 @@ namespace RotoVR.Monitor
 
         private void CompensationValueChanged(object sender, EventArgs e)
         {
-            m_compensationBridge.SetCompensationValue(new CompensationModel(m_positionX.Value,m_positionY.Value));
+            m_compensationBridge.SetCompensationValue(new CompensationModel(m_positionX.Value, m_positionY.Value));
         }
-
-       
     }
 }

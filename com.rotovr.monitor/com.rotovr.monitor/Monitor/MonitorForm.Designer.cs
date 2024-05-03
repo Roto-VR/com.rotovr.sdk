@@ -10,6 +10,7 @@ namespace RotoVR.Monitor
         private IContainer m_components = null;
         private NotifyIcon m_notifyIcon;
         private ContextMenuStrip m_notifyIconContextMenu;
+        private ToolStripMenuItem m_openConsoleMenuItem;
         private NumericUpDown m_positionX;
         private NumericUpDown m_positionY;
         private Label m_positionXLabel;
@@ -29,8 +30,10 @@ namespace RotoVR.Monitor
             m_notifyIconContextMenu.SuspendLayout();
             
             SuspendLayout();
-       
-            m_notifyIconContextMenu.Items.AddRange(new ToolStripItem[] { GetApplicationConnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+
+            m_openConsoleMenuItem = GetOpenConsoleMenuItem();
+                    
+            m_notifyIconContextMenu.Items.AddRange(new ToolStripItem[] { GetApplicationConnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
             m_notifyIconContextMenu.Name = "contextMenuStrip";
             m_notifyIconContextMenu.Size = new Size(150, 92);
 
@@ -65,10 +68,20 @@ namespace RotoVR.Monitor
             iten.Name = "openConsole";
             iten.Size = new Size(149, 22);
             iten.Text = "Open";
-            iten.Click += OnClickOpenConsole;
+            iten.Click +=OnClickOpenConsole;
             return iten;
         }
 
+        ToolStripMenuItem GetHideConsoleMenuItem()
+        {
+            ToolStripMenuItem iten = new ToolStripMenuItem();
+            iten.Name = "hideConsole";
+            iten.Size = new Size(149, 22);
+            iten.Text = "Hide";
+            iten.Click += OnClickHideConsole;
+            return iten;
+        }
+        
         NotifyIcon GetNotifyIcon(IContainer container,ComponentResourceManager resources)
         {
             var notifyIcon = new NotifyIcon(container);
@@ -127,7 +140,6 @@ namespace RotoVR.Monitor
         {
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-           // BackColor = SystemColors.Desktop;
             ClientSize = new Size(1024, 768);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
@@ -146,7 +158,7 @@ namespace RotoVR.Monitor
         {
             m_notifyIconContextMenu.Items.Clear();
             m_notifyIconContextMenu.Items.AddRange(
-                new ToolStripItem[] { GetApplicationDisconnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+                new ToolStripItem[] { GetApplicationDisconnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
             m_notifyIcon.BalloonTipText = "Monitor was successfully connected";
             m_notifyIcon.ShowBalloonTip(100);
         }
@@ -155,7 +167,7 @@ namespace RotoVR.Monitor
         {
             m_notifyIconContextMenu.Items.Clear();
             m_notifyIconContextMenu.Items.AddRange(
-                new ToolStripItem[] { GetApplicationConnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+                new ToolStripItem[] { GetApplicationConnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
             m_notifyIcon.BalloonTipText = "Monitor was disconnected";
             m_notifyIcon.ShowBalloonTip(100);
         }
@@ -164,7 +176,7 @@ namespace RotoVR.Monitor
         {
             m_notifyIconContextMenu.Items.Clear();
             m_notifyIconContextMenu.Items.AddRange(
-                new ToolStripItem[] { GetApplicationConnectMenuItem(), GetOpenConsoleMenuItem(), GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+                new ToolStripItem[] { GetApplicationConnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
             m_notifyIcon.BalloonTipText = "Connection failed, please try again";
             m_notifyIcon.ShowBalloonTip(100);
         }

@@ -259,4 +259,5 @@ Public Class UserControl_Settings
         Public Axis5c As String
         Public Axis6c As String
     End Structure
+
 End Class

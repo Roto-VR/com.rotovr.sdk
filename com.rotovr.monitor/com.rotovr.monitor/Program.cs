@@ -1,16 +1,17 @@
 using RotoVR.Monitor;
 
-namespace com.rotovr.monitor;
-
-static class Program
+namespace RotoVR
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main()
+    static class Program
     {
-        ApplicationConfiguration.Initialize();
-        Application.Run(new MonitorForm());
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            ApplicationConfiguration.Initialize();
+            Application.Run(new MonitorForm());
+        }
     }
 }

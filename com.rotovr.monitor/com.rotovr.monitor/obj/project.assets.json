@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
-      "projectName": "com.rotovr.monitor",
-      "projectPath": "E:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
+      "projectUniqueName": "D:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
+      "projectName": "RotoVR Monitor",
+      "projectPath": "D:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
       "packagesPath": "C:\\Users\\golandez\\.nuget\\packages\\",
-      "outputPath": "E:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\obj\\",
+      "outputPath": "D:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
