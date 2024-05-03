@@ -22,12 +22,7 @@ Partial Class UserControl_Settings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.rad_Binary = New System.Windows.Forms.RadioButton()
-        Me.rad_Decimal = New System.Windows.Forms.RadioButton()
-        Me.rad_Hex = New System.Windows.Forms.RadioButton()
         Me.txt_StartUpOutput = New System.Windows.Forms.TextBox()
-        Me.txt_ShutDownOutput = New System.Windows.Forms.TextBox()
-        Me.txt_InterfaceOutput = New System.Windows.Forms.TextBox()
         Me.Icon = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.NumericUpDownX = New System.Windows.Forms.NumericUpDown()
@@ -40,41 +35,6 @@ Partial Class UserControl_Settings
         CType(Me.NumericUpDownY, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'rad_Binary
-        '
-        Me.rad_Binary.AutoSize = True
-        Me.rad_Binary.Checked = True
-        Me.rad_Binary.ForeColor = System.Drawing.Color.White
-        Me.rad_Binary.Location = New System.Drawing.Point(126, 58)
-        Me.rad_Binary.Name = "rad_Binary"
-        Me.rad_Binary.Size = New System.Drawing.Size(54, 17)
-        Me.rad_Binary.TabIndex = 251
-        Me.rad_Binary.TabStop = True
-        Me.rad_Binary.Text = "Binary"
-        Me.rad_Binary.UseVisualStyleBackColor = True
-        '
-        'rad_Decimal
-        '
-        Me.rad_Decimal.AutoSize = True
-        Me.rad_Decimal.ForeColor = System.Drawing.Color.White
-        Me.rad_Decimal.Location = New System.Drawing.Point(133, 88)
-        Me.rad_Decimal.Name = "rad_Decimal"
-        Me.rad_Decimal.Size = New System.Drawing.Size(63, 17)
-        Me.rad_Decimal.TabIndex = 252
-        Me.rad_Decimal.Text = "Decimal"
-        Me.rad_Decimal.UseVisualStyleBackColor = True
-        '
-        'rad_Hex
-        '
-        Me.rad_Hex.AutoSize = True
-        Me.rad_Hex.ForeColor = System.Drawing.Color.White
-        Me.rad_Hex.Location = New System.Drawing.Point(136, 121)
-        Me.rad_Hex.Name = "rad_Hex"
-        Me.rad_Hex.Size = New System.Drawing.Size(44, 17)
-        Me.rad_Hex.TabIndex = 253
-        Me.rad_Hex.Text = "Hex"
-        Me.rad_Hex.UseVisualStyleBackColor = True
-        '
         'txt_StartUpOutput
         '
         Me.txt_StartUpOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -83,24 +43,6 @@ Partial Class UserControl_Settings
         Me.txt_StartUpOutput.Size = New System.Drawing.Size(251, 21)
         Me.txt_StartUpOutput.TabIndex = 260
         Me.txt_StartUpOutput.TabStop = False
-        '
-        'txt_ShutDownOutput
-        '
-        Me.txt_ShutDownOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_ShutDownOutput.Location = New System.Drawing.Point(1, 212)
-        Me.txt_ShutDownOutput.Name = "txt_ShutDownOutput"
-        Me.txt_ShutDownOutput.Size = New System.Drawing.Size(251, 21)
-        Me.txt_ShutDownOutput.TabIndex = 261
-        Me.txt_ShutDownOutput.TabStop = False
-        '
-        'txt_InterfaceOutput
-        '
-        Me.txt_InterfaceOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_InterfaceOutput.Location = New System.Drawing.Point(1, 181)
-        Me.txt_InterfaceOutput.Name = "txt_InterfaceOutput"
-        Me.txt_InterfaceOutput.Size = New System.Drawing.Size(251, 21)
-        Me.txt_InterfaceOutput.TabIndex = 262
-        Me.txt_InterfaceOutput.TabStop = False
         '
         'Icon
         '
@@ -188,12 +130,7 @@ Partial Class UserControl_Settings
         Me.Controls.Add(Me.NumericUpDownX)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Icon)
-        Me.Controls.Add(Me.txt_InterfaceOutput)
-        Me.Controls.Add(Me.txt_ShutDownOutput)
         Me.Controls.Add(Me.txt_StartUpOutput)
-        Me.Controls.Add(Me.rad_Hex)
-        Me.Controls.Add(Me.rad_Decimal)
-        Me.Controls.Add(Me.rad_Binary)
         Me.ForeColor = System.Drawing.Color.White
         Me.Name = "UserControl_Settings"
         Me.Size = New System.Drawing.Size(705, 275)
@@ -204,12 +141,7 @@ Partial Class UserControl_Settings
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents rad_Binary As Windows.Forms.RadioButton
-    Friend WithEvents rad_Decimal As Windows.Forms.RadioButton
-    Friend WithEvents rad_Hex As Windows.Forms.RadioButton
     Friend WithEvents txt_StartUpOutput As Windows.Forms.TextBox
-    Friend WithEvents txt_ShutDownOutput As Windows.Forms.TextBox
-    Friend WithEvents txt_InterfaceOutput As Windows.Forms.TextBox
     Friend WithEvents Icon As Windows.Forms.PictureBox
     Friend WithEvents Label1 As Windows.Forms.Label
     Friend WithEvents NumericUpDownX As Windows.Forms.NumericUpDown
