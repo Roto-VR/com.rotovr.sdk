@@ -329,8 +329,6 @@ Public Class InterfacePlugin
         'Load the Output Char's - used to get the CHAR's for 0 thru 255 - makes output faster
         LoadAsciiCodes()
 
-        'Load Com Ports
-        SetSerialPortNames()
     End Sub
 
     'Used when the program is shutting down / switching plugins.
@@ -487,16 +485,6 @@ Public Class InterfacePlugin
     Private ShutDownOutput As String
     Private bytCommand As Byte()
 
-    'Set Serial Port Names to drop down box
-    Public Sub SetSerialPortNames()
-        ' Get a list of serial port names. 
-        Dim ports As String() = SerialPort.GetPortNames()
-        ' Display each port name to the console. 
-        Dim port As String
-        For Each port In ports
-            MyForm.cb_ComPort.Items.Add(port)
-        Next port
-    End Sub
 
     'Replaces output strings in a < # > with a chr - example <63> = ?
     Public Function ReplaceWithAsciiCode(ByVal InputString As String) As String
