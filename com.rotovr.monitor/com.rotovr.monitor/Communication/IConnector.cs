@@ -11,5 +11,6 @@ namespace RotoVR.Communication
         event Action<RotoDataModel> OnReadData;
         void Connect();
         void Disconnect();
+        void MessageDelivery(byte[] rawData);
     }
 }

@@ -32,3 +32,7 @@ D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\RotoVR Monitor.pdb
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.genruntimeconfig.cache
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\ref\RotoVR Monitor.dll
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.rotovr.monitor.csproj.AssemblyReference.cache
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\Debug\net7.0-windows\com.roto.5DBE1487.Up2Date
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\Debug\net7.0-windows\Net.TcpServer.dll
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\Debug\net7.0-windows\Newtonsoft.Json.dll

@@ -26,7 +26,6 @@ namespace RotoVR.Monitor
         {
             m_communicationLayer = communicationLayer;
             m_communicationLayer.OnConnectionStatus += OnConnectionStatusHandler;
-            m_communicationLayer.OnSystemLog += OnSystemLogHandler;
         }
 
         public void BindCompensationBridge(ICompensationBridge compensationBridge)
@@ -38,13 +37,12 @@ namespace RotoVR.Monitor
         protected override void Dispose(bool disposing)
         {
             m_communicationLayer.OnConnectionStatus -= OnConnectionStatusHandler;
-            m_communicationLayer.OnSystemLog -= OnSystemLogHandler;
-            m_communicationLayer.Disconnect();
+           
             if (disposing && (m_components != null))
             {
                 m_components.Dispose();
             }
-
+            m_communicationLayer.Stop();
             base.Dispose(disposing);
         }
 
@@ -125,20 +123,21 @@ namespace RotoVR.Monitor
             switch (status)
             {
                 case ConnectionStatus.Connected:
+                  //  m_communicationLayer.OnUdpMessage += OnUdpMessageHandler;
                     ConnectedHandler();
                     break;
                 case ConnectionStatus.Disconnected:
+                   // m_communicationLayer.OnUdpMessage -= OnUdpMessageHandler;
                     DisconnectedHandler();
                     break;
                 case ConnectionStatus.Error:
+                  //  m_communicationLayer.OnUdpMessage -= OnUdpMessageHandler;
                     ConnectionErrorHandler();
                     break;
             }
         }
 
-        private void OnSystemLogHandler(string message)
-        {
-        }
+     
 
         private void SettingsButton_Click(object sender, EventArgs e)
         {
@@ -162,5 +161,7 @@ namespace RotoVR.Monitor
         {
             m_compensationBridge.SetCompensationValue(new CompensationModel(m_positionX.Value, m_positionY.Value));
         }
+
+   
     }
 }

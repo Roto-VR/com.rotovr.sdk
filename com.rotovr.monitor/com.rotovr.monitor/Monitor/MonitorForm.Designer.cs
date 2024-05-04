@@ -41,6 +41,7 @@ namespace RotoVR.Monitor
      
             m_notifyIconContextMenu.ResumeLayout(false);
             ResumeLayout(false);
+            m_communicationLayer.Start();
         }
 
         ToolStripMenuItem GetApplicationQuitMenuItem()
@@ -303,6 +304,7 @@ namespace RotoVR.Monitor
 
                 m_positionX.ValueChanged -= CompensationValueChanged;
                 m_positionY.ValueChanged -= CompensationValueChanged;
+               
                 
                 m_positionX = null;
                 m_positionY = null;
@@ -314,7 +316,7 @@ namespace RotoVR.Monitor
             m_consolePanel.AutoScroll = true;
             m_consolePanel.Location = new Point(20, 50);
             m_consolePanel.Size = new Size(984, 698);
-            m_consolePanel.BackColor=Color.Black;
+            m_consolePanel.BackColor = Color.Black;
             m_consolePanel.VerticalScroll.Visible = true;
             
             m_consoleLabel = new Label();
@@ -331,6 +333,13 @@ namespace RotoVR.Monitor
         private void SystemLogHandler(string log)
         {
             m_log= $"{m_log}{Environment.NewLine}{Environment.NewLine}{log}";
+            m_consoleLabel.Text = m_log;
+            m_consolePanel.VerticalScroll.Value = m_consolePanel.VerticalScroll.Maximum;
+        }
+        
+        private void OnUdpMessageHandler(byte[] rawData)
+        {
+            m_log= $"{m_log}{Environment.NewLine}{Environment.NewLine} Incomming Message";
             m_consoleLabel.Text = m_log;
             m_consolePanel.VerticalScroll.Value = m_consolePanel.VerticalScroll.Maximum;
         }

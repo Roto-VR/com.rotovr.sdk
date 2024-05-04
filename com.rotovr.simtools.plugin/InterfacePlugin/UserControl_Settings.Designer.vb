@@ -22,7 +22,6 @@ Partial Class UserControl_Settings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.txt_StartUpOutput = New System.Windows.Forms.TextBox()
         Me.Icon = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.NumericUpDownX = New System.Windows.Forms.NumericUpDown()
@@ -34,15 +33,6 @@ Partial Class UserControl_Settings
         CType(Me.NumericUpDownX, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDownY, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'txt_StartUpOutput
-        '
-        Me.txt_StartUpOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_StartUpOutput.Location = New System.Drawing.Point(-2, 152)
-        Me.txt_StartUpOutput.Name = "txt_StartUpOutput"
-        Me.txt_StartUpOutput.Size = New System.Drawing.Size(251, 21)
-        Me.txt_StartUpOutput.TabIndex = 260
-        Me.txt_StartUpOutput.TabStop = False
         '
         'Icon
         '
@@ -118,6 +108,7 @@ Partial Class UserControl_Settings
         Me.Label2.TabIndex = 269
         Me.Label2.Text = "Pilot offset"
         '
+        '
         'UserControl_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -130,7 +121,6 @@ Partial Class UserControl_Settings
         Me.Controls.Add(Me.NumericUpDownX)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Icon)
-        Me.Controls.Add(Me.txt_StartUpOutput)
         Me.ForeColor = System.Drawing.Color.White
         Me.Name = "UserControl_Settings"
         Me.Size = New System.Drawing.Size(705, 275)
@@ -141,7 +131,6 @@ Partial Class UserControl_Settings
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents txt_StartUpOutput As Windows.Forms.TextBox
     Friend WithEvents Icon As Windows.Forms.PictureBox
     Friend WithEvents Label1 As Windows.Forms.Label
     Friend WithEvents NumericUpDownX As Windows.Forms.NumericUpDown

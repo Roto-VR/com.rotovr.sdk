@@ -51,7 +51,7 @@ Public Class UserControl_Settings
         Dim _StartUpOutput As String = _InterfaceSettings._StartupOutput.Replace("<Axis1a>", "<" & AxisNames.Axis1a & ">").Replace("<Axis2a>", "<" & AxisNames.Axis2a & ">").Replace("<Axis3a>", "<" & AxisNames.Axis3a & ">").Replace("<Axis4a>", "<" & AxisNames.Axis4a & ">").Replace("<Axis5a>", "<" & AxisNames.Axis5a & ">").Replace("<Axis6a>", "<" & AxisNames.Axis6a & ">")
         _StartUpOutput = _StartUpOutput.Replace("<Axis1b>", "<" & AxisNames.Axis1b & ">").Replace("<Axis2b>", "<" & AxisNames.Axis2b & ">").Replace("<Axis3b>", "<" & AxisNames.Axis3b & ">").Replace("<Axis4b>", "<" & AxisNames.Axis4b & ">").Replace("<Axis5b>", "<" & AxisNames.Axis5b & ">").Replace("<Axis6b>", "<" & AxisNames.Axis6b & ">")
         _StartUpOutput = _StartUpOutput.Replace("<Axis1c>", "<" & AxisNames.Axis1c & ">").Replace("<Axis2c>", "<" & AxisNames.Axis2c & ">").Replace("<Axis3c>", "<" & AxisNames.Axis3c & ">").Replace("<Axis4c>", "<" & AxisNames.Axis4c & ">").Replace("<Axis5c>", "<" & AxisNames.Axis5c & ">").Replace("<Axis6c>", "<" & AxisNames.Axis6c & ">")
-        txt_StartUpOutput.Text = _StartUpOutput
+
 
 
     End Sub
@@ -60,7 +60,7 @@ Public Class UserControl_Settings
     Public Sub LoadFormFromStructure()
         'Interface Unpluged Reload Fix
 
-        txt_StartUpOutput.Text = _InterfaceSettings._StartupOutput
+
 
     End Sub
 
@@ -78,7 +78,7 @@ Public Class UserControl_Settings
 
     'SimTools uses this to (Clear the Form)
     Public Sub ClearSettingsWindow()
-        txt_StartUpOutput.Text = ""
+
 
     End Sub
 
@@ -90,11 +90,7 @@ Public Class UserControl_Settings
     'This determines when the form has enough info to enable the 'Save' button. 
     Public Event SetSave_Button(Value As Boolean)
     Public Sub CheckSaveButton()
-        Try
-
-        Catch ex As Exception
-            RaiseEvent SetSave_Button(False)
-        End Try
+        RaiseEvent SetSave_Button(True)
     End Sub
 
     '///////////////////////////////////////////////////////////////////////////////

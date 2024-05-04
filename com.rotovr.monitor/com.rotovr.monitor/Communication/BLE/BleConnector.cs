@@ -18,5 +18,10 @@ namespace RotoVR.Communication.BLE
         {
             OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected);
         }
+
+        public void MessageDelivery(byte[] rawData)
+        {
+            
+        }
     }
 }

@@ -2,7 +2,7 @@
 Option Explicit On
 
 Imports System.IO
-Imports System.IO.Ports
+Imports System.Threading
 Imports Interface_PluginAPI_v3
 Public Class InterfacePlugin
     Implements IPlugin_Interface_v3
@@ -319,6 +319,9 @@ Public Class InterfacePlugin
     Private Const _PluginAuthorsName As String = "RotoVR" 'Authors Name Here
     Private Const _InterfaceName As String = "RotoVR" 'Full Name of the Interface (Please don't use the word 'Interface' in the name)
     Private Const _RequiresInitialization As Boolean = False 'The Initialize() routine below is only run if this is set to true
+
+    Private monitorUDPClient As MonitorTcpClient
+
     '///////////////////////////////////////////////////////////////////////////////
     '///                    Edit these 6 Sub/Functions Below                     ///
     '///////////////////////////////////////////////////////////////////////////////
@@ -328,12 +331,16 @@ Public Class InterfacePlugin
 
         'Load the Output Char's - used to get the CHAR's for 0 thru 255 - makes output faster
         LoadAsciiCodes()
+        monitorUDPClient = New MonitorTcpClient()
 
     End Sub
 
     'Used when the program is shutting down / switching plugins.
     Private Sub ShutDown() Implements IPlugin_Interface_v3.ShutDown
-        'all shutdown / cleanup commands here      
+        'all shutdown / cleanup commands here
+        '
+
+
     End Sub
 
     'Initialize interface (centering routine - mainly used for optical systems)
@@ -343,148 +350,37 @@ Public Class InterfacePlugin
 
     'Used when the Game Starts  
     Private Function GameStart() As Boolean
-        Try
-            'Fix Output Strings - <ascii codes from number> - get ascii numbers
-            StartupOutput = ReplaceWithAsciiCode(MyForm._InterfaceSettings._StartupOutput)
-            InterfaceOutput = ReplaceWithAsciiCode(MyForm._InterfaceSettings._InterfaceOutput)
-            ShutDownOutput = ReplaceWithAsciiCode(MyForm._InterfaceSettings._ShutdownOutput)
-
-            'COM Port Assignments - set assignments to the com port
-            Interface_ComWorker.PortName = MyForm._InterfaceSettings._ComPort
-            Interface_ComWorker.BaudRate = CStr(MyForm._InterfaceSettings._BitsPerSec)
-            Interface_ComWorker.DataBits = CStr(MyForm._InterfaceSettings._DataBits)
-            Interface_ComWorker.Parity = MyForm._InterfaceSettings._ParityBits
-            Interface_ComWorker.StopBits = MyForm._InterfaceSettings._StopBits
-
-            'See if it opens
-            If Interface_ComWorker.OpenPort = True Then
-                'Startup
-                bytCommand = Text.Encoding.Default.GetBytes(StartupOutput)
-                If StartupOutput <> "" Then
-                    Interface_ComWorker.WriteData(StartupOutput)
-                End If
-                Threading.Thread.Sleep(MyForm._InterfaceSettings._HWStartMS)
-
-                'pause for external app to get data
-                'Threading.Thread.Sleep(100)
-
-                'Set Output Types Needed to speed up GameSend
-                OutputBits = MyForm._InterfaceSettings._OutputBits
-                OutputType = MyForm._InterfaceSettings._OutputType
-
-                'Set Output String
-                Return True
-            End If
-        Catch ex As Exception
-        End Try
-
-        Return False
+        monitorUDPClient.Connect()
+        Return True
     End Function
 
-    'Used to send values to the Interface
-    Private Sub Game_SendValues(A_Axis As IPlugin_Interface_v3.AxisPercent_Outputs, B_Axis As IPlugin_Interface_v3.AxisPercent_Outputs, C_Axis As IPlugin_Interface_v3.AxisPercent_Outputs) Implements IPlugin_Interface_v3.Game_SendValues
-        Final_Output = InterfaceOutput
-        If Final_Output.Contains("<Axis1a>") = True Then
-            Dim FinalOut As String = GetOutPut(A_Axis._Axis1, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis1a>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis2a>") = True Then
-            Dim FinalOut As String = GetOutPut(A_Axis._Axis2, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis2a>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis3a>") = True Then
-            Dim FinalOut As String = GetOutPut(A_Axis._Axis3, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis3a>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis4a>") = True Then
-            Dim FinalOut As String = GetOutPut(A_Axis._Axis4, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis4a>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis5a>") = True Then
-            Dim FinalOut As String = GetOutPut(A_Axis._Axis5, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis5a>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis6a>") = True Then
-            Dim FinalOut As String = GetOutPut(A_Axis._Axis6, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis6a>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis1b>") = True Then
-            Dim FinalOut As String = GetOutPut(B_Axis._Axis1, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis1b>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis2b>") = True Then
-            Dim FinalOut As String = GetOutPut(B_Axis._Axis2, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis2b>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis3b>") = True Then
-            Dim FinalOut As String = GetOutPut(B_Axis._Axis3, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis3b>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis4b>") = True Then
-            Dim FinalOut As String = GetOutPut(B_Axis._Axis4, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis4b>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis5b>") = True Then
-            Dim FinalOut As String = GetOutPut(B_Axis._Axis5, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis5b>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis6b>") = True Then
-            Dim FinalOut As String = GetOutPut(B_Axis._Axis6, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis6b>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis1c>") = True Then
-            Dim FinalOut As String = GetOutPut(C_Axis._Axis1, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis1c>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis2c>") = True Then
-            Dim FinalOut As String = GetOutPut(C_Axis._Axis2, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis2c>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis3c>") = True Then
-            Dim FinalOut As String = GetOutPut(C_Axis._Axis3, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis3c>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis4c>") = True Then
-            Dim FinalOut As String = GetOutPut(C_Axis._Axis4, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis4c>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis5c>") = True Then
-            Dim FinalOut As String = GetOutPut(C_Axis._Axis5, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis5c>", FinalOut)
-        End If
-        If Final_Output.Contains("<Axis6c>") = True Then
-            Dim FinalOut As String = GetOutPut(C_Axis._Axis6, OutputBits, OutputType)
-            Final_Output = Final_Output.Replace("<Axis6c>", FinalOut)
-        End If
 
-        'Send Output
-        Interface_ComWorker.WriteData(Final_Output)
+    Private index As Integer
+
+    'Used to send values to the Interface
+
+    Private Sub Game_SendValues(A_Axis As IPlugin_Interface_v3.AxisPercent_Outputs, B_Axis As IPlugin_Interface_v3.AxisPercent_Outputs, C_Axis As IPlugin_Interface_v3.AxisPercent_Outputs) Implements IPlugin_Interface_v3.Game_SendValues
+
+        monitorUDPClient.ApplyAngle(GetOutPut(A_Axis._Axis1, OutputBits, OutputType))
+
     End Sub
+
+
 
     'Used when the Game Stops
     Private Sub GameStop()
         'Shutdown
-        Threading.Thread.Sleep(MyForm._InterfaceSettings._HWStopMS)
-        bytCommand = Text.Encoding.Default.GetBytes(ShutDownOutput)
-        If ShutDownOutput <> "" Then
-            Interface_ComWorker.WriteData(ShutDownOutput)
-        End If
-        Interface_ComWorker.ClosePort()
+        monitorUDPClient.Disconnect()
+
     End Sub
 
     '///////////////////////////////////////////////////////////////////////////////
     '///                PLACE EXTRA NEEDED CODE/FUNCTIONS HERE                   ///
     '///////////////////////////////////////////////////////////////////////////////
 #Region "Extra Code Needed for this interface"
-    Private Interface_ComWorker As New ComWorker
     Private OutputBits As String = ""
     Private OutputType As String = ""
     Private Final_Output As String = ""
-    Private StartupOutput As String
-    Private InterfaceOutput As String
-    Private ShutDownOutput As String
-    Private bytCommand As Byte()
-
 
     'Replaces output strings in a < # > with a chr - example <63> = ?
     Public Function ReplaceWithAsciiCode(ByVal InputString As String) As String
@@ -513,281 +409,10 @@ Public Class InterfacePlugin
     End Sub
 
     'Returns the final output scaled to BitsNeeded and with Type
-    Private Function GetOutPut(ByVal InputPercent As Double, ByVal BitsNeeded As String, ByVal Type As String) As String
-        Dim OutPut As Double = 0
-        Dim FinalOutput As String = ""
+    Private Function GetOutPut(ByVal InputPercent As Double, ByVal BitsNeeded As String, ByVal Type As String) As Double
 
-        'Bits
-        Select Case BitsNeeded
-            Case "7"
-                'Positives are one higher - then we add the bottom amount
-                '64 + 63 = 127 7bit
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 64) + 63
-                ElseIf InputPercent < 0 Then
-                    OutPut = 63 - (InputPercent * -63)
-                Else
-                    'middle
-                    OutPut = 63
-                End If
-            Case "8"
-                'Positives are one higher - then we add the bottom amount
-                '128 + 127 = 255 8bit
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 128) + 127
-                ElseIf InputPercent < 0 Then
-                    OutPut = 127 - (InputPercent * -127)
-                Else
-                    'middle
-                    OutPut = 127
-                End If
-            Case "9"
-                '511
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 256) + 255
-                ElseIf InputPercent < 0 Then
-                    OutPut = 255 - (InputPercent * -255)
-                Else
-                    OutPut = 255
-                End If
-            Case "10"
-                '1023
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 512) + 511
-                ElseIf InputPercent < 0 Then
-                    OutPut = 511 - (InputPercent * -511)
-                Else
-                    OutPut = 511
-                End If
-            Case "11"
-                '2047
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 1024) + 1023
-                ElseIf InputPercent < 0 Then
-                    OutPut = 1023 - (InputPercent * -1023)
-                Else
-                    OutPut = 1023
-                End If
-            Case "12"
-                '4095
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 2048) + 2047
-                ElseIf InputPercent < 0 Then
-                    OutPut = 2047 - (InputPercent * -2047)
-                Else
-                    OutPut = 2047
-                End If
-            Case "13"
-                '8191
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 4096) + 4095
-                ElseIf InputPercent < 0 Then
-                    OutPut = 4095 - (InputPercent * -4095)
-                Else
-                    OutPut = 4095
-                End If
-            Case "14"
-                '16383
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 8192) + 8191
-                ElseIf InputPercent < 0 Then
-                    OutPut = 8191 - (InputPercent * -8191)
-                Else
-                    OutPut = 8191
-                End If
-            Case "15"
-                '32767
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 16384) + 16383
-                ElseIf InputPercent < 0 Then
-                    OutPut = 16383 - (InputPercent * -16383)
-                Else
-                    OutPut = 16383
-                End If
-            Case "16"
-                '65535
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 32768) + 32767
-                ElseIf InputPercent < 0 Then
-                    OutPut = 32767 - (InputPercent * -32767)
-                Else
-                    OutPut = 32767
-                End If
-            Case "17"
-                '131071
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 65536) + 65535
-                ElseIf InputPercent < 0 Then
-                    OutPut = 65535 - (InputPercent * -65535)
-                Else
-                    OutPut = 65535
-                End If
-            Case "18"
-                '262143
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 131072) + 131071
-                ElseIf InputPercent < 0 Then
-                    OutPut = 131071 - (InputPercent * -131071)
-                Else
-                    OutPut = 131071
-                End If
-            Case "19"
-                '524287
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 262144) + 262143
-                ElseIf InputPercent < 0 Then
-                    OutPut = 262143 - (InputPercent * -262143)
-                Else
-                    OutPut = 262143
-                End If
-            Case "20"
-                '1048575
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 524288) + 524287
-                ElseIf InputPercent < 0 Then
-                    OutPut = 524287 - (InputPercent * -524287)
-                Else
-                    OutPut = 524287
-                End If
-            Case "21"
-                '2097151
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 1048576) + 1048575
-                ElseIf InputPercent < 0 Then
-                    OutPut = 1048575 - (InputPercent * -1048575)
-                Else
-                    OutPut = 1048575
-                End If
-            Case "22"
-                '4194303
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 2097152) + 2097151
-                ElseIf InputPercent < 0 Then
-                    OutPut = 2097151 - (InputPercent * -2097151)
-                Else
-                    OutPut = 2097151
-                End If
-            Case "23"
-                '8388607
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 4194304) + 4194303
-                ElseIf InputPercent < 0 Then
-                    OutPut = 4194303 - (InputPercent * -4194303)
-                Else
-                    OutPut = 4194303
-                End If
-            Case "24"
-                '16777215
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 8388608) + 8388607
-                ElseIf InputPercent < 0 Then
-                    OutPut = 8388607 - (InputPercent * -8388607)
-                Else
-                    OutPut = 8388607
-                End If
-            Case "25"
-                '33554431
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 16777216) + 16777215
-                ElseIf InputPercent < 0 Then
-                    OutPut = 16777215 - (InputPercent * -16777215)
-                Else
-                    OutPut = 16777215
-                End If
-            Case "26"
-                '67108863
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 33554432) + 33554431
-                ElseIf InputPercent < 0 Then
-                    OutPut = 33554431 - (InputPercent * -33554431)
-                Else
-                    OutPut = 33554431
-                End If
-            Case "27"
-                '134217727
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 67108864) + 67108863
-                ElseIf InputPercent < 0 Then
-                    OutPut = 67108863 - (InputPercent * -67108863)
-                Else
-                    OutPut = 67108863
-                End If
-            Case "28"
-                '268435455
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 134217728) + 134217727
-                ElseIf InputPercent < 0 Then
-                    OutPut = 134217727 - (InputPercent * -134217727)
-                Else
-                    OutPut = 134217727
-                End If
-            Case "29"
-                '536870911
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 268435456) + 268435455
-                ElseIf InputPercent < 0 Then
-                    OutPut = 268435455 - (InputPercent * -268435455)
-                Else
-                    OutPut = 268435455
-                End If
-            Case "30"
-                '1073741823
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 536870912) + 536870911
-                ElseIf InputPercent < 0 Then
-                    OutPut = 536870911 - (InputPercent * -536870911)
-                Else
-                    OutPut = 536870911
-                End If
-            Case "31"
-                '2147483647
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 1073741824) + 1073741823
-                ElseIf InputPercent < 0 Then
-                    OutPut = 1073741823 - (InputPercent * -1073741823)
-                Else
-                    OutPut = 1073741823
-                End If
-            Case "32"
-                '4294967295
-                If InputPercent > 0 Then
-                    OutPut = (InputPercent * 2147483648) + 2147483647
-                ElseIf InputPercent < 0 Then
-                    OutPut = 2147483647 - (InputPercent * -2147483647)
-                Else
-                    OutPut = 2147483647
-                End If
-        End Select
+        Return Math.Round((InputPercent + 1.0) * 360, 0)
 
-        'Convert to an integer
-        OutPut = Math.Round(OutPut, 0)
-
-        'Type
-        Select Case Type
-            Case "Binary"
-                FinalOutput = GetChr(OutPut)
-                'output same number of char's always
-                If CInt(BitsNeeded) > 8 Then
-                    If FinalOutput.Length = 1 Then
-                        FinalOutput = CStr(AsciiCodes(0)) & FinalOutput
-                    End If
-                End If
-                If CInt(BitsNeeded) > 16 Then
-                    If FinalOutput.Length = 2 Then
-                        FinalOutput = CStr(AsciiCodes(0)) & FinalOutput
-                    End If
-                End If
-                If CInt(BitsNeeded) > 24 Then
-                    If FinalOutput.Length = 3 Then
-                        FinalOutput = CStr(AsciiCodes(0)) & FinalOutput
-                    End If
-                End If
-            Case "Hex"
-                FinalOutput = GetHex(OutPut)
-            Case "Decimal"
-                FinalOutput = CStr(OutPut)
-        End Select
-        Return FinalOutput
     End Function
 
     'Returns output HEX value
@@ -841,126 +466,9 @@ Public Class InterfacePlugin
         Return ChrStringOut
     End Function
 
-    'Com port not found
-    Private Sub CatchError(value As String) Handles MyForm._Error
-        Log(IPlugin_Interface_v3.Error_Level.Warning, _InterfaceName & " Interface #" & _InterfaceNumber & value)
-    End Sub
 #End Region
 End Class
 
-'My COM Port object
-#Region "    ComWorker"
-Public Class ComWorker
-    Public Event MsgRecieved(msg As String)
-
-#Region "Manager Variables"
-
-    'global
-    Private comPort As New SerialPort()
-    'Private write As Boolean = True
-#End Region
-
-#Region "Manager Properties"
-    'BaudRate
-    Public Property BaudRate() As String = "115200"
-
-    'Parity
-    Public Property Parity() As String = "None"
-
-    'StopBits
-    Public Property StopBits() As String = "1"
-
-    'DataBits
-    Public Property DataBits() As String = "8"
-
-    'PortName
-    Public Property PortName() As String = "4123"
-#End Region
-
-#Region "OpenPort"
-    Public Function OpenPort() As Boolean
-        Try
-            'check if the port is open
-            If comPort.IsOpen = True Then
-                comPort.Close()
-            End If
-            'SerialPort Object Properties
-            'ComPort
-            comPort.BaudRate = Integer.Parse(BaudRate)
-            'DataBits
-            comPort.DataBits = Integer.Parse(DataBits)
-            'StopBits
-            comPort.StopBits = DirectCast([Enum].Parse(GetType(StopBits), StopBits), StopBits)
-            'Parity
-            comPort.Parity = DirectCast([Enum].Parse(GetType(Parity), Parity), Parity)
-            'PortName
-            comPort.PortName = PortName
-            'open port             
-            comPort.Open()
-
-            'set encoding
-            comPort.Encoding = Text.Encoding.Default
-
-            'display message
-            'RaiseEvent MsgRecieved("Port opened at " + DateTime.Now + "" + Environment.NewLine + "")
-            'if opened return true
-            Return True
-        Catch ex As Exception
-            Return False
-        End Try
-    End Function
-#End Region
-
-#Region "ClosePort "
-    Public Sub ClosePort()
-        If comPort.IsOpen Then
-            'RaiseEvent MsgRecieved("Port closed at " + DateTime.Now + "" + Environment.NewLine + "")
-            comPort.Close()
-        End If
-    End Sub
-#End Region
-
-#Region "WriteData"
-    Public Function WriteData(ByVal msg As String) As Boolean
-        Try
-            If comPort.IsOpen = True Then
-                'send message
-                comPort.Write(msg)
-                Return True
-            End If
-        Catch ex As Exception
-        End Try
-
-        'no send
-        Return False
-
-        'comPort.Encoding = Text.Encoding.Default
-        'port is open?
-        'If Not (comPort.IsOpen = True) Then
-        '    comPort.Open()
-        'End If
-        'Try
-        '    'send message
-        '    comPort.Write(msg)
-        '    Return True
-        'Catch ex As Exception
-        '    Return False
-        'End Try
-    End Function
-#End Region
-
-#Region "ReceivedData"
-    Public Sub ComPort_DataReceived(ByVal sender As Object, ByVal e As SerialDataReceivedEventArgs)
-        Try
-            Dim msg As String = comPort.ReadExisting()
-            'return the data
-            RaiseEvent MsgRecieved(msg)
-        Catch ex As Exception
-        End Try
-    End Sub
-#End Region
-End Class
-#End Region
 
 
 

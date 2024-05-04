@@ -52,6 +52,9 @@
     <Reference Include="Interface_PluginAPI_v3">
       <HintPath>..\..\..\..\Interface_PluginAPI - 3 AxisAssignments\Interface_PluginAPI\bin\Release\Interface_PluginAPI_v3.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -92,6 +95,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="MonitorTcpClient.vb" />
     <Compile Include="UserControl_Settings.Designer.vb">
       <DependentUpon>UserControl_Settings.vb</DependentUpon>
     </Compile>
@@ -126,6 +130,7 @@
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\roto_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

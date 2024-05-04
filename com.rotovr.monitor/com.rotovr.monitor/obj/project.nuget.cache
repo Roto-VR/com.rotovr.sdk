@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "kCP3FJ29dX+xobZbkW3gCtTbim7mo7ywmhPpIVu9R82Mp/KaZqtpGn5HCtFp5LttPSO+ujNknIvMQxQUNyFC+Q==",
+  "dgSpecHash": "uFqQ1rxZjikjYxE/kNUCJDtRiWrZp0MbeK4UmDybXARW6/H+o7Z/5hsT2nY796j18rwLVBgj+4bOgwLtY4/Psg==",
   "success": true,
   "projectFilePath": "D:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\golandez\\.nuget\\packages\\net.tcpserver\\1.0.3\\net.tcpserver.1.0.3.nupkg.sha512",
+    "C:\\Users\\golandez\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
