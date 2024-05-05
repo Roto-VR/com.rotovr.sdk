@@ -373,5 +373,3 @@ D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePl
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.dll
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.xml
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.pdb
-D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\Newtonsoft.Json.dll
-D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\Newtonsoft.Json.xml

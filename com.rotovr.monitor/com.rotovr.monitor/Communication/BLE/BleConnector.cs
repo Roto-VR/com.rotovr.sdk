@@ -7,6 +7,7 @@ namespace RotoVR.Communication.BLE
     {
         public event Action<string> OnSystemLog;
         public event Action<ConnectionStatus> OnConnectionStatus;
+        public event Action<CompensationModel>? OnCompensationModel;
         public event Action<RotoDataModel> OnReadData;
 
         public void Connect()

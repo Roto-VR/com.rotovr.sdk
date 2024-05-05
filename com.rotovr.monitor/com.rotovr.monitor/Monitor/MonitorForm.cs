@@ -1,6 +1,4 @@
-﻿using RotoVR.Common.Model;
-using RotoVR.Communication;
-using RotoVR.Communication.Enum;
+﻿using RotoVR.Communication;
 using RotoVR.Core;
 using RotoVR.MotionCompensation;
 
@@ -18,31 +16,29 @@ namespace RotoVR.Monitor
         }
 
         private ICommunicationLayer m_communicationLayer;
-        private ICompensationBridge m_compensationBridge;
         private ApplicationViewState m_applicationViewState;
         private const int CP_NOCLOSE_BUTTON = 0x200;
 
         public void BindConnectionLayer(ICommunicationLayer communicationLayer)
         {
             m_communicationLayer = communicationLayer;
-            m_communicationLayer.OnConnectionStatus += OnConnectionStatusHandler;
         }
 
         public void BindCompensationBridge(ICompensationBridge compensationBridge)
         {
-            m_compensationBridge = compensationBridge;
-            m_compensationBridge.Init();
+            compensationBridge.Init();
+            m_communicationLayer.Inject(compensationBridge);
         }
 
         protected override void Dispose(bool disposing)
         {
-            m_communicationLayer.OnConnectionStatus -= OnConnectionStatusHandler;
-           
             if (disposing && (m_components != null))
             {
                 m_components.Dispose();
             }
+         
             m_communicationLayer.Stop();
+           
             base.Dispose(disposing);
         }
 
@@ -77,7 +73,7 @@ namespace RotoVR.Monitor
             WindowState = FormWindowState.Normal;
             ClientSize = new Size(1024, 768);
             SetAppViewState(ApplicationViewState.Console);
-            
+
             m_openConsoleMenuItem.Text = "Hide";
             m_openConsoleMenuItem.Click -= OnClickOpenConsole;
             m_openConsoleMenuItem.Click += OnClickHideConsole;
@@ -103,42 +99,6 @@ namespace RotoVR.Monitor
             }
         }
 
-        private void OnClickUsbMenuItemMConnect(object sender, EventArgs e)
-        {
-            m_communicationLayer.Connect(CommunicationType.Usb);
-        }
-
-        private void OnClickBleMenuItemMConnect(object sender, EventArgs e)
-        {
-            m_communicationLayer.Connect(CommunicationType.Ble);
-        }
-
-        private void OnClickApplicationDisconnect(object sender, EventArgs e)
-        {
-            m_communicationLayer.Disconnect();
-        }
-
-        private void OnConnectionStatusHandler(ConnectionStatus status)
-        {
-            switch (status)
-            {
-                case ConnectionStatus.Connected:
-                  //  m_communicationLayer.OnUdpMessage += OnUdpMessageHandler;
-                    ConnectedHandler();
-                    break;
-                case ConnectionStatus.Disconnected:
-                   // m_communicationLayer.OnUdpMessage -= OnUdpMessageHandler;
-                    DisconnectedHandler();
-                    break;
-                case ConnectionStatus.Error:
-                  //  m_communicationLayer.OnUdpMessage -= OnUdpMessageHandler;
-                    ConnectionErrorHandler();
-                    break;
-            }
-        }
-
-     
-
         private void SettingsButton_Click(object sender, EventArgs e)
         {
             SetAppViewState(ApplicationViewState.Settings);
@@ -156,12 +116,5 @@ namespace RotoVR.Monitor
             Console,
             Settings,
         }
-
-        private void CompensationValueChanged(object sender, EventArgs e)
-        {
-            m_compensationBridge.SetCompensationValue(new CompensationModel(m_positionX.Value, m_positionY.Value));
-        }
-
-   
     }
 }

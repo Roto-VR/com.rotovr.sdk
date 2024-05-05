@@ -1,8 +1,10 @@
+using RotoVR.Common.Model;
 using RotoVR.Communication.BLE;
 using RotoVR.Communication.Enum;
 using RotoVR.Communication.TCP;
 using RotoVR.Communication.UDP;
 using RotoVR.Communication.USB;
+using RotoVR.MotionCompensation;
 
 namespace RotoVR.Communication;
 
@@ -10,83 +12,64 @@ public class CommunicationLayer : ICommunicationLayer
 {
     private IConnector m_usbConnector = new UsbConnector();
     private IConnector m_bleConnector = new BleConnector();
-    private ITcpService _mTcpService = new TcpService();
+    private ITcpService m_TcpService = new TcpService();
     private CommunicationType m_communicationType;
+    private ICompensationBridge m_compensationBridge;
 
-    public event Action<string> OnSystemLog;
     public event Action<ConnectionStatus> OnConnectionStatus;
+
 
     public void Start()
     {
-        _mTcpService.OnSystemLog += OnSystemLogHandler;
-        _mTcpService.OnMessage += OnTcpMessageHandler;
-        _mTcpService.Start();
+        m_communicationType = CommunicationType.Usb;
+
+        m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;
+        m_usbConnector.OnCompensationModel += OnCompensationModelHandler;
+        m_usbConnector.OnReadData += OnReadDataHandler;
+
+        m_TcpService.OnMessage += OnTcpMessageHandler;
+        m_TcpService.Start();
     }
 
     public void Stop()
     {
-        Disconnect();
-        _mTcpService.OnSystemLog -= OnSystemLogHandler;
-        _mTcpService.OnMessage -= OnTcpMessageHandler;
-        _mTcpService.Stop();
+        m_usbConnector.Disconnect();
+        m_TcpService.OnMessage -= OnTcpMessageHandler;
+        m_TcpService.Stop();
     }
 
-
-    public void Connect(CommunicationType type)
+    public void Inject(ICompensationBridge bridge)
     {
-        m_communicationType = type;
-        switch (type)
-        {
-            case CommunicationType.Usb:
-                m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;
-                m_usbConnector.OnSystemLog += OnSystemLogHandler;
-                m_usbConnector.Connect();
-                break;
-            case CommunicationType.Ble:
-                m_bleConnector.OnConnectionStatus += ConnectionStatusHandler;
-                m_bleConnector.OnSystemLog += OnSystemLogHandler;
-                m_bleConnector.Connect();
-                break;
-        }
-    }
-
-    public void Disconnect()
-    {
-        switch (m_communicationType)
-        {
-            case CommunicationType.Usb:
-                m_usbConnector.Disconnect();
-                break;
-            case CommunicationType.Ble:
-                m_bleConnector.Disconnect();
-                break;
-        }
+        m_compensationBridge = bridge;
     }
 
     private void ConnectionStatusHandler(ConnectionStatus status)
     {
         OnConnectionStatus?.Invoke(status);
-
-        if (status == ConnectionStatus.Disconnected)
+        switch (status)
         {
-            switch (m_communicationType)
-            {
-                case CommunicationType.Usb:
-                    m_usbConnector.OnConnectionStatus -= ConnectionStatusHandler;
-                    m_usbConnector.OnSystemLog -= OnSystemLogHandler;
-                    break;
-                case CommunicationType.Ble:
-                    m_bleConnector.OnConnectionStatus -= ConnectionStatusHandler;
-                    m_bleConnector.OnSystemLog -= OnSystemLogHandler;
-                    break;
-            }
+            case ConnectionStatus.Connected:
+                m_compensationBridge.Start();
+                break;
+            case ConnectionStatus.Disconnected:
+                m_compensationBridge.Stop();
+                m_usbConnector.OnConnectionStatus -= ConnectionStatusHandler;
+                m_usbConnector.OnCompensationModel -= OnCompensationModelHandler;
+                m_usbConnector.OnReadData -= OnReadDataHandler;
+                break;
         }
     }
 
-    private void OnSystemLogHandler(string message)
+    private void OnReadDataHandler(RotoDataModel data)
     {
-        OnSystemLog?.Invoke(message);
+        m_compensationBridge.SetRotoData(data);
     }
+
+    private void OnCompensationModelHandler(CompensationModel model)
+    {
+        m_compensationBridge.SetCompensationValue(model);
+    }
+
 
     private void OnTcpMessageHandler(byte[] rawData)
     {

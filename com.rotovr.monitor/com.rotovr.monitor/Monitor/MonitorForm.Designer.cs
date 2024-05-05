@@ -11,10 +11,6 @@ namespace RotoVR.Monitor
         private NotifyIcon m_notifyIcon;
         private ContextMenuStrip m_notifyIconContextMenu;
         private ToolStripMenuItem m_openConsoleMenuItem;
-        private NumericUpDown m_positionX;
-        private NumericUpDown m_positionY;
-        private Label m_positionXLabel;
-        private Label m_positionYLabel;
         private Label m_consoleLabel;
         private Panel m_consolePanel;
         private Button m_settingsButton;
@@ -33,7 +29,7 @@ namespace RotoVR.Monitor
 
             m_openConsoleMenuItem = GetOpenConsoleMenuItem();
                     
-            m_notifyIconContextMenu.Items.AddRange(new ToolStripItem[] { GetApplicationConnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+            m_notifyIconContextMenu.Items.AddRange(new ToolStripItem[] { m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
             m_notifyIconContextMenu.Name = "contextMenuStrip";
             m_notifyIconContextMenu.Size = new Size(150, 92);
 
@@ -93,50 +89,6 @@ namespace RotoVR.Monitor
             notifyIcon.Visible = true;
             return notifyIcon;
         }
-
-        ToolStripMenuItem GetApplicationConnectMenuItem()
-        {
-            ToolStripMenuItem iten = new ToolStripMenuItem();
-          //  iten.DropDownItems.AddRange(new ToolStripItem[] { GetConnectUsbMenuItem(), GetConnectBleMenuItem() });
-            iten.Name = "applicationConnect";
-            iten.Size = new Size(149, 22);
-            iten.Text = "Connect";
-            iten.Click += OnClickUsbMenuItemMConnect;
-            return iten;
-        }
-        
-        ToolStripMenuItem GetApplicationDisconnectMenuItem()
-        {
-            ToolStripMenuItem iten = new ToolStripMenuItem();
-           
-            iten.Name = "applicationDisconnect";
-            iten.Size = new Size(149, 22);
-            iten.Text = "Disconnect";
-            iten.Click += OnClickApplicationDisconnect;
-            return iten;
-        }
-
-        ToolStripMenuItem GetConnectUsbMenuItem()
-        {
-            ToolStripMenuItem iten = new ToolStripMenuItem();
-            iten.MergeAction = MergeAction.MatchOnly;
-            iten.Name = "connectUSB";
-            iten.Size = new Size(180, 22);
-            iten.Text = "USB";
-            iten.Click += OnClickUsbMenuItemMConnect;
-            return iten;
-        }
-        
-        ToolStripMenuItem GetConnectBleMenuItem()
-        {
-            ToolStripMenuItem iten = new ToolStripMenuItem();
-            iten.Name = "connectBLE";
-            iten.Size = new Size(180, 22);
-            iten.Text = "BLE";
-            iten.Click += OnClickBleMenuItemMConnect;
-            return iten;
-        }
-
         void InitFormView(ComponentResourceManager resources)
         {
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -154,34 +106,6 @@ namespace RotoVR.Monitor
             Controls.Add(SettingsButton());
             Controls.Add(ConsoleButton());
         }
-
-        void ConnectedHandler()
-        {
-            m_notifyIconContextMenu.Items.Clear();
-            m_notifyIconContextMenu.Items.AddRange(
-                new ToolStripItem[] { GetApplicationDisconnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
-            m_notifyIcon.BalloonTipText = "Monitor was successfully connected";
-            m_notifyIcon.ShowBalloonTip(100);
-        }
-
-        void DisconnectedHandler()
-        {
-            m_notifyIconContextMenu.Items.Clear();
-            m_notifyIconContextMenu.Items.AddRange(
-                new ToolStripItem[] { GetApplicationConnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
-            m_notifyIcon.BalloonTipText = "Monitor was disconnected";
-            m_notifyIcon.ShowBalloonTip(100);
-        }
-        
-        private void ConnectionErrorHandler()
-        {
-            m_notifyIconContextMenu.Items.Clear();
-            m_notifyIconContextMenu.Items.AddRange(
-                new ToolStripItem[] { GetApplicationConnectMenuItem(), m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
-            m_notifyIcon.BalloonTipText = "Connection failed, please try again";
-            m_notifyIcon.ShowBalloonTip(100);
-        }
-
         Button SettingsButton()
         {
             m_settingsButton = new Button();
@@ -237,80 +161,12 @@ namespace RotoVR.Monitor
             {
                 Controls.Remove(m_consolePanel);
                 m_consoleLabel = null;
-                m_communicationLayer.OnSystemLog -= SystemLogHandler;
             }
-
-            var compensationValue = m_compensationBridge.GetCompensationModel();
-            
-            m_positionX = new NumericUpDown();
-            m_positionX.Minimum = -100;
-            m_positionX.Maximum = 100;
-            m_positionX.DecimalPlaces = 2;
-            m_positionX.Value = compensationValue.X;
-            
-            m_positionY = new NumericUpDown();
-            m_positionY.Minimum = -100;
-            m_positionY.Maximum = 100;
-            m_positionY.DecimalPlaces = 2;
-         
-            m_positionY.Value = compensationValue.Y;
-            m_positionXLabel = new Label();
-            m_positionYLabel = new Label();
-            
-            m_positionX.Location = new Point(86, 22);
-            m_positionX.Name = "PositionX";
-            m_positionX.Size = new Size(59, 23);
-            m_positionX.TabIndex = 0;
-      
-            m_positionY.Location = new Point(238, 22);
-            m_positionY.Name = "PositionY";
-            m_positionY.Size = new Size(56, 23);
-            m_positionY.TabIndex = 1;
-        
-            m_positionXLabel.AutoSize = true;
-            m_positionXLabel.Location = new Point(20, 25);
-            m_positionXLabel.Name = "PositionXLabel";
-            m_positionXLabel.Size = new Size(60, 15);
-            m_positionXLabel.TabIndex = 4;
-            m_positionXLabel.Text = "Position X";
-        
-            m_positionYLabel.AutoSize = true;
-            m_positionYLabel.Location = new Point(172, 25);
-            m_positionYLabel.Name = "PositionYLabel";
-            m_positionYLabel.Size = new Size(60, 15);
-            m_positionYLabel.TabIndex = 5;
-            m_positionYLabel.Text = "Position Y";
-            
-            Controls.Add(m_positionX);
-            Controls.Add(m_positionY);
-        
-            Controls.Add(m_positionXLabel);
-            Controls.Add(m_positionYLabel);
-            
-            m_positionX.ValueChanged += CompensationValueChanged;
-            m_positionY.ValueChanged += CompensationValueChanged;
         }
 
         void InitConsoleView()
         {
             m_log = string.Empty;
-            if (m_positionX != null)
-            {
-                Controls.Remove(m_positionX);
-                Controls.Remove(m_positionY);
-
-                Controls.Remove(m_positionXLabel);
-                Controls.Remove(m_positionYLabel);
-
-                m_positionX.ValueChanged -= CompensationValueChanged;
-                m_positionY.ValueChanged -= CompensationValueChanged;
-               
-                
-                m_positionX = null;
-                m_positionY = null;
-                m_positionXLabel = null;
-                m_positionYLabel = null;
-            }
 
             m_consolePanel = new Panel();
             m_consolePanel.AutoScroll = true;
@@ -328,7 +184,6 @@ namespace RotoVR.Monitor
             m_consoleLabel.Font= new Font("Arial", 10);
             m_consolePanel.Controls.Add(m_consoleLabel);
             Controls.Add(m_consolePanel);
-            m_communicationLayer.OnSystemLog += SystemLogHandler;
         }
         private void SystemLogHandler(string log)
         {

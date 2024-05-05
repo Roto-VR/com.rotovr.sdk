@@ -10,4 +10,5 @@ public interface ICompensationBridge
     void SetCompensationValue(CompensationModel model);
     void Start();
     void Stop();
+    void SetRotoData(RotoDataModel data);
 }

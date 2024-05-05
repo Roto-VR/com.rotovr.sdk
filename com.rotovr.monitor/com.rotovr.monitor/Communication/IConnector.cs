@@ -7,7 +7,7 @@ namespace RotoVR.Communication
     {
         event Action<string> OnSystemLog;
         event Action<ConnectionStatus> OnConnectionStatus;
-
+        event Action<CompensationModel> OnCompensationModel;
         event Action<RotoDataModel> OnReadData;
         void Connect();
         void Disconnect();

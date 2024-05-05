@@ -1,13 +1,11 @@
-using RotoVR.Communication.Enum;
+
+using RotoVR.MotionCompensation;
 
 namespace RotoVR.Communication;
 
 public interface ICommunicationLayer
 {
-    event Action<string> OnSystemLog;
-    event Action<ConnectionStatus> OnConnectionStatus;
+    void Inject(ICompensationBridge compensationBridge);
     void Start();
     void Stop();
-    void Connect(CommunicationType type);
-    void Disconnect();
 }

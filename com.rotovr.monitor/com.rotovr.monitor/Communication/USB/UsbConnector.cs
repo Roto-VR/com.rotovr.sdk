@@ -19,6 +19,7 @@ namespace RotoVR.Communication.USB
 
         public event Action<string> OnSystemLog;
         public event Action<ConnectionStatus> OnConnectionStatus;
+        public event Action<CompensationModel> OnCompensationModel;
         public event Action<RotoDataModel> OnReadData;
 
         public void Connect()
@@ -81,12 +82,28 @@ namespace RotoVR.Communication.USB
                     int angle = 0;
                     if (rawData[4] == 1)
                     {
-                        angle = 250 + rawData[5];
+                        angle = 256 + rawData[5];
                     }
                     else
                         angle = rawData[5];
 
                     TurnToAngle(angle);
+                    break;
+                case 4:
+                    decimal x = rawData[12];
+                    x += (decimal)rawData[13] / 100;
+
+                    if (rawData[11] == 1)
+                        x *= -1;
+
+                    decimal y = rawData[15];
+                    y += (decimal)rawData[16] / 100;
+
+                    if (rawData[14] == 1)
+                        y *= -1;
+
+                    CompensationModel model = new CompensationModel(x, y);
+                    OnCompensationModel?.Invoke(model);
                     break;
                 case 10:
                     Disconnect();

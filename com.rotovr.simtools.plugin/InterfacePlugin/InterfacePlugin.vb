@@ -345,11 +345,13 @@ Public Class InterfacePlugin
 
     'Initialize interface (centering routine - mainly used for optical systems)
     Private Sub Initialize()
-        'If Needed, Initialize Interface here     
+        'If Needed, Initialize Interface here
+        '
     End Sub
 
     'Used when the Game Starts  
     Private Function GameStart() As Boolean
+        monitorUDPClient.SetOffset(MyForm.NumericUpDownX.Value, MyForm.NumericUpDownY.Value)
         monitorUDPClient.Connect()
         Return True
     End Function
