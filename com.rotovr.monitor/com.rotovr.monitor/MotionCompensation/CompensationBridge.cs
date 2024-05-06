@@ -4,38 +4,43 @@ namespace RotoVR.MotionCompensation;
 
 public class CompensationBridge : ICompensationBridge
 {
-    private CompensationModel m_compensationModel = new();
     private RotoDataModel m_rotoData = new();
+    private bool m_isRunning = false;
 
     public void Init()
     {
-        /// Load OpenVR API
-        ///
-        /// 
-    }
-
-    public CompensationModel GetCompensationModel()
-    {
-        return m_compensationModel;
+        MotionCompensationNative.LoadLibrary(@"RotoVR.MC.dll");
+        MotionCompensationNative.InitFacade();
     }
 
     public void SetCompensationValue(CompensationModel model)
     {
-        m_compensationModel = model;
+        MotionCompensationNative.InitOffset(model.X, model.Y);
     }
-
 
     public void Start()
     {
-    }
+        MotionCompensationNative.Start();
 
-    public void Stop()
-    {
+        Task.Run(async () =>
+        {
+            await Task.Delay(1000);
+            while (m_isRunning)
+            {
+                MotionCompensationNative.RunFrame(m_rotoData.Angle);
+            }
+        });
     }
 
     public void SetRotoData(RotoDataModel data)
     {
         Console.WriteLine($"Angle: {data.Angle}");
         m_rotoData = data;
+    }
+
+    public void Stop()
+    {
+        m_isRunning = false;
+        MotionCompensationNative.Stop();
     }
 }

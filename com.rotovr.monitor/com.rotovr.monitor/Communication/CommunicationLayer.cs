@@ -1,5 +1,4 @@
 using RotoVR.Common.Model;
-using RotoVR.Communication.BLE;
 using RotoVR.Communication.Enum;
 using RotoVR.Communication.TCP;
 using RotoVR.Communication.UDP;
@@ -11,9 +10,7 @@ namespace RotoVR.Communication;
 public class CommunicationLayer : ICommunicationLayer
 {
     private IConnector m_usbConnector = new UsbConnector();
-    private IConnector m_bleConnector = new BleConnector();
     private ITcpService m_TcpService = new TcpService();
-    private CommunicationType m_communicationType;
     private ICompensationBridge m_compensationBridge;
 
     public event Action<ConnectionStatus> OnConnectionStatus;
@@ -21,8 +18,6 @@ public class CommunicationLayer : ICommunicationLayer
 
     public void Start()
     {
-        m_communicationType = CommunicationType.Usb;
-
         m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;
         m_usbConnector.OnCompensationModel += OnCompensationModelHandler;
         m_usbConnector.OnReadData += OnReadDataHandler;

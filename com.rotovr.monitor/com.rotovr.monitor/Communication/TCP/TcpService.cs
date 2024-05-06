@@ -9,7 +9,6 @@ public class TcpService : ITcpService
     public event Action<string> OnSystemLog;
     public event Action<byte[]> OnMessage;
     private int m_port = 56685;
-    private bool m_serverIsRunning = false;
 
     private TcpServer tcpServer;
 

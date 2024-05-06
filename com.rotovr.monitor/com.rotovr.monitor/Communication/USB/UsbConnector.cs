@@ -90,14 +90,14 @@ namespace RotoVR.Communication.USB
                     TurnToAngle(angle);
                     break;
                 case 4:
-                    decimal x = rawData[12];
-                    x += (decimal)rawData[13] / 100;
+                    double x = rawData[12];
+                    x += (double)rawData[13] / 100;
 
                     if (rawData[11] == 1)
                         x *= -1;
 
-                    decimal y = rawData[15];
-                    y += (decimal)rawData[16] / 100;
+                    double y = rawData[15];
+                    y += (double)rawData[16] / 100;
 
                     if (rawData[14] == 1)
                         y *= -1;
