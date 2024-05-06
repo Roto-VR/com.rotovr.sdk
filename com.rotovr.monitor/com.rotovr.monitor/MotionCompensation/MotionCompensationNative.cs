@@ -20,5 +20,5 @@ public static class MotionCompensationNative
     internal static extern void Stop();
 
     [DllImport("RotoVR.MC.dll")]
-    internal static extern void RunFrame(int angle);
+    internal static extern void UpdateAngle(int angle);
 }

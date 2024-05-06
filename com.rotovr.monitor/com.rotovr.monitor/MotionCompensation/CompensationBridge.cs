@@ -21,26 +21,17 @@ public class CompensationBridge : ICompensationBridge
     public void Start()
     {
         MotionCompensationNative.Start();
-
-        Task.Run(async () =>
-        {
-            await Task.Delay(1000);
-            while (m_isRunning)
-            {
-                MotionCompensationNative.RunFrame(m_rotoData.Angle);
-            }
-        });
     }
 
     public void SetRotoData(RotoDataModel data)
     {
         Console.WriteLine($"Angle: {data.Angle}");
         m_rotoData = data;
+        MotionCompensationNative.UpdateAngle(data.Angle);
     }
 
     public void Stop()
     {
-        m_isRunning = false;
         MotionCompensationNative.Stop();
     }
 }

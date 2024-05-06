@@ -15,6 +15,13 @@ namespace RotoVR.Monitor
         private Panel m_consolePanel;
         private Button m_settingsButton;
         private Button m_consoleButton;
+        
+        private Button m_initMcButton;
+        private Button m_initOffsetButton;
+        private Button m_startButton;
+        private Button m_stopButton;
+        private Button m_runButton;
+        
         private string m_log;
         private void Initialize()
         {
@@ -27,9 +34,9 @@ namespace RotoVR.Monitor
             
             SuspendLayout();
 
-            m_openConsoleMenuItem = GetOpenConsoleMenuItem();
+          //  m_openConsoleMenuItem = GetOpenConsoleMenuItem();
                     
-            m_notifyIconContextMenu.Items.AddRange(new ToolStripItem[] { m_openConsoleMenuItem, GetAboutMenuItem(), GetApplicationQuitMenuItem() });
+            m_notifyIconContextMenu.Items.AddRange(new ToolStripItem[] { /*m_openConsoleMenuItem,*/ GetAboutMenuItem(), GetApplicationQuitMenuItem() });
             m_notifyIconContextMenu.Name = "contextMenuStrip";
             m_notifyIconContextMenu.Size = new Size(150, 92);
 
@@ -105,6 +112,12 @@ namespace RotoVR.Monitor
             
             Controls.Add(SettingsButton());
             Controls.Add(ConsoleButton());
+            
+            // TODO Remove after debug 
+            // Controls.Add(InitOffsetButton());
+            // Controls.Add(StartButton());
+            // Controls.Add(StopButton());
+            // Controls.Add(RunButton());
         }
         Button SettingsButton()
         {
@@ -133,7 +146,65 @@ namespace RotoVR.Monitor
             m_consoleButton.Click += ConsoleButton_Click;
             return m_consoleButton;
         }
-
+        // Button InitOffsetButton()
+        // {
+        //    var button = new Button();
+        //     button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        //     button.Location = new Point(120, 10);
+        //     button.Name = "InitOffsetButton";
+        //     button.Size = new Size(100, 30);
+        //     button.TabIndex = 3;
+        //     button.Text = "Init Offset";
+        //     button.UseVisualStyleBackColor = true;
+        //     button.Click += InitOffset;
+        //     return button;
+        // }
+        //
+        // Button StartButton()
+        // {
+        //     var button = new Button();
+        //     button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        //     button.Location = new Point(230, 10);
+        //     button.Name = "StartButton";
+        //     button.Size = new Size(80, 30);
+        //     button.TabIndex = 3;
+        //     button.Text = "Start";
+        //     button.UseVisualStyleBackColor = true;
+        //     button.Click += StartMC;
+        //     return button;
+        // }
+        //
+        // Button StopButton()
+        // {
+        //     var button = new Button();
+        //     button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        //     button.Location = new Point(320, 10);
+        //     button.Name = "StopButton";
+        //     button.Size = new Size(80, 30);
+        //     button.TabIndex = 3;
+        //     button.Text = "Stop";
+        //     button.UseVisualStyleBackColor = true;
+        //     button.Click += StopMC;
+        //     return button;
+        // }
+        //
+        // Button RunButton()
+        // {
+        //     var button = new Button();
+        //     button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        //     button.Location = new Point(410, 10);
+        //     button.Name = "RunButton";
+        //     button.Size = new Size(80, 30);
+        //     button.TabIndex = 3;
+        //     button.Text = "Run";
+        //     button.UseVisualStyleBackColor = true;
+        //
+        //     button.Click += RunMC;
+        //     return button;
+        // }
+        
+        
+        
         void SetAppViewState(ApplicationViewState viewState)
         {
             if(m_applicationViewState==viewState)

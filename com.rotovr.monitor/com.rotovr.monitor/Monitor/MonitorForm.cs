@@ -1,4 +1,5 @@
-﻿using RotoVR.Communication;
+﻿using RotoVR.Common.Model;
+using RotoVR.Communication;
 using RotoVR.Core;
 using RotoVR.MotionCompensation;
 
@@ -11,10 +12,11 @@ namespace RotoVR.Monitor
             new Bootstrapper(this).Bootstrap(() =>
             {
                 Initialize();
-                WindowState = FormWindowState.Minimized;
+                 WindowState = FormWindowState.Minimized;
             });
         }
 
+        private ICompensationBridge m_compensationBridge;
         private ICommunicationLayer m_communicationLayer;
         private ApplicationViewState m_applicationViewState;
         private const int CP_NOCLOSE_BUTTON = 0x200;
@@ -26,6 +28,7 @@ namespace RotoVR.Monitor
 
         public void BindCompensationBridge(ICompensationBridge compensationBridge)
         {
+            m_compensationBridge = compensationBridge;
             compensationBridge.Init();
             m_communicationLayer.Inject(compensationBridge);
         }
@@ -36,9 +39,9 @@ namespace RotoVR.Monitor
             {
                 m_components.Dispose();
             }
-         
+
             m_communicationLayer.Stop();
-           
+
             base.Dispose(disposing);
         }
 
@@ -116,5 +119,30 @@ namespace RotoVR.Monitor
             Console,
             Settings,
         }
+
+        // TODO Remove after debug 
+        // #region DEBUG PART
+        //
+        // private void InitOffset(object sender, EventArgs e)
+        // {
+        //     m_compensationBridge.SetCompensationValue(new CompensationModel(-10, 15));
+        // }
+        //
+        // private void StartMC(object sender, EventArgs e)
+        // {
+        //     m_compensationBridge.Start();
+        // }
+        //
+        // private void StopMC(object sender, EventArgs e)
+        // {
+        //     m_compensationBridge.Stop();
+        // }
+        //
+        // private void RunMC(object sender, EventArgs e)
+        // {
+        //     m_compensationBridge.SetRotoData(new RotoDataModel("", 90, 0, 0));
+        // }
+
+       // #endregion
     }
 }
