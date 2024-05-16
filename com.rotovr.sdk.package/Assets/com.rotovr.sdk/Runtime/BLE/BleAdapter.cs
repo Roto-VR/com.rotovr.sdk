@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace com.rotovr.sdk
 { 
-    public class BleAdapter : MonoBehaviour
+    class BleAdapter : MonoBehaviour
     {
         public delegate void BleJsonMessageReceived(BleJsonMessage msg);
 

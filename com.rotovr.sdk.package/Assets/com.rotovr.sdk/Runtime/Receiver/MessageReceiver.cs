@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace com.rotovr.sdk
 {
-    public class MessageReceiver : IMessageReceiver
+    
+    class MessageReceiver : IMessageReceiver
     {
         BleAdapter m_BleAdapter;
       

@@ -3,7 +3,7 @@ using System;
 namespace com.rotovr.sdk
 {
     [Serializable]
-    public class ModeModel
+    class ModeModel
     {
         public ModeModel(string mode, ModeParametersModel parametersModel)
         {

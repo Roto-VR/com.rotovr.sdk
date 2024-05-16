@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace com.rotovr.sdk
 {
-    public static class BleUtility
+    static class BleUtility
     {
         public static byte[] ObjectToByteArray(Object obj)
         {

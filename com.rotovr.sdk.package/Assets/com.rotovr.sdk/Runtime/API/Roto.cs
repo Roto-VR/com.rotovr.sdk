@@ -58,7 +58,7 @@ namespace com.rotovr.sdk
         /// Invoke to send BleMessage to java library
         /// </summary>
         /// <param name="message">Ble message</param>
-        public void SendMessage(BleMessage message)
+        void SendMessage(BleMessage message)
         {
             Call(message.MessageType.ToString(), message.Data);
         }

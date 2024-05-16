@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace com.rotovr.sdk
 {
-    public class MotionCompensation : MonoBehaviour
+    class MotionCompensation : MonoBehaviour
     {
         [SerializeField] private Transform m_motionTarget;
         Coroutine m_Routine;

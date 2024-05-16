@@ -1,6 +1,6 @@
 ﻿namespace com.rotovr.sdk
 {
-    public class BleMessage
+    class BleMessage
     {
         public BleMessage(MessageType messageType, string data = "")
         {

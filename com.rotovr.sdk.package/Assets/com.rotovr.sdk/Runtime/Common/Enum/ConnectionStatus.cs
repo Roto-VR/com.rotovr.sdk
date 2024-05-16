@@ -1,5 +1,5 @@
 ﻿namespace com.rotovr.sdk
-{
+{ 
     public enum ConnectionStatus
     {
         /// <summary>

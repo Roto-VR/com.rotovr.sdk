@@ -1,6 +1,6 @@
 ﻿namespace com.rotovr.sdk
 {
-    public enum MessageType : byte
+    enum MessageType : byte
     {
         Scan = 0x00,
         FinishedDiscovering = 0x01,

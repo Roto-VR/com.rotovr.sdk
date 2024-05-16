@@ -3,7 +3,7 @@ namespace com.rotovr.sdk
     /// <summary>
     /// Chair movement mode.
     /// </summary>
-    public enum MovementMode
+    enum MovementMode
     {
         /// <summary>
         /// Smooth stop of the chair.
