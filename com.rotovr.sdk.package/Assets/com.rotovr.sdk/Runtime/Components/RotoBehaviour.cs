@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace com.rotovr.sdk
 {
-    public class RotoBehaviour : MonoBehaviour
+    public class RotoBehaviour : MonoSingleton<RotoBehaviour>
     {
         /// <summary>
         /// Behaviour mode. Works only in an editor. Select Runtime if you have rotoVR chair, select Simulation if you don't have the chair and want to simulate it behaviour
@@ -44,22 +44,33 @@ namespace com.rotovr.sdk
         /// </summary>
         public event Action<RotoDataModel> OnDataChanged;
 
-        void Awake()
+        
+        protected override void Awake()
         {
-            DontDestroyOnLoad(gameObject);
-            var behaviour = FindObjectOfType<RotoBehaviour>();
-            if (behaviour != null && behaviour != this)
-                Destroy(behaviour);
-
-            InitRoto();
+           base.Awake();
+           InitRoto();
         }
 
+        
+        /// <summary>
+        /// An empty function, just to create RotoBehaviour instance via the code
+        /// with the default params.
+        /// </summary>
+        public void Create()
+        {
+            
+        }
+        
+     
+        //TODO why do we even need it, of that's a singleton.
+        
+        /*
         void OnDestroy()
         {
             m_Roto.OnConnectionStatus -= OnConnectionStatusHandler;
             m_Roto.OnRotoMode -= OnRotoModeHandler;
             m_Roto.Disconnect(m_DeviceName);
-        }
+        }*/
 
         /// <summary>
         /// Initialisation of the component

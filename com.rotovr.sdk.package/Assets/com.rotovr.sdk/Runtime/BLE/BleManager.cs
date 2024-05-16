@@ -3,31 +3,15 @@ using UnityEngine;
 
 namespace com.rotovr.sdk
 {
-    class BleManager : MonoBehaviour
+    class BleManager : MonoSingleton<BleManager>
     {
-        public static BleManager Instance
-        {
-            get
-            {
-                if (s_Instance == null)
-                {
-                    var manager = new GameObject("BleManager");
-                    s_Instance = manager.AddComponent<BleManager>();
-                }
-
-                return s_Instance;
-            }
-        }
-
-        static BleManager s_Instance;
+       
         BleAdapter m_BleAdapter;
         IMessageReceiver m_MessageReceiver;
         bool m_IsInitialized;
         internal static AndroidJavaClass m_AndroidClass;
         internal static AndroidJavaObject m_AndroidLibrary = null;
-
-        void OnDestroy() => Dispose();
-
+        
         public void Init()
         {
             if (m_IsInitialized)
@@ -54,13 +38,16 @@ namespace com.rotovr.sdk
             m_AndroidLibrary = m_AndroidClass.CallStatic<AndroidJavaObject>("GetInstance");
         }
 
+        
+        //TODO why do we even need it, of that's a singleton.
+        /*
         void Dispose()
         {
             m_AndroidLibrary?.Dispose();
             m_MessageReceiver?.Dispose();
             if (m_BleAdapter != null)
                 Destroy(m_BleAdapter.gameObject);
-        }
+        }*/
 
         public void Call(string command, string data)
         {

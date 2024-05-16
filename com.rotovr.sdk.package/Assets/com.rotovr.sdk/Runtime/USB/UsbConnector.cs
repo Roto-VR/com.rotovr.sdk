@@ -6,20 +6,8 @@ using PimDeWitte.UnityMainThreadDispatcher;
 
 namespace com.rotovr.sdk
 {
-    public class UsbConnector
+    public class UsbConnector : MonoSingleton<UsbConnector>
     {
-        public static UsbConnector Instance
-        {
-            get
-            {
-                if (m_instance == null)
-                    m_instance = new UsbConnector();
-                return m_instance;
-            }
-        }
-
-        private static UsbConnector m_instance;
-
         const UInt16 k_vid = 0x04D9;
         const UInt16 k_pid = 0xB564;
 
