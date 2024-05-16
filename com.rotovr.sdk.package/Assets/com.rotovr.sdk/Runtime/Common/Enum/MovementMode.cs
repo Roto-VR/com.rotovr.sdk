@@ -1,8 +1,18 @@
 namespace com.rotovr.sdk
 {
+    /// <summary>
+    /// Chair movement mode.
+    /// </summary>
     public enum MovementMode
     {
-        Smooth, // Smooth stop of the chair
-        Jerky, // Hard stop of the chair
+        /// <summary>
+        /// Smooth stop of the chair.
+        /// </summary>
+        Smooth, 
+        
+        /// <summary>
+        /// Hard stop of the chair.
+        /// </summary>
+        Jerky, 
     }
 }
