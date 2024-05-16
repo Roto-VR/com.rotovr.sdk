@@ -18,7 +18,7 @@ namespace com.rotovr.sdk
         /// <summary>
         /// Setup on the component in a scene working mode
         /// </summary>
-        [SerializeField] ModeType m_ModeType;
+        [SerializeField] RotoModeType m_ModeType;
 
         /// <summary>
         /// For Head Tracking Move need to setup a target to observe a rotation
@@ -104,17 +104,17 @@ namespace com.rotovr.sdk
 
                     switch (m_ModeType)
                     {
-                        case ModeType.FreeMode:
-                            m_Roto.SetMode(m_ModeType, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                        case RotoModeType.FreeMode:
+                            m_Roto.SetMode(ModeType.FreeMode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                             break;
-                        case ModeType.HeadTrack:
-                            m_Roto.SetMode(m_ModeType, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                        case RotoModeType.HeadTrack:
+                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                             m_Roto.StartHeadTracking(this, m_Target);
                             break;
-                        case ModeType.CockpitMode:
-                            m_Roto.SetMode(m_ModeType, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
+                        case RotoModeType.CockpitMode:
+                            m_Roto.SetMode(ModeType.CockpitMode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
                             break;
-                        case ModeType.FollowObject:
+                        case RotoModeType.FollowObject:
                             m_Roto.SetMode(ModeType.HeadTrack, new ModeParams {CockpitAngleLimit = 0, MaxPower = 100});
                             m_Roto.FollowTarget(this, m_Target);
                             break;
