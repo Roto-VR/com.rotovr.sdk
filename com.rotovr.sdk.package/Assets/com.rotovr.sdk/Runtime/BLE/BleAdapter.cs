@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using Newtonsoft.Json;
-using RotoVR.SDK.Message;
 
-namespace RotoVR.SDK.BLE
-{
+namespace com.rotovr.sdk
+{ 
     public class BleAdapter : MonoBehaviour
     {
         public delegate void BleJsonMessageReceived(BleJsonMessage msg);

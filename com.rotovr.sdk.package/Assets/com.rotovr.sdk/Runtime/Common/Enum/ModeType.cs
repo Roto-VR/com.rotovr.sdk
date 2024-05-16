@@ -1,13 +1,13 @@
-﻿namespace RotoVR.SDK.Enum
+﻿namespace com.rotovr.sdk
 {
     public enum ModeType : byte
     {
-        IdleMode = 0,
-        Calibration = 1,
-        HeadTrack = 2,
-        FreeMode = 3,
-        CockpitMode = 4,
-        Error = 5,
-        FollowObject = 6,
+        IdleMode = 0x00,
+        Calibration = 0x01,
+        HeadTrack = 0x02,
+        FreeMode = 0x03,
+        CockpitMode = 0x04,
+        Error = 0x05,
+        FollowObject = 0x06,
     }
 }

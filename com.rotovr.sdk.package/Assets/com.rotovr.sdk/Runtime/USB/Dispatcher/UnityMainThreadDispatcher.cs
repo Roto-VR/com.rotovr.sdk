@@ -27,7 +27,7 @@ namespace PimDeWitte.UnityMainThreadDispatcher
     /// A thread-safe class which holds a queue with actions to execute on the next Update() method. It can be used to make calls to the main thread for
     /// things such as UI Manipulation in Unity. It was developed for use in combination with the Firebase Unity plugin, which uses separate threads for event handling
     /// </summary>
-    public class UnityMainThreadDispatcher : MonoBehaviour
+    class UnityMainThreadDispatcher : MonoBehaviour
     {
         private static readonly Queue<Action> _executionQueue = new Queue<Action>();
 

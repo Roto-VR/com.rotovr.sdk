@@ -1,11 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using RotoVR.SDK.Components;
-using RotoVR.SDK.Enum;
-using TMPro;
 
-namespace Example.UI
+namespace com.rotovr.sdk.sample
 {
     public class UIController : MonoBehaviour
     {
@@ -173,13 +170,13 @@ namespace Example.UI
         {
             public GameObject RotoVrPanel;
             public Slider RotationPower;
-            public TMP_Text RotationPowerView;
+            public Text RotationPowerView;
             public Button TurnLeft;
             public Button TurnRight;
             public Button PlayRumble;
-            public TMP_Text RumbleDurationView;
+            public Text RumbleDurationView;
             public Slider RumbleDuration;
-            public TMP_Text m_RumblePowerView;
+            public Text m_RumblePowerView;
             public Slider RumblePower;
         }
     }

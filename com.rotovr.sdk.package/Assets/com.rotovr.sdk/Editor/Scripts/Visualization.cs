@@ -1,12 +1,9 @@
 using System.Collections;
-using RotoVR.SDK.Components;
-using RotoVR.SDK.Enum;
-using RotoVR.SDK.Model;
 using UnityEngine;
 
-namespace com.rotovr.sdk.Editor.Scripts
+namespace com.rotovr.sdk.editor
 {
-    public class Visualization : MonoBehaviour
+    class Visualization : MonoBehaviour
     {
         RotoBehaviour m_Behaviour;
         Coroutine m_RotationRoutine;

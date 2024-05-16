@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Data;
-using com.rotovr.sdk.Runtime.USB;
 using Newtonsoft.Json;
-using RotoVR.SDK.BLE;
-using RotoVR.SDK.Enum;
-using RotoVR.SDK.Message;
-using RotoVR.SDK.Model;
 using UnityEngine;
 
-namespace RotoVR.SDK.API
+namespace com.rotovr.sdk
 {
     public class Roto
     {

@@ -1,4 +1,4 @@
-﻿namespace RotoVR.SDK.Enum
+﻿namespace com.rotovr.sdk
 {
     public enum Direction : byte
     {

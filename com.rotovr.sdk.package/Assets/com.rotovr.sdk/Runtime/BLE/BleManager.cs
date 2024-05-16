@@ -1,10 +1,9 @@
 ﻿using System;
-using RotoVR.SDK.Receiver;
 using UnityEngine;
 
-namespace RotoVR.SDK.BLE
+namespace com.rotovr.sdk
 {
-    public class BleManager : MonoBehaviour
+    class BleManager : MonoBehaviour
     {
         public static BleManager Instance
         {

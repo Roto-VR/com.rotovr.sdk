@@ -1,12 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RotoVR.SDK.Enum;
-using RotoVR.SDK.Model;
 using UnityEngine;
 using PimDeWitte.UnityMainThreadDispatcher;
 
-namespace com.rotovr.sdk.Runtime.USB
+namespace com.rotovr.sdk
 {
     public class UsbConnector
     {

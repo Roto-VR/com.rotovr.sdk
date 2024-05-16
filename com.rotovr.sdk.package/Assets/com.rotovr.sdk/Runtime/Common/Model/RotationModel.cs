@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RotoVR.SDK.Model
+namespace com.rotovr.sdk
 {
     [Serializable]
     public class RotationModel

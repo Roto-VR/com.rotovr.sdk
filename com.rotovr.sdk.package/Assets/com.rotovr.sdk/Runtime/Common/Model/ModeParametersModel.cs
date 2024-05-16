@@ -1,7 +1,13 @@
 using System;
 
-namespace RotoVR.SDK.Model
+namespace com.rotovr.sdk
 {
+
+    struct ModeParams
+    {
+        
+    }
+    
     [Serializable]
     public class ModeParametersModel
     {

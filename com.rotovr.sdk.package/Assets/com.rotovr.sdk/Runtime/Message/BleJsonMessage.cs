@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RotoVR.SDK.Message
+namespace com.rotovr.sdk
 {
     [Serializable]
     public class BleJsonMessage

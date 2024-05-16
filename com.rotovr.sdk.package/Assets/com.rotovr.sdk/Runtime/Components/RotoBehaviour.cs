@@ -1,10 +1,7 @@
 ﻿using System;
-using RotoVR.SDK.API;
-using RotoVR.SDK.Enum;
-using RotoVR.SDK.Model;
 using UnityEngine;
 
-namespace RotoVR.SDK.Components
+namespace com.rotovr.sdk
 {
     public class RotoBehaviour : MonoBehaviour
     {
@@ -132,7 +129,7 @@ namespace RotoVR.SDK.Components
         }
 
         /// <summary>
-        /// Disconnect RotoVR chair
+        /// Disconnect from RotoVR chair
         /// </summary>
         public void Disconnect()
         {

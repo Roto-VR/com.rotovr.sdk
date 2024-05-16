@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RotoVR.SDK.Receiver
+namespace com.rotovr.sdk
 {
     public interface IMessageReceiver : IDisposable
     {

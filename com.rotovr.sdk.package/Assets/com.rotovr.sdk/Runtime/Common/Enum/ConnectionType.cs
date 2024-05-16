@@ -1,6 +1,5 @@
-using System.Runtime.InteropServices;
 
-namespace RotoVR.SDK.Enum
+namespace com.rotovr.sdk
 {
     public enum ConnectionType
     {

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
 
-namespace com.rotovr.sdk.Runtime.USB
+namespace com.rotovr.sdk
 {
     internal static class Native
     {

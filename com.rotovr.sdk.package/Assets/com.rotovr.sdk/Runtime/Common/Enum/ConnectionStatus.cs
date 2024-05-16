@@ -1,8 +1,8 @@
-﻿namespace RotoVR.SDK.Enum
+﻿namespace com.rotovr.sdk
 {
     public enum ConnectionStatus
     {
-        Default,
+        Default,//undefined?/ unknown
         Scanning,
         Connecting,
         Connected,
