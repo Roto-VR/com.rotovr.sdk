@@ -105,24 +105,23 @@ namespace com.rotovr.sdk
                     switch (m_ModeType)
                     {
                         case ModeType.FreeMode:
-                            m_Roto.SetMode(m_ModeType, new ModeParametersModel(0, 30));
+                            m_Roto.SetMode(m_ModeType, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                             break;
                         case ModeType.HeadTrack:
-                            m_Roto.SetMode(m_ModeType, new ModeParametersModel(0, 30));
+                            m_Roto.SetMode(m_ModeType, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                             m_Roto.StartHeadTracking(this, m_Target);
                             break;
                         case ModeType.CockpitMode:
-                            m_Roto.SetMode(m_ModeType, new ModeParametersModel(140, 30));
+                            m_Roto.SetMode(m_ModeType, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
                             break;
                         case ModeType.FollowObject:
-                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParametersModel(0, 100));
+                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParams {CockpitAngleLimit = 0, MaxPower = 100});
                             m_Roto.FollowTarget(this, m_Target);
                             break;
                     }
 
                     break;
                 case ConnectionStatus.Disconnected:
-
                     break;
             }
 
@@ -195,18 +194,18 @@ namespace com.rotovr.sdk
             switch (mode)
             {
                 case ModeType.FreeMode:
-                    m_Roto.SetMode(mode, new ModeParametersModel(0, 30));
+                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                     OnModeChanged?.Invoke(mode);
                     break;
                 case ModeType.HeadTrack:
-                    m_Roto.SetMode(mode, new ModeParametersModel(0, 30));
+                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                     m_Roto.StartHeadTracking(this, m_Target);
                     break;
                 case ModeType.CockpitMode:
-                    m_Roto.SetMode(mode, new ModeParametersModel(140, 30));
+                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
                     break;
                 case ModeType.FollowObject:
-                    m_Roto.SetMode(ModeType.HeadTrack, new ModeParametersModel(0, 100));
+                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 100});
                     m_Roto.FollowTarget(this, m_Target);
                     OnModeChanged?.Invoke(mode);
                     break;
@@ -214,28 +213,28 @@ namespace com.rotovr.sdk
         }
 
         /// <summary>
-        /// Switch RotoVr mode with custom parameters
+        /// Switch RotoVR mode with custom parameters.
         /// </summary>
-        /// <param name="mode">Simulation mode</param>
-        /// <param name="parametersModel">Mode parameters</param>
-        public void SwitchMode(ModeType mode, ModeParametersModel parametersModel)
+        /// <param name="mode">Simulation mode.</param>
+        /// <param name="modeParams">Mode parameters.</param>
+        public void SwitchMode(ModeType mode, ModeParams modeParams)
         {
             m_Roto.StopRoutine(this);
 
             switch (mode)
             {
                 case ModeType.FreeMode:
-                    m_Roto.SetMode(mode, parametersModel);
+                    m_Roto.SetMode(mode, modeParams);
                     break;
                 case ModeType.HeadTrack:
-                    m_Roto.SetMode(mode, parametersModel);
+                    m_Roto.SetMode(mode, modeParams);
                     m_Roto.StartHeadTracking(this, m_Target);
                     break;
                 case ModeType.CockpitMode:
-                    m_Roto.SetMode(mode, parametersModel);
+                    m_Roto.SetMode(mode, modeParams);
                     break;
                 case ModeType.FollowObject:
-                    m_Roto.SetMode(ModeType.HeadTrack, parametersModel);
+                    m_Roto.SetMode(ModeType.HeadTrack, modeParams);
                     m_Roto.FollowTarget(this, m_Target);
                     OnModeChanged?.Invoke(mode);
                     break;

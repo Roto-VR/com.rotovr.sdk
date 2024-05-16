@@ -207,10 +207,12 @@ namespace com.rotovr.sdk
         /// <summary>
         /// Set RotoVR mode
         /// </summary>
-        /// <param name="mode">Mode type</param>
-        /// <param name="parametersModel"></param>
-        public void SetMode(ModeType mode, ModeParametersModel parametersModel)
+        /// <param name="mode">Mode type.</param>
+        /// <param name="modeParams">Mode params</param>
+        public void SetMode(ModeType mode, ModeParams modeParams)
         {
+            var parametersModel = new ModeParametersModel(modeParams);
+            
 #if !UNITY_EDITOR
             SendMessage(
                 new SetModeMessage(
@@ -235,7 +237,13 @@ namespace com.rotovr.sdk
                 return;
             }
 
-            SetMode(ModeType.FreeMode, new ModeParametersModel(m_RotoData.TargetCockpit, power));
+            var modeParams = new ModeParams
+            {
+                CockpitAngleLimit = m_RotoData.TargetCockpit,
+                MaxPower = power
+            };
+
+            SetMode(ModeType.FreeMode, modeParams);
         }
 
         /// <summary>
@@ -449,7 +457,13 @@ namespace com.rotovr.sdk
                 int rotoAngle = 0;
 
                 yield return new WaitForSeconds(0.5f);
-                SetMode(ModeType.HeadTrack, new ModeParametersModel(30, 100));
+                var modeParams = new ModeParams
+                {
+                    CockpitAngleLimit = 30,
+                    MaxPower = 100
+                };
+                
+                SetMode(ModeType.HeadTrack, modeParams);
 
                 while (true)
                 {
