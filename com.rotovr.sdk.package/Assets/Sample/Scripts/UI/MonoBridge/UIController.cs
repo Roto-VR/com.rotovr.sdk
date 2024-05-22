@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace com.rotovr.sdk.sample
 {
@@ -170,13 +171,13 @@ namespace com.rotovr.sdk.sample
         {
             public GameObject RotoVrPanel;
             public Slider RotationPower;
-            public Text RotationPowerView;
+            public TMP_Text RotationPowerView;
             public Button TurnLeft;
             public Button TurnRight;
             public Button PlayRumble;
-            public Text RumbleDurationView;
+            public TMP_Text RumbleDurationView;
             public Slider RumbleDuration;
-            public Text m_RumblePowerView;
+            public TMP_Text m_RumblePowerView;
             public Slider RumblePower;
         }
     }

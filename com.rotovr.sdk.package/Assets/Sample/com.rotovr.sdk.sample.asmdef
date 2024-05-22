@@ -2,7 +2,8 @@
     "name": "com.rotovr.sdk.sample",
     "rootNamespace": "",
     "references": [
-        "com.rotovr.sdk"
+        "com.rotovr.sdk",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
