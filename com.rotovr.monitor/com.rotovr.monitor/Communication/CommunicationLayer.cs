@@ -14,14 +14,10 @@ public class CommunicationLayer : ICommunicationLayer
     private ICompensationBridge m_compensationBridge;
 
     public event Action<ConnectionStatus> OnConnectionStatus;
-
-
     public void Start()
     {
         m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;
-        m_usbConnector.OnCompensationModel += OnCompensationModelHandler;
         m_usbConnector.OnReadData += OnReadDataHandler;
-
         m_TcpService.OnMessage += OnTcpMessageHandler;
         m_TcpService.Start();
     }
@@ -36,6 +32,7 @@ public class CommunicationLayer : ICommunicationLayer
     public void Inject(ICompensationBridge bridge)
     {
         m_compensationBridge = bridge;
+        m_usbConnector.OnCompensationModel += OnCompensationModelHandler;
     }
 
     private void ConnectionStatusHandler(ConnectionStatus status)
@@ -48,8 +45,6 @@ public class CommunicationLayer : ICommunicationLayer
                 break;
             case ConnectionStatus.Disconnected:
                 m_compensationBridge.Stop();
-                m_usbConnector.OnConnectionStatus -= ConnectionStatusHandler;
-                m_usbConnector.OnCompensationModel -= OnCompensationModelHandler;
                 m_usbConnector.OnReadData -= OnReadDataHandler;
                 break;
         }
@@ -62,6 +57,7 @@ public class CommunicationLayer : ICommunicationLayer
 
     private void OnCompensationModelHandler(CompensationModel model)
     {
+        m_usbConnector.OnCompensationModel -= OnCompensationModelHandler;
         m_compensationBridge.SetCompensationValue(model);
     }
 

@@ -35,9 +35,7 @@ namespace driver {
 			}
 
 			adressFile_Mover = (char*)MapViewOfFile(MapFile_Mover, FILE_MAP_ALL_ACCESS, 0, 0, 4096);
-			Data_Mover = (MMFstruct_Mover_v1*)adressFile_Mover;
-
-			Data_Mover->rigYaw = 25;
+			Data_Mover = (MMFstruct_Mover_v1*)adressFile_Mover;		
 		}
 
 		LOG(TRACE) << "Fasade Start Session";
@@ -66,5 +64,6 @@ namespace driver {
 	void Facade::UpdateAngle(INT32 angle)
 	{
 		Data_Mover->rigYaw = angle;
+		//Data_OVRMC->Rotation.v[1]= angle;
 	}
 }
