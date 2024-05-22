@@ -145,11 +145,11 @@ namespace com.rotovr.sdk
 #if !UNITY_EDITOR
             void Connected(string data)
             {
-                m_Roto.UnSubscribe(MessageType.Connected.ToString(), Connected);
+                s_Roto.UnSubscribe(MessageType.Connected.ToString(), Connected);
                 m_ConnectedDevice = JsonConvert.DeserializeObject<DeviceDataModel>(data);
             }
 
-            m_Roto.Subscribe(MessageType.Connected.ToString(), Connected);
+            s_Roto.Subscribe(MessageType.Connected.ToString(), Connected);
 
 
             SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));

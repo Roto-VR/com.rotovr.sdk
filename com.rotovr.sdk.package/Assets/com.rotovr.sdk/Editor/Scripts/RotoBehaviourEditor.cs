@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace com.rotovr.sdk.editor
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(RotoBehaviour))]
     public class RotoBehaviourEditor : Editor
     {
@@ -25,10 +26,10 @@ namespace com.rotovr.sdk.editor
 
             EditorGUILayout.PropertyField(m_ConnectionType);
             EditorGUILayout.PropertyField(m_ModeType);
-            
-            if (m_ModeType.intValue == (int)RotoModeType.FollowObject || m_ModeType.intValue == (int)RotoModeType.HeadTrack)
-            {
 
+            if (m_ModeType.intValue == (int)RotoModeType.FollowObject ||
+                m_ModeType.intValue == (int)RotoModeType.HeadTrack)
+            {
                 EditorGUILayout.Space();
                 if (m_ModeType.intValue == (int)RotoModeType.FollowObject)
                 {
@@ -38,12 +39,13 @@ namespace com.rotovr.sdk.editor
                 {
                     EditorGUILayout.HelpBox(new GUIContent("Please provide headset gameobject reference."));
                 }
-                
-                
+
+
                 EditorGUILayout.PropertyField(m_Target);
             }
-            
+
             serializedObject.ApplyModifiedProperties();
         }
     }
+#endif
 }
