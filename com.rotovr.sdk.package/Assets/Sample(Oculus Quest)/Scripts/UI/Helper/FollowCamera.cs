@@ -1,4 +1,4 @@
-using RotoVR.SDK.Components;
+using com.rotovr.sdk;
 using UnityEngine;
 
 namespace Example.Helper

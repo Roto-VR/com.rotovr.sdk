@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
 
-namespace com.rotovr.sdk.Runtime.USB
+namespace com.rotovr.sdk
 {
-    internal static class Native
+    static class Native
     {
         [DllImport("HIDApi.dll")]
         internal static extern IntPtr OpenFirstHIDDevice(ushort vid, ushort pid, ushort usagePage = 0, ushort usage = 0,

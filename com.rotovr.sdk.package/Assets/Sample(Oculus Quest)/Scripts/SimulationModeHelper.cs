@@ -1,5 +1,4 @@
-using RotoVR.SDK.Components;
-using RotoVR.SDK.Enum;
+using com.rotovr.sdk;
 using UnityEngine;
 
 namespace Sample_Oculus_Quest_.Scripts

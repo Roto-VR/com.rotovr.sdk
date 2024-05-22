@@ -1,27 +1,13 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RotoVR.SDK.Enum;
-using RotoVR.SDK.Model;
 using UnityEngine;
 using PimDeWitte.UnityMainThreadDispatcher;
 
-namespace com.rotovr.sdk.Runtime.USB
+namespace com.rotovr.sdk
 {
-    public class UsbConnector
+    class UsbConnector : MonoSingleton<UsbConnector>
     {
-        public static UsbConnector Instance
-        {
-            get
-            {
-                if (m_instance == null)
-                    m_instance = new UsbConnector();
-                return m_instance;
-            }
-        }
-
-        private static UsbConnector m_instance;
-
         const UInt16 k_vid = 0x04D9;
         const UInt16 k_pid = 0xB564;
 
@@ -442,22 +428,22 @@ namespace com.rotovr.sdk.Runtime.USB
             switch (rawData[2])
             {
                 case 0:
-                    model.Mode = "IdleMode";
+                    model.Mode = ModeType.IdleMode.ToString();
                     break;
                 case 1:
-                    model.Mode = "Calibration";
+                    model.Mode = ModeType.Calibration.ToString();
                     break;
                 case 2:
-                    model.Mode = "HeadTrack";
+                    model.Mode = ModeType.HeadTrack.ToString();
                     break;
                 case 3:
-                    model.Mode = "FreeMode";
+                    model.Mode = ModeType.FreeMode.ToString();
                     break;
                 case 4:
-                    model.Mode = "CockpitMode";
+                    model.Mode = ModeType.CockpitMode.ToString();
                     break;
                 case 5:
-                    model.Mode = "Error";
+                    model.Mode = ModeType.Error.ToString();
                     break;
             }
 

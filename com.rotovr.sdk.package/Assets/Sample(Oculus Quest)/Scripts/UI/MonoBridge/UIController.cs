@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using com.rotovr.sdk;
 using UnityEngine;
 using UnityEngine.UI;
-using RotoVR.SDK.Components;
-using RotoVR.SDK.Enum;
-using RotoVR.SDK.Model;
 using TMPro;
 
 namespace Example.UI
@@ -122,17 +120,23 @@ namespace Example.UI
 
             m_ModeBlock.ApplyButton.onClick.AddListener(() =>
             {
+                Debug.LogError(
+                    $"m_ModeBlock.ModeSelector.options[m_ModeBlock.ModeSelector.value].text: {m_ModeBlock.ModeSelector.options[m_ModeBlock.ModeSelector.value].text}");
                 switch (m_ModeBlock.ModeSelector.options[m_ModeBlock.ModeSelector.value].text)
                 {
                     case "Free Mode":
                         m_RotoBerhaviour.SwitchMode(ModeType.FreeMode);
                         StopTelemetry();
                         break;
-                    case "Headtrack Mode":
+                    case "Headtracking Mode":
 
                         MovementMode mode = (MovementMode)m_ModeBlock.SimulationModeSelector.value;
-                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack,
-                            new ModeParametersModel(0, 100, mode.ToString()));
+                        m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack, new ModeParams()
+                        {
+                            CockpitAngleLimit = 0,
+                            MaxPower = 100,
+                            MovementMode = mode
+                        });
                         StartTelemetry();
                         break;
                     case "Cockpit Mode":
@@ -142,7 +146,12 @@ namespace Example.UI
                     case "FollowObject Mode":
                         mode = (MovementMode)m_ModeBlock.SimulationModeSelector.value;
                         m_RotoBerhaviour.SwitchMode(ModeType.FollowObject,
-                            new ModeParametersModel(0, 100, mode.ToString()));
+                            new ModeParams()
+                            {
+                                CockpitAngleLimit = 0,
+                                MaxPower = 100,
+                                MovementMode = mode
+                            });
                         break;
                 }
             });

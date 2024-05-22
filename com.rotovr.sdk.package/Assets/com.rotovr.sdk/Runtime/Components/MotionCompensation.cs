@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-namespace RotoVR.SDK.Components
+namespace com.rotovr.sdk
 {
-    public class MotionCompensation : MonoBehaviour
+    class MotionCompensation : MonoBehaviour
     {
         [SerializeField] private Transform m_motionTarget;
         Coroutine m_Routine;

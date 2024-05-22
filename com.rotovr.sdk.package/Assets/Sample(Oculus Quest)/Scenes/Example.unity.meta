@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:com.rotovr.sdk.package/Assets/Sample(Oculus Quest)/Scenes/Example.unity.meta
 guid: 8b50310580c312b46814cd2610205224
+========
+guid: f462e235c8604cc4ca89408c8e60e91c
+folderAsset: yes
+>>>>>>>> chore/api-update:com.rotovr.sdk.package/Assets/Plugins.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

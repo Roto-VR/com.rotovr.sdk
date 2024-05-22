@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using RotoVR.SDK.BLE;
-using RotoVR.SDK.Message;
 
-namespace RotoVR.SDK.Receiver
+namespace com.rotovr.sdk
 {
-    public class MessageReceiver : IMessageReceiver
+    
+    class MessageReceiver : IMessageReceiver
     {
         BleAdapter m_BleAdapter;
       

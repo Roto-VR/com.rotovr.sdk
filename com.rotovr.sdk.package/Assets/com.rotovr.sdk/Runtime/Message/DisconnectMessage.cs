@@ -1,8 +1,7 @@
-﻿using RotoVR.SDK.Enum;
-
-namespace RotoVR.SDK.Message
+﻿
+namespace com.rotovr.sdk
 {
-    public class DisconnectMessage : BleMessage
+    class DisconnectMessage : BleMessage
     {
         public DisconnectMessage(string data)
             : base(MessageType.Disconnect, data) { }

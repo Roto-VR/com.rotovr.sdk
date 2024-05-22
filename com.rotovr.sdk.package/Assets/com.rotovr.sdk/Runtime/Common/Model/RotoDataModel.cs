@@ -1,17 +1,23 @@
 using System;
 
-namespace RotoVR.SDK.Model
+namespace com.rotovr.sdk
 {
+    /// <summary>
+    /// Chair state model.
+    /// </summary>
     [Serializable]
     public class RotoDataModel
     {
+        /// <summary>
+        /// Default state. FreeMod and 0 rotation.
+        /// </summary>
         public RotoDataModel()
         {
-            Mode = "FreeMode";
+            Mode = ModeType.FreeMode.ToString();
             Angle = 0;
         }
 
-        public RotoDataModel(string mode, int angle, int targetCockpit, int maxPower)
+        internal RotoDataModel(string mode, int angle, int targetCockpit, int maxPower)
         {
             Mode = mode;
             Angle = angle;
@@ -20,6 +26,9 @@ namespace RotoVR.SDK.Model
         }
 
         public string Mode { get; set; }
+
+        public ModeType ModeType => EnumUtility.ParseOrDefault<ModeType>(Mode);
+
         public int Angle { get; set; }
         public int TargetCockpit { get; set; }
         public int MaxPower { get; set; }

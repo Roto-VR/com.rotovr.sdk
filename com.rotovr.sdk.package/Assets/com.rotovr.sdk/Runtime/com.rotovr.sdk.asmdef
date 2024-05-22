@@ -1,0 +1,16 @@
+{
+    "name": "com.rotovr.sdk",
+    "rootNamespace": "",
+    "references": [
+        "com.rotovr.sdk.usb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

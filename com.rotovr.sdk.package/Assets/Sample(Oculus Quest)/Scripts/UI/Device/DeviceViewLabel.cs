@@ -1,9 +1,8 @@
 ﻿using System;
-using RotoVR.SDK.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Example.UI.Device
+namespace com.rotovr.sdk.sample
 {
     public class DeviceViewLabel : MonoBehaviour
     {

@@ -1,61 +1,50 @@
 ﻿using System;
 using System.Collections;
-using System.Data;
-using com.rotovr.sdk.Runtime.USB;
 using Newtonsoft.Json;
-using RotoVR.SDK.BLE;
-using RotoVR.SDK.Enum;
-using RotoVR.SDK.Message;
-using RotoVR.SDK.Model;
 using UnityEngine;
 
-namespace RotoVR.SDK.API
+namespace com.rotovr.sdk
 {
     public class Roto
     {
-        static Roto m_Roto;
+        static Roto s_Roto;
 
         public static Roto GetManager()
         {
-            if (m_Roto == null)
+            if (s_Roto == null)
             {
-                m_Roto = new Roto();
+                s_Roto = new Roto();
             }
 
-            return m_Roto;
+            return s_Roto;
         }
 
         RotoDataModel m_RotoData = new();
         DeviceDataModel m_ConnectedDevice;
-        readonly string m_Calibrationkey = "CalibrationKey";
-        Transform m_ObservableTarger;
+        readonly string m_CalibrationKey = "CalibrationKey";
+        Transform m_ObservableTarget;
         Coroutine m_TargetRoutine;
-        bool m_IsInit = false;
+        bool m_IsInit;
         float m_StartTargetAngle;
         int m_StartRotoAngle;
         ConnectionType m_ConnectionType;
 
         /// <summary>
-        /// Invoke when change roto vr mode
+        /// Invoked when chair mode is updated.
         /// </summary>
         public event Action<ModeType> OnRotoMode;
 
         /// <summary>
-        /// Invoke when a chare data changed
+        /// Invoked when chair data is changed.
         /// </summary>
         public event Action<RotoDataModel> OnDataChanged;
 
         /// <summary>
-        /// Invoke when change connection status of roto vr
+        /// Invoked when connection status is updated.
         /// </summary>
         public event Action<ConnectionStatus> OnConnectionStatus;
 
-        /// <summary>
-        /// Invoke to directly call command in java library
-        /// </summary>
-        /// <param name="command">Method name in java library</param>
-        /// <param name="data">Data which we wont to send as Json</param>
-        public void Call(string command, string data)
+        void Call(string command, string data)
         {
             BleManager.Instance.Call(command, data);
         }
@@ -64,7 +53,7 @@ namespace RotoVR.SDK.API
         /// Invoke to send BleMessage to java library
         /// </summary>
         /// <param name="message">Ble message</param>
-        public void SendMessage(BleMessage message)
+        void SendMessage(BleMessage message)
         {
             Call(message.MessageType.ToString(), message.Data);
         }
@@ -85,9 +74,8 @@ namespace RotoVR.SDK.API
             BleManager.Instance.UnSubscribe(command, action);
 
         /// <summary>
-        /// Invoke for ble sdk initialization
+        /// Initialize with connection type.
         /// </summary>
-        /// <param name="mBehaviourMode"></param>
         public void Initialize(ConnectionType connectionType)
         {
             if (m_IsInit)
@@ -115,7 +103,7 @@ namespace RotoVR.SDK.API
 
         void OnModelChangeHandler(string data)
         {
-            RotoDataModel model = JsonConvert.DeserializeObject<RotoDataModel>(data);
+            var model = JsonConvert.DeserializeObject<RotoDataModel>(data);
 
             if (model.Mode != m_RotoData.Mode)
             {
@@ -142,29 +130,26 @@ namespace RotoVR.SDK.API
             OnDataChanged?.Invoke(model);
             m_RotoData = model;
         }
-
-        /// <summary>
-        /// Scan environment to find devices 
-        /// </summary>
-        public void Scan()
+        
+        void Scan()
         {
             SendMessage(new ScanMessage());
         }
 
         /// <summary>
-        /// Connect to device
+        /// Connect to device.
         /// </summary>
         /// <param name="deviceName">Data with device parameters</param>
-        public void Connect(string deviceName)
+        internal void Connect(string deviceName)
         {
 #if !UNITY_EDITOR
             void Connected(string data)
             {
-                m_Roto.UnSubscribe(MessageType.Connected.ToString(), Connected);
+                s_Roto.UnSubscribe(MessageType.Connected.ToString(), Connected);
                 m_ConnectedDevice = JsonConvert.DeserializeObject<DeviceDataModel>(data);
             }
 
-            m_Roto.Subscribe(MessageType.Connected.ToString(), Connected);
+            s_Roto.Subscribe(MessageType.Connected.ToString(), Connected);
 
 
             SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
@@ -187,7 +172,7 @@ namespace RotoVR.SDK.API
         /// Disconnect from current device
         /// </summary>
         /// <param name="deviceName">Device name to disconnect</param>
-        public void Disconnect(string deviceName)
+        internal void Disconnect(string deviceName)
         {
 #if !UNITY_EDITOR
             if (m_ConnectedDevice != null && m_ConnectedDevice.Name == deviceName)
@@ -213,10 +198,12 @@ namespace RotoVR.SDK.API
         /// <summary>
         /// Set RotoVR mode
         /// </summary>
-        /// <param name="mode">Mode type</param>
-        /// <param name="parametersModel"></param>
-        public void SetMode(ModeType mode, ModeParametersModel parametersModel)
+        /// <param name="mode">Mode type.</param>
+        /// <param name="modeParams">Mode params</param>
+        public void SetMode(ModeType mode, ModeParams modeParams)
         {
+            var parametersModel = new ModeParametersModel(modeParams);
+            
 #if !UNITY_EDITOR
             SendMessage(
                 new SetModeMessage(
@@ -230,7 +217,7 @@ namespace RotoVR.SDK.API
         }
 
         /// <summary>
-        /// Set RotoVR power. Working only in Free Mode 
+        /// Set RotoVR power. Only applicable for the FreeMode.
         /// </summary>
         /// <param name="power">Value of rotation power in range 30-100</param>
         public void SetPower(int power)
@@ -241,7 +228,13 @@ namespace RotoVR.SDK.API
                 return;
             }
 
-            SetMode(ModeType.FreeMode, new ModeParametersModel(m_RotoData.TargetCockpit, power));
+            var modeParams = new ModeParams
+            {
+                CockpitAngleLimit = m_RotoData.TargetCockpit,
+                MaxPower = power
+            };
+
+            SetMode(ModeType.FreeMode, modeParams);
         }
 
         /// <summary>
@@ -253,12 +246,12 @@ namespace RotoVR.SDK.API
             switch (calibrationMode)
             {
                 case CalibrationMode.SetCurrent:
-                    PlayerPrefs.SetInt(m_Calibrationkey, m_RotoData.Angle);
+                    PlayerPrefs.SetInt(m_CalibrationKey, m_RotoData.Angle);
                     break;
                 case CalibrationMode.SetLast:
-                    if (PlayerPrefs.HasKey(m_Calibrationkey))
+                    if (PlayerPrefs.HasKey(m_CalibrationKey))
                     {
-                        var defaultAngle = PlayerPrefs.GetInt(m_Calibrationkey);
+                        var defaultAngle = PlayerPrefs.GetInt(m_CalibrationKey);
                         RotateToAngle(GetDirection(defaultAngle, m_RotoData.Angle), defaultAngle, 100);
                     }
                     else
@@ -272,17 +265,12 @@ namespace RotoVR.SDK.API
         }
 
         /// <summary>
-        /// Rotate RotoVR to angle
+        /// Rotate Chair to specified angle to angle.
+        /// Only applicable when chair in <see cref="ModeType.Calibration"/> or <see cref="ModeType.CockpitMode"/>
         /// </summary>
-        /// <param name="angle">The value of angle</param>
-        /// <param name="direction">Rotate direction</param>
-        /// <param name="power">Rotational power. In range 0-100</param>
-        /// <summary>
-        /// Turn RotoVR to angle
-        /// </summary>
-        /// <param name="angle">The value of angle</param>
-        /// <param name="direction">Rotate direction</param>
-        /// <param name="power">Rotational power. In range 0-100</param>
+        /// <param name="direction">Rotation direction.</param>
+        /// <param name="angle">Rotation angle.</param>
+        /// <param name="power">Rotational power. Can range from 0 to 100</param>
         public void RotateToAngle(Direction direction, int angle, int power)
         {
             if (angle == m_RotoData.Angle)
@@ -307,10 +295,10 @@ namespace RotoVR.SDK.API
         }
 
         /// <summary>
-        /// Rotate RotoVR to angle, use automaticaly close direction
+        /// Rotate RotoVR to angle, the direction will be picked automatically.
         /// </summary>
-        /// <param name="angle">The value of angle</param>
-        /// <param name="power">Rotational power. In range 0-100</param>
+        /// <param name="angle">Rotation angle.</param>
+        /// <param name="power">Rotational power. Can range from 0 to 100</param>
         public void RotateToAngleCloserDirection(int angle, int power)
         {
             if (angle == m_RotoData.Angle)
@@ -337,15 +325,14 @@ namespace RotoVR.SDK.API
         }
 
         /// <summary>
-        /// Turn RotoVR on angle
+        /// Will rotate chair on specific angle with specified direction.
         /// </summary>
-        /// <param name="angle">The value of angle</param>
-        /// <param name="direction"></param>
-        /// <param name="power">Rotational power. In range 0-100</param>
+        /// <param name="angle">Rotation angle.</param>
+        /// <param name="direction">Rotation direction.</param>
+        /// <param name="power">Rotational power. Can range from 0 to 100.</param>
         public void RotateOnAngle(Direction direction, int angle, int power)
         {
-            int targetAngle = 0;
-
+            var targetAngle = 0;
             switch (direction)
             {
                 case Direction.Left:
@@ -376,15 +363,15 @@ namespace RotoVR.SDK.API
 #endif
         }
 
-
         /// <summary>
         /// Follow rotation of a target object
         /// </summary>
+        /// <param name="behaviour">Target that will be used as the rotation preference.</param>
         /// <param name="target">Target object which rotation need to follow</param>
         public void FollowTarget(MonoBehaviour behaviour, Transform target)
         {
-            m_ObservableTarger = target;
-            m_StartTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
+            m_ObservableTarget = target;
+            m_StartTargetAngle = NormalizeAngle(m_ObservableTarget.eulerAngles.y);
             m_StartRotoAngle = m_RotoData.Angle;
 
             if (m_TargetRoutine != null)
@@ -400,10 +387,11 @@ namespace RotoVR.SDK.API
         /// Start head tracking routine
         /// </summary>
         /// <param name="target">Target headset representation</param>
+        /// <param name="behaviour">Target that will be used as the rotation preference.</param>
         public void StartHeadTracking(MonoBehaviour behaviour, Transform target)
         {
-            m_ObservableTarger = target;
-            m_StartTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
+            m_ObservableTarget = target;
+            m_StartTargetAngle = NormalizeAngle(m_ObservableTarget.eulerAngles.y);
             m_StartRotoAngle = m_RotoData.Angle;
 
             if (m_TargetRoutine != null)
@@ -418,13 +406,13 @@ namespace RotoVR.SDK.API
         /// <summary>
         /// Stop routine
         /// </summary>
-        public void StopRoutine(MonoBehaviour behaviour)
+        internal void StopRoutine(MonoBehaviour behaviour)
         {
             if (m_TargetRoutine != null)
             {
                 behaviour.StopCoroutine(m_TargetRoutine);
                 m_TargetRoutine = null;
-                m_ObservableTarger = null;
+                m_ObservableTarget = null;
             }
         }
 
@@ -447,15 +435,20 @@ namespace RotoVR.SDK.API
 
         IEnumerator FollowTargetRoutine()
         {
-            if (m_ObservableTarger == null)
+            if (m_ObservableTarget == null)
                 Debug.LogError("For FollowObject Mode you need to set target transform");
             else
             {
                 float deltaTime = 0;
-                int rotoAngle = 0;
 
                 yield return new WaitForSeconds(0.5f);
-                SetMode(ModeType.HeadTrack, new ModeParametersModel(30, 100));
+                var modeParams = new ModeParams
+                {
+                    CockpitAngleLimit = 30,
+                    MaxPower = 100
+                };
+                
+                SetMode(ModeType.HeadTrack, modeParams);
 
                 while (true)
                 {
@@ -463,14 +456,14 @@ namespace RotoVR.SDK.API
 
                     if (deltaTime > 0.1f)
                     {
-                        var currentAngle = (int)m_ObservableTarger.eulerAngles.y;
+                        var currentAngle = (int)m_ObservableTarget.eulerAngles.y;
                         var angle = currentAngle - m_StartTargetAngle;
 
                         if (angle != 0)
                         {
                             angle = NormalizeAngle(angle);
 
-                            rotoAngle = (int)(m_StartRotoAngle + angle);
+                            var rotoAngle = (int)(m_StartRotoAngle + angle);
                             rotoAngle = NormalizeAngle(rotoAngle);
 
                             var delta = Mathf.Abs(rotoAngle - m_RotoData.Angle);
@@ -489,15 +482,11 @@ namespace RotoVR.SDK.API
 
         IEnumerator HeadTrackingRoutine()
         {
-            if (m_ObservableTarger == null)
+            if (m_ObservableTarget == null)
                 Debug.LogError("For Had Tracking Mode you need to set target transform");
             else
             {
-                float lastTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
-                Direction direction = Direction.Left;
-                float angle = 0;
-                float deltaTargetAngle = 0;
-                float deltaRotoAngle = 0;
+                var lastTargetAngle = NormalizeAngle(m_ObservableTarget.eulerAngles.y);
 
                 float deltaTime = 0;
                 while (true)
@@ -507,15 +496,15 @@ namespace RotoVR.SDK.API
 
                     if (deltaTime > 0.1f)
                     {
-                        float currentTargetAngle = NormalizeAngle(m_ObservableTarger.eulerAngles.y);
+                        var currentTargetAngle = NormalizeAngle(m_ObservableTarget.eulerAngles.y);
                         float currentRotoAngle = m_RotoData.Angle;
 
-                        direction = GetDirection((int)currentTargetAngle, (int)lastTargetAngle);
+                        var direction = GetDirection((int)currentTargetAngle, (int)lastTargetAngle);
 
-                        deltaTargetAngle = GetDelta(m_StartTargetAngle, currentTargetAngle, direction);
-                        deltaRotoAngle = GetDelta(m_StartRotoAngle, currentRotoAngle, direction);
+                        var deltaTargetAngle = GetDelta(m_StartTargetAngle, currentTargetAngle, direction);
+                        var deltaRotoAngle = GetDelta(m_StartRotoAngle, currentRotoAngle, direction);
 
-                        angle = deltaTargetAngle - deltaRotoAngle;
+                        var angle = deltaTargetAngle - deltaRotoAngle;
 
                         angle = NormalizeAngle(angle);
                         angle += m_RotoData.Angle;

@@ -2,9 +2,9 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace RotoVR.SDK.Utility
+namespace com.rotovr.sdk
 {
-    public static class BleUtility
+    static class BleUtility
     {
         public static byte[] ObjectToByteArray(Object obj)
         {

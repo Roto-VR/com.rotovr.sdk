@@ -1,8 +1,18 @@
-﻿namespace RotoVR.SDK.Enum
+﻿namespace com.rotovr.sdk
 {
+    /// <summary>
+    /// Rotation rejection.
+    /// </summary>
     public enum Direction : byte
     {
-        Left = 0,
-        Right = 1,
+        /// <summary>
+        /// Left or Counterclockwise
+        /// </summary>
+        Left = 0x00,
+        
+        /// <summary>
+        /// Right or Clockwise.
+        /// </summary>
+        Right = 0x01,
     }
 }

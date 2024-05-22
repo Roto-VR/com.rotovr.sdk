@@ -1,8 +1,7 @@
-﻿using RotoVR.SDK.Enum;
-
-namespace RotoVR.SDK.Message
+﻿
+namespace com.rotovr.sdk
 {
-    public class ConnectMessage : BleMessage
+    class ConnectMessage : BleMessage
     {
         public ConnectMessage(string data)
             : base(MessageType.Connect, data) { }

@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:com.rotovr.sdk.package/Assets/Oculus/Interaction/Samples/Scenes/Examples/DistanceGrabExamples.unity.meta
 guid: e1c1f1d4144ac8849ac1833b99bdfd23
+========
+guid: bb17d619c7656794f96a860717003b52
+folderAsset: yes
+>>>>>>>> chore/api-update:com.rotovr.sdk.package/Assets/com.rotovr.sdk/Editor/Scripts.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -1,10 +1,40 @@
 using System;
 
-namespace RotoVR.SDK.Model
+namespace com.rotovr.sdk
 {
+    /// <summary>
+    /// Mode switch params.
+    /// </summary>
+    public struct ModeParams
+    {
+        /// <summary>
+        /// Target cockpit angle limit. Values can range from 60 to 140.
+        /// </summary>
+        public int CockpitAngleLimit;
+
+        /// <summary>
+        /// Movement Mode.
+        /// Use <see cref="MovementMode.Smooth"/>, for smooth stop and <see cref="MovementMode.Jerky"/>, for hard stop.
+        /// </summary>
+        public MovementMode MovementMode;
+
+        /// <summary>
+        /// Max value of the chair rotation power.Сan take values in range 30-100.
+        /// </summary>
+        public int MaxPower;
+    }
+    
+
     [Serializable]
     public class ModeParametersModel
     {
+
+        public ModeParametersModel(ModeParams modeParams)
+        {
+            TargetCockpit = modeParams.CockpitAngleLimit;
+            MaxPower = modeParams.MaxPower;
+            MovementMode = modeParams.ToString();
+        }
         public ModeParametersModel(int targetCockpit, int maxPower)
         {
             TargetCockpit = targetCockpit;
@@ -19,10 +49,8 @@ namespace RotoVR.SDK.Model
             MovementMode = movementMode;
         }
 
-        public int TargetCockpit { get; set; } //Target cockpit angle.Сan take values in range 60-140
-        public int MaxPower { get; set; } // Max value of the chair rotation power.Сan take values in range 30-100
-
-        public string MovementMode
-        { get; set; } // Сan take values "Smooth", for smooth stop of the chair and "Jerky", for hard stop of the chair
+        public int TargetCockpit { get; set; }
+        public int MaxPower { get; set; }
+        public string MovementMode { get; set; } 
     }
 }

@@ -1,8 +1,7 @@
-﻿using RotoVR.SDK.Enum;
-
-namespace RotoVR.SDK.Message
+﻿
+namespace com.rotovr.sdk
 {
-    public class ScanMessage : BleMessage
+    class ScanMessage : BleMessage
     {
         public ScanMessage() : base(MessageType.Scan)
         {

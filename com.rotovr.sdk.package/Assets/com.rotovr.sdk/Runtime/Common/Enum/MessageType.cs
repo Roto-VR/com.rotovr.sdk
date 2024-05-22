@@ -1,18 +1,18 @@
-﻿namespace RotoVR.SDK.Enum
+﻿namespace com.rotovr.sdk
 {
-    public enum MessageType : byte
+    enum MessageType : byte
     {
-        Scan = 0,
-        FinishedDiscovering = 1,
-        DeviceFound = 2,
-        Connect = 3,
-        Connected = 4,
-        Disconnect = 5,
-        Disconnected = 6,
-        DeviceConnected = 7,
-        TurnToAngle = 8,
-        SetMode = 9,
-        ModelChanged = 10,
-        PlayRumble = 11,
+        Scan = 0x00,
+        FinishedDiscovering = 0x01,
+        DeviceFound = 0x02,
+        Connect = 0x03,
+        Connected = 0x04,
+        Disconnect = 0x05,
+        Disconnected = 0x06,
+        DeviceConnected = 0x07,
+        TurnToAngle = 0x08,
+        SetMode = 0x09,
+        ModelChanged = 0x010,
+        PlayRumble = 0x011,
     }
 }
