@@ -5,10 +5,10 @@ namespace com.rotovr.sdk
     /// <summary>
     /// Connected device model.
     /// </summary>
-    [Serializable] 
+    [Serializable]
     public class DeviceDataModel
     {
-        internal DeviceDataModel(string name, string address)
+        public DeviceDataModel(string name, string address)
         {
             Name = name;
             Address = address;
@@ -18,7 +18,7 @@ namespace com.rotovr.sdk
         /// Device name.
         /// </summary>
         public string Name { get; }
-        
+
         /// <summary>
         /// Device MAC Address.
         /// </summary>
