@@ -120,8 +120,6 @@ namespace Example.UI
 
             m_ModeBlock.ApplyButton.onClick.AddListener(() =>
             {
-                Debug.LogError(
-                    $"m_ModeBlock.ModeSelector.options[m_ModeBlock.ModeSelector.value].text: {m_ModeBlock.ModeSelector.options[m_ModeBlock.ModeSelector.value].text}");
                 switch (m_ModeBlock.ModeSelector.options[m_ModeBlock.ModeSelector.value].text)
                 {
                     case "Free Mode":
