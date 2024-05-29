@@ -144,10 +144,12 @@ public class BlePluginInstance {
                 @SuppressLint("MissingPermission")
                 @Override
                 public void run() {
-                    m_Scanning = false;
-                    m_BluetoothLeScanner.stopScan(BleScanCallback);
+                    if (m_Scanning) {
+                        m_Scanning = false;
+                        m_BluetoothLeScanner.stopScan(BleScanCallback);
 
-                    SendToUnity(new MessageModel(MessageType.FinishedDiscovering));
+                        SendToUnity(new MessageModel(MessageType.FinishedDiscovering));
+                    }
                 }
             }, 10000);
 
@@ -170,11 +172,10 @@ public class BlePluginInstance {
                     super.onScanResult(callbackType, result);
                     BluetoothDevice device = result.getDevice();
                     if (m_LeDeviceListAdapter.AddDevice(device)) {
-
                         DeviceDataModel model = new DeviceDataModel(device.getName(), device.getAddress());
                         SendToUnity(new MessageModel(MessageType.DeviceFound, model.toJson()));
 
-                        if (m_CurrentDeviceModel != null && m_CurrentDeviceModel.Name.equals(model.Name)) {
+                        if (m_CurrentDeviceModel != null && (m_CurrentDeviceModel.Name.equals(model.Name) || m_CurrentDeviceModel.Address.equals(model.Address))) {
                             Connect(model);
                         }
                     }
@@ -202,7 +203,12 @@ public class BlePluginInstance {
 
             m_ConnectedServers.put(device, service);
             m_CurrentDeviceModel = model;
+            if (m_Scanning) {
+                m_BluetoothLeScanner.stopScan(BleScanCallback);
+                m_Scanning = false;
 
+                SendToUnity(new MessageModel(MessageType.FinishedDiscovering));
+            }
         } else {
             UnityLog("Bluetooth Device hasn't been discovered yet");
             Scan();
@@ -226,51 +232,40 @@ public class BlePluginInstance {
     @SuppressLint("MissingPermission")
     public void Disconnect(String data) {
         DeviceDataModel model = (DeviceDataModel) PluginUtility.ConvertJsonToObject(gson, data, DeviceDataModel.class);
-
-        BluetoothDevice device = m_LeDeviceListAdapter.getItem(model.Address);
-        BluetoothGatt gatt = m_LeGattServers.get(device);
-
-        if (gatt != null) {
-            gatt.close();
-            gatt.disconnect();
-
-            m_ConnectedServers.remove(m_LeDeviceListAdapter.getItem(model.Address));
-            m_LeGattServers.remove(device);
-        } else {
-            UnityLog("Can't find connected device with address " + model.Address);
-        }
-
-        SendToUnity(new MessageModel(MessageType.Disconnected, model.toJson()));
+        DisconnectDevice(model.Address);
     }
 
     @SuppressLint("MissingPermission")
-    public void DeviceDisconnected(String deviceAddress) {
+    public void DisconnectDevice(String deviceAddress) {
         BluetoothDevice device = m_LeDeviceListAdapter.getItem(deviceAddress);
-        BluetoothGatt gatt = m_LeGattServers.get(device);
 
-        BluetoothGatt gattServer = GetServer(m_CurrentDeviceModel.Address);
-        BluetoothGattService gattService = GetService(gattServer, "ffc0");
-        BluetoothGattCharacteristic characteristic = GetCharacteristic(gattService, "ffc9");
+        if (device != null) {
+            BluetoothGatt gatt = m_LeGattServers.get(device);
 
-        gattServer.setCharacteristicNotification(characteristic, false);
+            BluetoothGatt gattServer = GetServer(m_CurrentDeviceModel.Address);
+            BluetoothGattService gattService = GetService(gattServer, "ffc0");
+            BluetoothGattCharacteristic characteristic = GetCharacteristic(gattService, "ffc9");
 
-        UUID uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(uuid);
-        descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-        gattServer.writeDescriptor(descriptor);
+            gattServer.setCharacteristicNotification(characteristic, false);
 
-        if (gatt != null) {
-            gatt.close();
-            gatt.disconnect();
+            UUID uuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(uuid);
+            descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+            gattServer.writeDescriptor(descriptor);
 
-            m_ConnectedServers.remove(m_LeDeviceListAdapter.getItem(deviceAddress));
-            m_LeGattServers.remove(device);
-            m_LeDeviceListAdapter.RemoveDevice(device);
-        } else {
-            UnityLog("Can't find connected device with address " + deviceAddress);
+            if (gatt != null) {
+                gatt.close();
+                gatt.disconnect();
+
+                m_ConnectedServers.remove(m_LeDeviceListAdapter.getItem(deviceAddress));
+                m_LeGattServers.remove(device);
+                m_LeDeviceListAdapter.RemoveDevice(device);
+
+                SendToUnity(new MessageModel(MessageType.Disconnected));
+            } else {
+                UnityLog("Can't find connected device with address " + deviceAddress);
+            }
         }
-
-        SendToUnity(new MessageModel(MessageType.Disconnected));
     }
 
 

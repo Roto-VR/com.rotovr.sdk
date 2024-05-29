@@ -43,9 +43,8 @@ public class ConnectionService {
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 
                 connectionState = newState;
-                m_BlePluginInstance.DeviceDisconnected(gatt.getDevice().getAddress());
+                m_BlePluginInstance.DisconnectDevice(gatt.getDevice().getAddress());
 
-                gatt.close();
                 BlePluginInstance.UnityLog("onConnectionStateChange to state " + "DISCONNECTED");
             }
 
