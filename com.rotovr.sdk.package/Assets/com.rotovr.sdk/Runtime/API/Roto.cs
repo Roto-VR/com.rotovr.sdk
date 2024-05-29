@@ -130,7 +130,7 @@ namespace com.rotovr.sdk
             OnDataChanged?.Invoke(model);
             m_RotoData = model;
         }
-        
+
         void Scan()
         {
             SendMessage(new ScanMessage());
@@ -143,16 +143,25 @@ namespace com.rotovr.sdk
         internal void Connect(string deviceName)
         {
 #if !UNITY_EDITOR
-            void Connected(string data)
+            if (m_ConnectedDevice == null)
             {
-                s_Roto.UnSubscribe(MessageType.Connected.ToString(), Connected);
-                m_ConnectedDevice = JsonConvert.DeserializeObject<DeviceDataModel>(data);
+                void Connected(string data)
+                {
+                    s_Roto.UnSubscribe(MessageType.Connected.ToString(), Connected);
+                    m_ConnectedDevice = JsonConvert.DeserializeObject<DeviceDataModel>(data);
+                }
+
+                s_Roto.Subscribe(MessageType.Connected.ToString(), Connected);
+
+                SendMessage(
+                    new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
+            }
+            else
+            {
+                SendMessage(new ConnectMessage(JsonConvert.SerializeObject(m_ConnectedDevice)));
             }
 
-            s_Roto.Subscribe(MessageType.Connected.ToString(), Connected);
 
-
-            SendMessage(new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
 #else
             if (m_ConnectionType == ConnectionType.Chair)
             {
@@ -203,7 +212,7 @@ namespace com.rotovr.sdk
         public void SetMode(ModeType mode, ModeParams modeParams)
         {
             var parametersModel = new ModeParametersModel(modeParams);
-            
+
 #if !UNITY_EDITOR
             SendMessage(
                 new SetModeMessage(
@@ -447,7 +456,7 @@ namespace com.rotovr.sdk
                     CockpitAngleLimit = 30,
                     MaxPower = 100
                 };
-                
+
                 SetMode(ModeType.HeadTrack, modeParams);
 
                 while (true)
