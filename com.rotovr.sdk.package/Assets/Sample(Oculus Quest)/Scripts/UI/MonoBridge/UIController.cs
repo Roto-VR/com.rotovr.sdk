@@ -196,6 +196,9 @@ namespace Example.UI
             if (status == ConnectionStatus.Connected)
             {
                 SetUIState(UIState.Calibration);
+            }else if (status == ConnectionStatus.Disconnected)
+            {
+                SetUIState(UIState.Connection); 
             }
         }
 
@@ -211,7 +214,9 @@ namespace Example.UI
             switch (state)
             {
                 case UIState.Connection:
+                    m_ConnectionBlock.ConnectionButton.gameObject.SetActive(true);
                     m_ConnectionBlock.ConnectionPanel.SetActive(true);
+                    m_ConnectionBlock.Connecting.SetActive(false);
                     m_CalibrationBlock.CalibrationPanel.SetActive(false);
                     m_RotoVrBlock.RotoVrPanel.SetActive(false);
                     m_ModeBlock.ModePanel.SetActive(false);
