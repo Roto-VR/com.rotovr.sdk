@@ -42,6 +42,11 @@ namespace Example.UI
             {
                 Calibration(CalibrationMode.SetToZero);
             });
+            
+            m_CalibrationBlock.Disconnect.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.Disconnect();
+            });
 
             m_RotoVrBlock.TurnLeft.onClick.AddListener(() =>
             {
@@ -420,6 +425,7 @@ namespace Example.UI
             public Button CalibrationAsCurrentButton;
             public Button CalibrationAsPrevButton;
             public Button CalibrationAsZeroButton;
+            public Button Disconnect;
         }
 
         [Serializable]
