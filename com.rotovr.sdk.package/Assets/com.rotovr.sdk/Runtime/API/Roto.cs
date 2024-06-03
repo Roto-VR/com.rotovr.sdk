@@ -231,19 +231,13 @@ namespace com.rotovr.sdk
         /// <param name="power">Value of rotation power in range 30-100</param>
         public void SetPower(int power)
         {
-            if (m_RotoData.Mode != ModeType.FreeMode.ToString())
-            {
-                Debug.LogError("You can set a power only in FreeMode");
-                return;
-            }
-
             var modeParams = new ModeParams
             {
                 CockpitAngleLimit = m_RotoData.TargetCockpit,
                 MaxPower = power
             };
 
-            SetMode(ModeType.FreeMode, modeParams);
+            SetMode(m_RotoData.ModeType, modeParams);
         }
 
         /// <summary>
