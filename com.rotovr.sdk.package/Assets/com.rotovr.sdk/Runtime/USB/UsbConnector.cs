@@ -6,7 +6,7 @@ using PimDeWitte.UnityMainThreadDispatcher;
 
 namespace com.rotovr.sdk
 {
-    class UsbConnector : MonoSingleton<UsbConnector>
+    public class UsbConnector : MonoSingleton<UsbConnector>
     {
         const UInt16 k_vid = 0x04D9;
         const UInt16 k_pid = 0xB564;
@@ -23,7 +23,7 @@ namespace com.rotovr.sdk
         static bool m_reaDevice;
         public event Action<ConnectionStatus> OnConnectionStatus;
         public event Action<RotoDataModel> OnDataChange;
-
+        public event Action<string> OnDataChangeRawData;
 
         public void Connect()
         {
@@ -208,7 +208,18 @@ namespace com.rotovr.sdk
                 {
                     m_initPacket = false;
                     m_runtimeModel = GetModel(m_readMessage);
-                    m_dispatcher.Enqueue(() => { OnDataChange?.Invoke(m_runtimeModel); });
+                    m_dispatcher.Enqueue(() =>
+                    {
+                        string message = string.Empty;
+
+                        for (int i = 0; i < m_readMessage.Length; i++)
+                        {
+                            message += $"{m_readMessage[i]}  ";
+                        }
+
+                        OnDataChangeRawData?.Invoke(message);
+                        OnDataChange?.Invoke(m_runtimeModel);
+                    });
                 }
             }
         }

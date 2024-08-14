@@ -19,7 +19,7 @@ MonoBehaviour:
   DashSupport: 1
   LowOverheadMode: 0
   OptimizeBufferDiscards: 1
-  PhaseSync: 0
+  PhaseSync: 1
   SymmetricProjection: 1
   SubsampledLayout: 0
   FoveatedRenderingMethod: 0

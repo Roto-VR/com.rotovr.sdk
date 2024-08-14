@@ -3,7 +3,7 @@
 namespace com.rotovr.sdk
 {
     [Serializable]
-    class RotateToAngleModel
+    public class RotateToAngleModel
     {
         public RotateToAngleModel(int angle, int power, string direction)
         {

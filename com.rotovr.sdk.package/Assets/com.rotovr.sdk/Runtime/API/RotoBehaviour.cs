@@ -60,17 +60,6 @@ namespace com.rotovr.sdk
         {
             
         }
-        
-     
-        //TODO why do we even need it, of that's a singleton.
-        
-        /*
-        void OnDestroy()
-        {
-            m_Roto.OnConnectionStatus -= OnConnectionStatusHandler;
-            m_Roto.OnRotoMode -= OnRotoModeHandler;
-            m_Roto.Disconnect(m_DeviceName);
-        }*/
 
         /// <summary>
         /// Initialisation of the component

@@ -3,7 +3,7 @@ using System;
 namespace com.rotovr.sdk
 {
     [Serializable]
-    class RumbleModel
+    public class RumbleModel
     {
         public RumbleModel(float duration, int power)
         {
