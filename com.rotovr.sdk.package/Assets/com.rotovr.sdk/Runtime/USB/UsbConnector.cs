@@ -210,14 +210,9 @@ namespace com.rotovr.sdk
                     m_runtimeModel = GetModel(m_readMessage);
                     m_dispatcher.Enqueue(() =>
                     {
-                        string message = string.Empty;
-
-                        for (int i = 0; i < m_readMessage.Length; i++)
-                        {
-                            message += $"{m_readMessage[i]}  ";
-                        }
-
-                        OnDataChangeRawData?.Invoke(message);
+                  
+                        string hex = BitConverter.ToString(m_readMessage).Replace("-", " ");
+                        OnDataChangeRawData?.Invoke(hex);
                         OnDataChange?.Invoke(m_runtimeModel);
                     });
                 }

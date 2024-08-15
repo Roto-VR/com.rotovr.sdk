@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using com.rotovr.sdk;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,10 +26,6 @@ namespace Example.UI
                 m_ConnectionBlock.Connecting.SetActive(true);
             });
 
-            //  m_RotoVrBlock.TurnLeft.onClick.AddListener(() => { m_RotoBerhaviour.RotateOnAngle(Direction.Left, 30, (int)(m_RotoVrBlock.RotatePower.value * 100)); });
-
-            //  m_RotoVrBlock.TurnRight.onClick.AddListener(() => { m_RotoBerhaviour.RotateOnAngle(Direction.Right, 30, (int)(m_RotoVrBlock.RotatePower.value * 100)); });
-
             m_RotoVrBlock.RotatePower.onValueChanged.AddListener((value) => { m_RotoBerhaviour.SetPower((int)(value * 100)); });
 
             m_RotoVrBlock.PlayRumble.onClick.AddListener(() => { m_RotoBerhaviour.Rumble((m_RotoVrBlock.RumbleDuration.value * 10), (int)(m_RotoVrBlock.RumblePower.value * 100)); });
@@ -53,49 +50,43 @@ namespace Example.UI
 
             m_RotoVrBlock.RotateAngle.onValueChanged.AddListener((val) =>
             {
-                int angle = (int)(-90 + RoundFloat(val * 180f));
+                int angle = (int)(-180 + RoundFloat(val * 360f));
                 m_RotoVrBlock.RotateAngleView.text = $"Angle {angle} ";
                 HandleRotation(angle);
             });
 
-            m_ModeBlock.Free.onValueChanged.AddListener((select) =>
+            SetModeButtonsColor(ModeType.FreeMode);
+
+            m_ModeBlock.Free.onClick.AddListener(() =>
             {
-                if (select)
-                {
-                    m_RotoBerhaviour.SwitchMode(ModeType.FreeMode);
-                }
+                m_RotoBerhaviour.SwitchMode(ModeType.FreeMode);
+                SetModeButtonsColor(ModeType.FreeMode);
             });
-            m_ModeBlock.HeadTracking.onValueChanged.AddListener((select) =>
+            m_ModeBlock.HeadTracking.onClick.AddListener(() =>
             {
-                if (select)
+                m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack, new ModeParams()
                 {
-                    m_RotoBerhaviour.SwitchMode(ModeType.HeadTrack, new ModeParams()
+                    CockpitAngleLimit = 0,
+                    MaxPower = (int)(m_RotoVrBlock.RotatePower.value * 100),
+                    MovementMode = m_ModeBlock.SimulationSelector.isOn ? MovementMode.Jerky : MovementMode.Smooth
+                });
+                SetModeButtonsColor(ModeType.HeadTrack);
+            });
+            m_ModeBlock.Follow.onClick.AddListener(() =>
+            {
+                m_RotoBerhaviour.SwitchMode(ModeType.FollowObject,
+                    new ModeParams()
                     {
                         CockpitAngleLimit = 0,
                         MaxPower = (int)(m_RotoVrBlock.RotatePower.value * 100),
                         MovementMode = m_ModeBlock.SimulationSelector.isOn ? MovementMode.Jerky : MovementMode.Smooth
                     });
-                }
+                SetModeButtonsColor(ModeType.FollowObject);
             });
-            m_ModeBlock.Follow.onValueChanged.AddListener((select) =>
+            m_ModeBlock.Cockpit.onClick.AddListener(() =>
             {
-                if (select)
-                {
-                    m_RotoBerhaviour.SwitchMode(ModeType.FollowObject,
-                        new ModeParams()
-                        {
-                            CockpitAngleLimit = 0,
-                            MaxPower = (int)(m_RotoVrBlock.RotatePower.value * 100),
-                            MovementMode = m_ModeBlock.SimulationSelector.isOn ? MovementMode.Jerky : MovementMode.Smooth
-                        });
-                }
-            });
-            m_ModeBlock.Cockpit.onValueChanged.AddListener((select) =>
-            {
-                if (select)
-                {
-                    m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
-                }
+                m_RotoBerhaviour.SwitchMode(ModeType.CockpitMode);
+                SetModeButtonsColor(ModeType.CockpitMode);
             });
 
             m_ModeBlock.SimulationSelector.onValueChanged.AddListener((select) =>
@@ -108,10 +99,34 @@ namespace Example.UI
 
             m_RotoBerhaviour.OnConnectionStatusChanged += OnConnectionHandler;
             m_RotoBerhaviour.OnDataChanged += OnDataChangedHandler;
-            UsbConnector.Instance.OnDataChangeRawData += OnDataChangeRawDataHandler;
+
             SetUIState(UIState.Connection);
         }
 
+
+        void SetModeButtonsColor(ModeType modeType)
+        {
+            m_ModeBlock.Free.targetGraphic.color = m_ModeBlock.DeSelectedMode;
+            m_ModeBlock.HeadTracking.targetGraphic.color = m_ModeBlock.DeSelectedMode;
+            m_ModeBlock.Follow.targetGraphic.color = m_ModeBlock.DeSelectedMode;
+            m_ModeBlock.Cockpit.targetGraphic.color = m_ModeBlock.DeSelectedMode;
+
+            switch (modeType)
+            {
+                case ModeType.FreeMode:
+                    m_ModeBlock.Free.targetGraphic.color = m_ModeBlock.SelectedMode;
+                    break;
+                case ModeType.HeadTrack:
+                    m_ModeBlock.HeadTracking.targetGraphic.color = m_ModeBlock.SelectedMode;
+                    break;
+                case ModeType.FollowObject:
+                    m_ModeBlock.Follow.targetGraphic.color = m_ModeBlock.SelectedMode;
+                    break;
+                case ModeType.CockpitMode:
+                    m_ModeBlock.Cockpit.targetGraphic.color = m_ModeBlock.SelectedMode;
+                    break;
+            }
+        }
 
         void HandleRotation(int angle)
         {
@@ -144,16 +159,39 @@ namespace Example.UI
 
         private void OnDestroy()
         {
+            m_RotoBerhaviour.Disconnect();
             m_RotoBerhaviour.OnConnectionStatusChanged -= OnConnectionHandler;
             m_RotoBerhaviour.OnDataChanged -= OnDataChangedHandler;
-            UsbConnector.Instance.OnDataChangeRawData -= OnDataChangeRawDataHandler;
-            m_RotoBerhaviour.Disconnect();
         }
+
+        private int m_Count = 0;
+        private List<string> m_Lines = new();
 
         private void OnDataChangeRawDataHandler(string message)
         {
             string text = m_RotoVrBlock.ConsoleView.text;
-            text += $"/n{message}";
+            m_Lines.Add($"\n {message} ");
+            text += $"\n {message} ";
+
+            m_Count += 1;
+
+            if (m_Count >= 100)
+            {
+                text = String.Empty;
+
+                List<string> newLines = new();
+
+                for (int i = m_Lines.Count - 50; i < m_Lines.Count; i++)
+                {
+                    text += m_Lines[i];
+                    newLines.Add(m_Lines[i]);
+                }
+
+                m_Lines.Clear();
+                m_Lines = newLines;
+                m_Count = 0;
+            }
+
             m_RotoVrBlock.ConsoleView.text = text;
         }
 
@@ -166,15 +204,13 @@ namespace Example.UI
         {
             if (status == ConnectionStatus.Connected)
             {
+                UsbConnector.Instance.OnDataChangeRawData += OnDataChangeRawDataHandler;
                 Calibration(CalibrationMode.SetToZero);
-                m_RotoBerhaviour.SwitchMode(ModeType.FreeMode,
-                    new ModeParams()
-                    {
-                        MaxPower = (int)(m_RotoVrBlock.RotatePower.value * 100)
-                    });
+                m_RotoVrBlock.ConsoleView.text = String.Empty;
             }
             else if (status == ConnectionStatus.Disconnected)
             {
+                UsbConnector.Instance.OnDataChangeRawData -= OnDataChangeRawDataHandler;
                 SetUIState(UIState.Connection);
             }
         }
@@ -207,7 +243,7 @@ namespace Example.UI
 
         private void OnDataChangedHandler(RotoDataModel model)
         {
-            m_RotoVrBlock.RotoDataView.text = $"Mode: {model.ModeType}  Current angle: {model.Angle}   Current power: {model.MaxPower}";
+            m_RotoVrBlock.RotoDataView.text = $"Mode: {model.ModeType}  Current angle: {model.Angle}";
             m_CachedModel = model;
         }
 
@@ -266,20 +302,24 @@ namespace Example.UI
             public Slider RumblePower;
             public TMP_Text RumblePowerView;
             public TMP_Text RotoDataView;
-            public TMP_Text ConsoleView;
+            public TMP_InputField ConsoleView;
+            public ScrollRect ScrollRect;
         }
 
         [Serializable]
         public class ModeBlock
         {
-            public Toggle Free;
-            public Toggle HeadTracking;
-            public Toggle Follow;
-            public Toggle Cockpit;
+            public Button Free;
+            public Button HeadTracking;
+            public Button Follow;
+            public Button Cockpit;
             public Toggle SimulationSelector;
             public TMP_Text SimulationNameField;
             public Color SelectedSimulation;
             public Color DeSelectedSimulation;
+
+            public Color SelectedMode;
+            public Color DeSelectedMode;
         }
     }
 }

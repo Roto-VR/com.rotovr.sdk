@@ -44,21 +44,20 @@ namespace com.rotovr.sdk
         /// </summary>
         public event Action<RotoDataModel> OnDataChanged;
 
-        
+
         protected override void Awake()
         {
-           base.Awake();
-           InitRoto();
+            base.Awake();
+            InitRoto();
         }
 
-        
+
         /// <summary>
         /// An empty function, just to create RotoBehaviour instance via the code
         /// with the default params.
         /// </summary>
         public void Create()
         {
-            
         }
 
         /// <summary>
@@ -94,17 +93,17 @@ namespace com.rotovr.sdk
                     switch (m_ModeType)
                     {
                         case RotoModeType.FreeMode:
-                            m_Roto.SetMode(ModeType.FreeMode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                            m_Roto.SetMode(ModeType.FreeMode, new ModeParams { CockpitAngleLimit = 0, MaxPower = 30 });
                             break;
                         case RotoModeType.HeadTrack:
-                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParams { CockpitAngleLimit = 0, MaxPower = 30 });
                             m_Roto.StartHeadTracking(this, m_Target);
                             break;
                         case RotoModeType.CockpitMode:
-                            m_Roto.SetMode(ModeType.CockpitMode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
+                            m_Roto.SetMode(ModeType.CockpitMode, new ModeParams { CockpitAngleLimit = 140, MaxPower = 30 });
                             break;
                         case RotoModeType.FollowObject:
-                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParams {CockpitAngleLimit = 0, MaxPower = 100});
+                            m_Roto.SetMode(ModeType.HeadTrack, new ModeParams { CockpitAngleLimit = 0, MaxPower = 100 });
                             m_Roto.FollowTarget(this, m_Target);
                             break;
                     }
@@ -183,18 +182,18 @@ namespace com.rotovr.sdk
             switch (mode)
             {
                 case ModeType.FreeMode:
-                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                    m_Roto.SetMode(mode, new ModeParams { CockpitAngleLimit = 0, MaxPower = 30 });
                     OnModeChanged?.Invoke(mode);
                     break;
                 case ModeType.HeadTrack:
-                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                    m_Roto.SetMode(mode, new ModeParams { CockpitAngleLimit = 0, MaxPower = 30 });
                     m_Roto.StartHeadTracking(this, m_Target);
                     break;
                 case ModeType.CockpitMode:
-                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
+                    m_Roto.SetMode(mode, new ModeParams { CockpitAngleLimit = 140, MaxPower = 30 });
                     break;
                 case ModeType.FollowObject:
-                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 100});
+                    m_Roto.SetMode(mode, new ModeParams { CockpitAngleLimit = 0, MaxPower = 100 });
                     m_Roto.FollowTarget(this, m_Target);
                     OnModeChanged?.Invoke(mode);
                     break;
