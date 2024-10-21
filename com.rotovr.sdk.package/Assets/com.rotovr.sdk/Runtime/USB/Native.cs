@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using UnityEngine;
 
 namespace com.rotovr.sdk
 {

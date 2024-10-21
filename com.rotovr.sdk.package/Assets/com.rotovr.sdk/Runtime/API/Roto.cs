@@ -1,7 +1,12 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using Newtonsoft.Json;
+
+#if !NO_UNITY
 using UnityEngine;
+#endif
+
 
 namespace com.rotovr.sdk
 {
@@ -21,9 +26,12 @@ namespace com.rotovr.sdk
 
         RotoDataModel m_RotoData = new();
         DeviceDataModel m_ConnectedDevice;
+        
+#if !NO_UNITY
         readonly string m_CalibrationKey = "CalibrationKey";
         Transform m_ObservableTarget;
         Coroutine m_TargetRoutine;
+#endif
         bool m_IsInit;
         float m_StartTargetAngle;
         int m_StartRotoAngle;
@@ -46,7 +54,9 @@ namespace com.rotovr.sdk
 
         void Call(string command, string data)
         {
+#if !NO_UNITY
             BleManager.Instance.Call(command, data);
+#endif
         }
 
         /// <summary>
@@ -63,15 +73,25 @@ namespace com.rotovr.sdk
         /// </summary>
         /// <param name="command">Command</param>
         /// <param name="action">Handler</param>
-        public void Subscribe(string command, Action<string> action) => BleManager.Instance.Subscribe(command, action);
+        public void Subscribe(string command, Action<string> action)
+        {
+#if !NO_UNITY
+            BleManager.Instance.Subscribe(command, action);
+#endif
+        }
 
         /// <summary>
         /// Subscribe from ble json message
         /// </summary>
         /// <param name="command">Command</param>
         /// <param name="action">Handler</param>
-        public void UnSubscribe(string command, Action<string> action) =>
+        public void UnSubscribe(string command, Action<string> action)
+        {
+#if !NO_UNITY
             BleManager.Instance.UnSubscribe(command, action);
+#endif
+        }
+        
 
         /// <summary>
         /// Initialize with connection type.
@@ -83,16 +103,14 @@ namespace com.rotovr.sdk
 
             m_IsInit = true;
             m_ConnectionType = connectionType;
-
-#if !UNITY_EDITOR
+            
+#if !UNITY_EDITOR && !NO_UNITY
             BleManager.Instance.Init();
             Subscribe(MessageType.ModelChanged.ToString(), OnModelChangeHandler);
             Subscribe(MessageType.DeviceConnected.ToString(),
                 (data) => { OnConnectionStatus?.Invoke(ConnectionStatus.Connected); });
             Subscribe(MessageType.Disconnected.ToString(),
                 (data) => { OnConnectionStatus?.Invoke(ConnectionStatus.Disconnected); });
-#else
-
 #endif
         }
 
@@ -142,7 +160,7 @@ namespace com.rotovr.sdk
         /// <param name="deviceName">Data with device parameters</param>
         internal void Connect(string deviceName)
         {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !NO_UNITY
             if (m_ConnectedDevice == null)
             {
                 void Connected(string data)
@@ -160,8 +178,7 @@ namespace com.rotovr.sdk
             {
                 SendMessage(new ConnectMessage(JsonConvert.SerializeObject(m_ConnectedDevice)));
             }
-
-
+            
 #else
             if (m_ConnectionType == ConnectionType.Chair)
             {
@@ -183,7 +200,7 @@ namespace com.rotovr.sdk
         /// <param name="deviceName">Device name to disconnect</param>
         internal void Disconnect(string deviceName)
         {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !NO_UNITY
             if (m_ConnectedDevice != null && m_ConnectedDevice.Name == deviceName)
             {
                 SendMessage(new DisconnectMessage(JsonConvert.SerializeObject(m_ConnectedDevice)));
@@ -213,7 +230,7 @@ namespace com.rotovr.sdk
         {
             var parametersModel = new ModeParametersModel(modeParams);
 
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !NO_UNITY
             SendMessage(
                 new SetModeMessage(
                     JsonConvert.SerializeObject(new ModeModel(mode.ToString(), parametersModel))));
@@ -248,6 +265,7 @@ namespace com.rotovr.sdk
         {
             switch (calibrationMode)
             {
+#if !NO_UNITY
                 case CalibrationMode.SetCurrent:
                     PlayerPrefs.SetInt(m_CalibrationKey, m_RotoData.Angle);
                     break;
@@ -261,6 +279,7 @@ namespace com.rotovr.sdk
                         RotateToAngle(GetDirection(0, m_RotoData.Angle), 0, 100);
 
                     break;
+#endif
                 case CalibrationMode.SetToZero:
                     RotateToAngle(GetDirection(0, m_RotoData.Angle), 0, 100);
                     break;
@@ -278,7 +297,7 @@ namespace com.rotovr.sdk
         {
             if (angle == m_RotoData.Angle)
                 return;
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !NO_UNITY
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power, direction.ToString()))));
 #else
@@ -306,7 +325,7 @@ namespace com.rotovr.sdk
         {
             if (angle == m_RotoData.Angle)
                 return;
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !NO_UNITY
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
                     GetDirection(angle, m_RotoData.Angle).ToString()))));
@@ -345,7 +364,7 @@ namespace com.rotovr.sdk
                     targetAngle = m_RotoData.Angle + angle;
                     break;
             }
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !NO_UNITY
             SendMessage(new RotateToAngleMessage(
                 JsonConvert.SerializeObject(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
                     direction.ToString()))));
@@ -365,7 +384,9 @@ namespace com.rotovr.sdk
             }
 #endif
         }
-
+        
+        
+#if !NO_UNITY 
         /// <summary>
         /// Follow rotation of a target object
         /// </summary>
@@ -418,6 +439,7 @@ namespace com.rotovr.sdk
                 m_ObservableTarget = null;
             }
         }
+#endif
 
         /// <summary>
         /// Play rumble
@@ -426,7 +448,7 @@ namespace com.rotovr.sdk
         /// <param name="power">Power of rumble</param>
         public void Rumble(float duration, int power)
         {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !NO_UNITY
             SendMessage(new PlayRumbleMessage(JsonConvert.SerializeObject(new RumbleModel(duration, power))));
 #else
             if (m_ConnectionType == ConnectionType.Chair)
@@ -436,6 +458,7 @@ namespace com.rotovr.sdk
 #endif
         }
 
+#if !NO_UNITY
         IEnumerator FollowTargetRoutine()
         {
             if (m_ObservableTarget == null)
@@ -520,7 +543,8 @@ namespace com.rotovr.sdk
                 }
             }
         }
-
+#endif
+        
         float GetDelta(float startAngle, float currentAngle, Direction direction)
         {
             float delta = 0;
@@ -554,7 +578,7 @@ namespace com.rotovr.sdk
         {
             if (targetAngle > sourceAngle)
             {
-                if (Mathf.Abs(targetAngle - sourceAngle) > 180)
+                if (Math.Abs(targetAngle - sourceAngle) > 180)
                 {
                     return Direction.Left;
                 }
@@ -565,7 +589,7 @@ namespace com.rotovr.sdk
             }
             else
             {
-                if (Mathf.Abs(targetAngle - sourceAngle) > 180)
+                if (Math.Abs(targetAngle - sourceAngle) > 180)
                 {
                     return Direction.Right;
                 }

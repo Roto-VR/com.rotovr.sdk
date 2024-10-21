@@ -1,3 +1,4 @@
+
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace com.rotovr.sdk.editor
 
         void Awake()
         {
-            m_Behaviour = FindObjectOfType<RotoBehaviour>();
+            m_Behaviour = FindObjectOfType<RotoBehaviourProxy>().RotoBehaviour;
             if (m_Behaviour == null)
                 return;
 

@@ -1,5 +1,9 @@
-﻿using System;
+﻿
+
+#if !NO_UNITY
+using System;
 using UnityEngine;
+
 
 namespace com.rotovr.sdk
 {
@@ -63,3 +67,4 @@ namespace com.rotovr.sdk
             m_MessageReceiver.UnSubscribe(command, action);
     }
 }
+#endif

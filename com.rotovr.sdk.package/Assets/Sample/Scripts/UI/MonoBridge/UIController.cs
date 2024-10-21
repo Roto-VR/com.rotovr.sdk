@@ -1,4 +1,5 @@
 ﻿using System;
+using com.rotovr.sdk.editor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,14 +8,17 @@ namespace com.rotovr.sdk.sample
 {
     public class UIController : MonoBehaviour
     {
-        [SerializeField] RotoBehaviour m_RotoBerhaviour;
+        
+        [SerializeField] RotoBehaviourProxy m_RotoBerhaviourProxy;
         [SerializeField] ConnectionBlock m_ConnectionBlock;
         [SerializeField] CalibrationBlock m_CalibrationBlock;
         [SerializeField] RotoVrBlock m_RotoVrBlock;
 
+        RotoBehaviour m_RotoBerhaviour;
 
         void Awake()
         {
+            m_RotoBerhaviour = m_RotoBerhaviourProxy.RotoBehaviour;
             m_ConnectionBlock.ConnectionButton.onClick.AddListener(() =>
             {
                 m_RotoBerhaviour.Connect();
@@ -24,11 +28,15 @@ namespace com.rotovr.sdk.sample
 
             m_CalibrationBlock.CalibrationAsCurrentButton.onClick.AddListener(() =>
             {
+#if !NO_UNITY
                 Calibration(CalibrationMode.SetCurrent);
+#endif
             });
             m_CalibrationBlock.CalibrationAsPrevButton.onClick.AddListener(() =>
             {
+#if !NO_UNITY
                 Calibration(CalibrationMode.SetLast);
+#endif
             });
             m_CalibrationBlock.CalibrationAsZeroButton.onClick.AddListener(() =>
             {

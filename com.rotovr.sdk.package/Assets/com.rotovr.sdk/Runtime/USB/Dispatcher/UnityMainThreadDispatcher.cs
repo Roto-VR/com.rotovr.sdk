@@ -14,7 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+
+#if !NO_UNITY
 using UnityEngine;
+#endif
+
+#if !NO_UNITY
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -27,7 +32,7 @@ namespace PimDeWitte.UnityMainThreadDispatcher
     /// A thread-safe class which holds a queue with actions to execute on the next Update() method. It can be used to make calls to the main thread for
     /// things such as UI Manipulation in Unity. It was developed for use in combination with the Firebase Unity plugin, which uses separate threads for event handling
     /// </summary>
-    class UnityMainThreadDispatcher : MonoBehaviour
+    public class UnityMainThreadDispatcher  : MonoBehaviour
     {
         private static readonly Queue<Action> _executionQueue = new Queue<Action>();
 
@@ -123,3 +128,22 @@ namespace PimDeWitte.UnityMainThreadDispatcher
         }
     }
 }
+#else
+
+using System;
+namespace PimDeWitte.UnityMainThreadDispatcher
+{
+    public class UnityMainThreadDispatcher
+    {
+        public static UnityMainThreadDispatcher Instance()
+        {
+            return new UnityMainThreadDispatcher();
+        }
+        
+        public void Enqueue(Action action)
+        {
+            action.Invoke();
+        }
+    }
+}
+#endif

@@ -1,8 +1,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 using PimDeWitte.UnityMainThreadDispatcher;
+
+#if !NO_UNITY
+using UnityEngine;
+#endif
 
 namespace com.rotovr.sdk
 {
@@ -32,6 +35,13 @@ namespace com.rotovr.sdk
             m_connectionThread.Start();
         }
 
+        void Log(string message)
+        {
+#if !NO_UNITY
+            Debug.Log(message);
+#endif
+        }
+
         void ConnectToDevice()
         {
             m_device = Native.OpenFirstHIDDevice(k_vid, k_pid);
@@ -43,7 +53,7 @@ namespace com.rotovr.sdk
             Native.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
             var success = Native.GetFeature(m_device, feature, 9);
 
-            Debug.Log($"Set Feature success: {success}");
+            Log($"Set Feature success: {success}");
             SendConnect();
 
             Task.Run(async () =>
@@ -112,7 +122,7 @@ namespace com.rotovr.sdk
 
         public void Disconnect()
         {
-            Debug.Log("Disconnect");
+            Log("Disconnect");
             m_reaDevice = false;
 
             SendDisconnect(() =>
@@ -157,12 +167,12 @@ namespace com.rotovr.sdk
                 }
             }
 
-            Debug.Log($"Send connect message: {LogBuffer(message)}");
+            Log($"Send connect message: {LogBuffer(message)}");
 
             Task.Run(() =>
             {
                 var success = Native.WriteFile(m_device, message);
-                Debug.Log($"Write file success: {success}");
+                Log($"Write file success: {success}");
 
                 m_dispatcher.Enqueue(() => { OnConnectionStatus?.Invoke(ConnectionStatus.Connected); });
             });
@@ -245,7 +255,7 @@ namespace com.rotovr.sdk
             var write = Task.Run(() =>
             {
                 var success = Native.WriteFile(m_device, message);
-                Debug.Log($"Disconnect success: {success}");
+                Log($"Disconnect success: {success}");
             });
 
             write.Wait();
@@ -296,7 +306,7 @@ namespace com.rotovr.sdk
                     break;
             }
 
-            Debug.Log($"Set Mode: {model.Mode}");
+            Log($"Set Mode: {model.Mode}");
 
             m_usbMessage[9] = (byte)(model.ModeParametersModel.TargetCockpit);
             m_usbMessage[11] = 40;
@@ -371,7 +381,7 @@ namespace com.rotovr.sdk
             Task.Run(() =>
             {
                 var result = Native.WriteFile(m_device, PrepareWriteBuffer(m_usbMessage));
-                Debug.Log($"Turn To Angle success: {result}");
+                Log($"Turn To Angle success: {result}");
             });
         }
 
@@ -399,7 +409,7 @@ namespace com.rotovr.sdk
             Task.Run(() =>
             {
                 var result = Native.WriteFile(m_device, PrepareWriteBuffer(m_usbMessage));
-                Debug.Log($"Play Rumble success: {result}");
+                Log($"Play Rumble success: {result}");
             });
         }
 

@@ -7,18 +7,25 @@ namespace com.rotovr.sdk
     /// Can be used with classes extended from a MonoBehaviour.
     /// Once instance is found or created, game object will be marked as DontDestroyOnLoad.
     /// </summary>
-    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class MonoSingleton<T> 
+#if !NO_UNITY
+        : MonoBehaviour where T : MonoBehaviour
+#else
+     where T : class, new()
+#endif
     {
         static T s_Instance;
         static bool s_ApplicationIsQuitting;
         static bool s_IsDestroyed;
 
 
+#if !NO_UNITY
         protected virtual void Awake()
         {
             DontDestroyOnLoad(gameObject);
             gameObject.transform.SetParent(SingletonService.Parent);
         }
+#endif
 
         /// <summary>
         /// Returns a singleton class instance
@@ -34,12 +41,14 @@ namespace com.rotovr.sdk
                     Debug.LogError(
                         $"{typeof(T)} [MonoSingleton] is already destroyed. " +
                         $"Please check {nameof(HasInstance)} or {nameof(IsDestroyed)} before accessing instance in the destructor.");
-                    return null;
+                    return default(T);
                 }
 
                 if (s_Instance == null)
                 {
+#if !NO_UNITY
                     s_Instance = FindObjectOfType(typeof(T)) as T;
+#endif
                     if (s_Instance == null)
                         Instantiate();
                 }
@@ -63,8 +72,12 @@ namespace com.rotovr.sdk
                 return;
             }
             
+#if !NO_UNITY
             var name = typeof(T).FullName;
             s_Instance = new GameObject(name).AddComponent<T>();
+#else
+            s_Instance = new T();
+#endif
         }
 
         /// <summary>

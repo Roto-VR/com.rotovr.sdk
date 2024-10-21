@@ -1,3 +1,5 @@
+#if !NO_UNITY
+
 using System.Collections;
 using UnityEngine;
 
@@ -40,3 +42,5 @@ namespace com.rotovr.sdk
         }
     }
 }
+
+#endif

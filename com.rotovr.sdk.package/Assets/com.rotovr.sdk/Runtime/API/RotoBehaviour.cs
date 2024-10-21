@@ -1,33 +1,77 @@
-﻿using System;
+﻿
+using System;
+
+#if !NO_UNITY
 using UnityEngine;
+#endif
 
 namespace com.rotovr.sdk
 {
+#if NO_UNITY
+    public class RotoBehaviour 
+   
+#else
     public class RotoBehaviour : MonoSingleton<RotoBehaviour>
+#endif
     {
         /// <summary>
         /// Behaviour mode. Works only in an editor. Select Runtime if you have rotoVR chair, select Simulation if you don't have the chair and want to simulate it behaviour
         /// </summary>
-        [SerializeField] ConnectionType m_ConnectionType;
+#if !NO_UNITY
+        [SerializeField] 
+#endif
+        ConnectionType m_ConnectionType;
+
+        internal ConnectionType ConnectionType
+        {
+            get => m_ConnectionType;
+            set => m_ConnectionType = value;
+        }
 
         /// <summary>
         /// Setup on the component in a scene roto vr device name
         /// </summary>
-        [SerializeField] string m_DeviceName = "rotoVR Base Station";
+#if !NO_UNITY
+        [SerializeField] 
+#endif     
+        string m_DeviceName = "rotoVR Base Station";
+        
+        public string DeviceName
+        {
+            get => m_DeviceName;
+            set => m_DeviceName = value;
+        }
 
         /// <summary>
         /// Setup on the component in a scene working mode
         /// </summary>
-        [SerializeField] RotoModeType m_ModeType;
+#if !NO_UNITY
+        [SerializeField] 
+#endif
+        RotoModeType m_ModeType;
+        
+        internal RotoModeType Mode
+        {
+            get => m_ModeType;
+            set => m_ModeType = value;
+        }
 
+#if !NO_UNITY
         /// <summary>
         /// For Head Tracking Move need to setup a target to observe a rotation
         /// </summary>
         [SerializeField] Transform m_Target;
-
+        
+        public Transform Target
+        {
+            get => m_Target;
+            set => m_Target = value;
+        }
+#endif
+        
         Roto m_Roto;
         bool m_IsInit;
-        public Transform Target => m_Target;
+       
 
         /// <summary>
         /// Action invoke when the system connection status changed
@@ -44,13 +88,12 @@ namespace com.rotovr.sdk
         /// </summary>
         public event Action<RotoDataModel> OnDataChanged;
 
-        
+#if !NO_UNITY 
         protected override void Awake()
         {
            base.Awake();
            InitRoto();
         }
-
         
         /// <summary>
         /// An empty function, just to create RotoBehaviour instance via the code
@@ -60,10 +103,14 @@ namespace com.rotovr.sdk
         {
             
         }
+#else
+        public RotoBehaviour()
+        {
+            InitRoto();
+        }
+#endif
         
-     
         //TODO why do we even need it, of that's a singleton.
-        
         /*
         void OnDestroy()
         {
@@ -75,6 +122,10 @@ namespace com.rotovr.sdk
         /// <summary>
         /// Initialisation of the component
         /// </summary>
+       
+#if NO_UNITY 
+        public 
+#endif
         void InitRoto()
         {
             if (m_IsInit)
@@ -107,17 +158,21 @@ namespace com.rotovr.sdk
                         case RotoModeType.FreeMode:
                             m_Roto.SetMode(ModeType.FreeMode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                             break;
+                        case RotoModeType.CockpitMode:
+                            m_Roto.SetMode(ModeType.CockpitMode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
+                            break;
+
+#if !NO_UNITY
                         case RotoModeType.HeadTrack:
                             m_Roto.SetMode(ModeType.HeadTrack, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                             m_Roto.StartHeadTracking(this, m_Target);
                             break;
-                        case RotoModeType.CockpitMode:
-                            m_Roto.SetMode(ModeType.CockpitMode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
-                            break;
+                       
                         case RotoModeType.FollowObject:
                             m_Roto.SetMode(ModeType.HeadTrack, new ModeParams {CockpitAngleLimit = 0, MaxPower = 100});
                             m_Roto.FollowTarget(this, m_Target);
                             break;
+#endif
                     }
 
                     break;
@@ -189,7 +244,9 @@ namespace com.rotovr.sdk
         /// <param name="mode">New mode</param>
         public void SwitchMode(ModeType mode)
         {
-            m_Roto.StopRoutine(this);
+#if !NO_UNITY
+           m_Roto.StopRoutine(this);
+#endif
 
             switch (mode)
             {
@@ -197,18 +254,21 @@ namespace com.rotovr.sdk
                     m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                     OnModeChanged?.Invoke(mode);
                     break;
+                case ModeType.CockpitMode:
+                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
+                    break;
+#if !NO_UNITY
                 case ModeType.HeadTrack:
                     m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
                     m_Roto.StartHeadTracking(this, m_Target);
                     break;
-                case ModeType.CockpitMode:
-                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
-                    break;
+              
                 case ModeType.FollowObject:
                     m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 100});
                     m_Roto.FollowTarget(this, m_Target);
                     OnModeChanged?.Invoke(mode);
                     break;
+#endif
             }
         }
 
@@ -219,25 +279,28 @@ namespace com.rotovr.sdk
         /// <param name="modeParams">Mode parameters.</param>
         public void SwitchMode(ModeType mode, ModeParams modeParams)
         {
+#if !NO_UNITY
             m_Roto.StopRoutine(this);
-
+#endif
             switch (mode)
             {
                 case ModeType.FreeMode:
                     m_Roto.SetMode(mode, modeParams);
                     break;
+                case ModeType.CockpitMode:
+                    m_Roto.SetMode(mode, modeParams);
+                    break;
+#if !NO_UNITY
                 case ModeType.HeadTrack:
                     m_Roto.SetMode(mode, modeParams);
                     m_Roto.StartHeadTracking(this, m_Target);
-                    break;
-                case ModeType.CockpitMode:
-                    m_Roto.SetMode(mode, modeParams);
                     break;
                 case ModeType.FollowObject:
                     m_Roto.SetMode(ModeType.HeadTrack, modeParams);
                     m_Roto.FollowTarget(this, m_Target);
                     OnModeChanged?.Invoke(mode);
                     break;
+#endif
             }
         }
 
