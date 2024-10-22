@@ -1,38 +1,13 @@
-﻿/*
-Copyright 2015 Pim de Witte All Rights Reserved.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-
-#if !NO_UNITY
-using UnityEngine;
-#endif
-
-#if !NO_UNITY
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using System.Threading.Tasks;
+using UnityEngine;
 
-namespace com.rotovr.sdk
+namespace com.rotovr.sdk.sample
 {
-    /// Author: Pim de Witte (pimdewitte.com) and contributors, https://github.com/PimDeWitte/UnityMainThreadDispatcher
-    /// <summary>
-    /// A thread-safe class which holds a queue with actions to execute on the next Update() method. It can be used to make calls to the main thread for
-    /// things such as UI Manipulation in Unity. It was developed for use in combination with the Firebase Unity plugin, which uses separate threads for event handling
-    /// </summary>
-    public class UnityMainThreadDispatcher  : MonoBehaviour, IUnityMainThreadDispatcher
+    public class SampleUnityMainThreadDispatcher  : MonoBehaviour, IUnityMainThreadDispatcher
     {
         private static readonly Queue<Action> _executionQueue = new Queue<Action>();
 
@@ -102,19 +77,19 @@ namespace com.rotovr.sdk
         }
 
 
-        private static UnityMainThreadDispatcher _instance = null;
+        private static SampleUnityMainThreadDispatcher _instance = null;
 
         public static bool Exists()
         {
             return _instance != null;
         }
 
-        public static UnityMainThreadDispatcher Instance()
+        public static SampleUnityMainThreadDispatcher Instance()
         {
             if (!Exists())
             {
                 GameObject go = new GameObject("MainThreadDispatcher");
-                _instance = go.AddComponent<UnityMainThreadDispatcher>();
+                _instance = go.AddComponent<SampleUnityMainThreadDispatcher>();
                 DontDestroyOnLoad(go);
             }
 
@@ -128,23 +103,3 @@ namespace com.rotovr.sdk
         }
     }
 }
-#else
-
-using System;
-
-namespace com.rotovr.sdk
-{
-    public class UnityMainThreadDispatcher : IUnityMainThreadDispatcher
-    {
-        public static UnityMainThreadDispatcher Instance()
-        {
-            return new UnityMainThreadDispatcher();
-        }
-        
-        public void Enqueue(Action action)
-        {
-            action.Invoke();
-        }
-    }
-}
-#endif

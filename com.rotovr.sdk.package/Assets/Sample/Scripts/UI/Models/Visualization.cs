@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace com.rotovr.sdk.editor
+namespace com.rotovr.sdk.sample
 {
     class Visualization : MonoBehaviour
     {

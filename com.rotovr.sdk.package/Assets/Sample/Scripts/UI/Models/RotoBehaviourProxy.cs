@@ -1,7 +1,8 @@
 using System;
+using com.rotovr.sdk.sample;
 using UnityEngine;
 
-namespace com.rotovr.sdk.editor
+namespace com.rotovr.sdk.sample
 {
     /// <summary>
     /// Proxy class for RotoBehaviour
@@ -92,8 +93,8 @@ namespace com.rotovr.sdk.editor
                 : gameObject.AddComponent<RotoBehaviour>();
 #else
             RotoBehaviour = new RotoBehaviour();
+            UsbConnector.Instance.SetMainThreadDispatcher(SampleUnityMainThreadDispatcher.Instance());
 #endif
-
             RotoBehaviour.DeviceName = m_DeviceName;
             RotoBehaviour.ConnectionType = m_ConnectionType;
             RotoBehaviour.Mode = m_Mode;

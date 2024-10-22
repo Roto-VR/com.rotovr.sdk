@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using PimDeWitte.UnityMainThreadDispatcher;
 
 #if !NO_UNITY
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace com.rotovr.sdk
         byte[] m_writeBuffer = new byte[33];
         byte[] m_readMessage = new byte[19];
         static RotoDataModel m_runtimeModel;
-        UnityMainThreadDispatcher m_dispatcher;
+        IUnityMainThreadDispatcher m_dispatcher;
         IntPtr m_device;
         Thread m_connectionThread;
         static int m_messageSize;
@@ -30,9 +29,18 @@ namespace com.rotovr.sdk
 
         public void Connect()
         {
-            m_dispatcher = UnityMainThreadDispatcher.Instance();
+            if (m_dispatcher == null)
+            {
+                m_dispatcher = UnityMainThreadDispatcher.Instance();
+            }
+           
             m_connectionThread = new Thread(ConnectToDevice);
             m_connectionThread.Start();
+        }
+
+        internal void SetMainThreadDispatcher(IUnityMainThreadDispatcher dispatcher)
+        {
+            m_dispatcher = dispatcher;
         }
 
         void Log(string message)
