@@ -1,8 +1,9 @@
 {
-    "name": "com.rotovr.sdk.editor",
+    "name": "com.rotovr.sdk.sample.editor",
     "rootNamespace": "",
     "references": [
-        "com.rotovr.sdk"
+        "GUID:f02961130e676d64286b045742a0d057",
+        "GUID:112e9bc2420ed9746a137df85f837467"
     ],
     "includePlatforms": [
         "Editor"

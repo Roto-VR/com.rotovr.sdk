@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace com.rotovr.sdk.sample
+namespace com.rotovr.sdk.sample.editor
 {
 
     [CustomEditor(typeof(RotoBehaviourProxy))]

@@ -215,7 +215,7 @@ namespace com.rotovr.sdk
             }
             else
             {
-                OnConnectionStatusChange(ConnectionStatus.Connected);
+                OnConnectionStatusChange(ConnectionStatus.Disconnected);
             }
 
 #endif

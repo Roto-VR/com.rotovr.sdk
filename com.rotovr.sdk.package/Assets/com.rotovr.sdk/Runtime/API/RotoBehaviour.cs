@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 #if !NO_UNITY
 using UnityEngine;
@@ -8,8 +7,7 @@ using UnityEngine;
 namespace com.rotovr.sdk
 {
 #if NO_UNITY
-    public class RotoBehaviour 
-   
+    public class RotoBehaviour
 #else
     public class RotoBehaviour : MonoSingleton<RotoBehaviour>
 #endif
@@ -18,7 +16,7 @@ namespace com.rotovr.sdk
         /// Behaviour mode. Works only in an editor. Select Runtime if you have rotoVR chair, select Simulation if you don't have the chair and want to simulate it behaviour
         /// </summary>
 #if !NO_UNITY
-        [SerializeField] 
+        [SerializeField]
 #endif
         ConnectionType m_ConnectionType;
 
@@ -32,10 +30,10 @@ namespace com.rotovr.sdk
         /// Setup on the component in a scene roto vr device name
         /// </summary>
 #if !NO_UNITY
-        [SerializeField] 
-#endif     
+        [SerializeField]
+#endif
         string m_DeviceName = "rotoVR Base Station";
-        
+
         public string DeviceName
         {
             get => m_DeviceName;
@@ -46,10 +44,10 @@ namespace com.rotovr.sdk
         /// Setup on the component in a scene working mode
         /// </summary>
 #if !NO_UNITY
-        [SerializeField] 
+        [SerializeField]
 #endif
         RotoModeType m_ModeType;
-        
+
         internal RotoModeType Mode
         {
             get => m_ModeType;
@@ -68,10 +66,10 @@ namespace com.rotovr.sdk
             set => m_Target = value;
         }
 #endif
-        
+
         Roto m_Roto;
         bool m_IsInit;
-       
+
 
         /// <summary>
         /// Action invoke when the system connection status changed
@@ -88,7 +86,7 @@ namespace com.rotovr.sdk
         /// </summary>
         public event Action<RotoDataModel> OnDataChanged;
 
-#if !NO_UNITY 
+#if !NO_UNITY
         protected override void Awake()
         {
            base.Awake();
@@ -106,27 +104,19 @@ namespace com.rotovr.sdk
 #else
         public RotoBehaviour()
         {
+            m_ConnectionType = ConnectionType.Chair;
             InitRoto();
         }
 #endif
-        
-        //TODO why do we even need it, of that's a singleton.
-        /*
-        void OnDestroy()
-        {
-            m_Roto.OnConnectionStatus -= OnConnectionStatusHandler;
-            m_Roto.OnRotoMode -= OnRotoModeHandler;
-            m_Roto.Disconnect(m_DeviceName);
-        }*/
 
         /// <summary>
         /// Initialisation of the component
         /// </summary>
-       
-#if NO_UNITY 
-        public 
+
+#if NO_UNITY
+        public
 #endif
-        void InitRoto()
+            void InitRoto()
         {
             if (m_IsInit)
                 return;
@@ -156,10 +146,10 @@ namespace com.rotovr.sdk
                     switch (m_ModeType)
                     {
                         case RotoModeType.FreeMode:
-                            m_Roto.SetMode(ModeType.FreeMode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                            m_Roto.SetMode(ModeType.FreeMode, new ModeParams { CockpitAngleLimit = 0, MaxPower = 30 });
                             break;
                         case RotoModeType.CockpitMode:
-                            m_Roto.SetMode(ModeType.CockpitMode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
+                            m_Roto.SetMode(ModeType.CockpitMode, new ModeParams { CockpitAngleLimit = 140, MaxPower = 30 });
                             break;
 
 #if !NO_UNITY
@@ -251,11 +241,11 @@ namespace com.rotovr.sdk
             switch (mode)
             {
                 case ModeType.FreeMode:
-                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 0, MaxPower = 30});
+                    m_Roto.SetMode(mode, new ModeParams { CockpitAngleLimit = 0, MaxPower = 30 });
                     OnModeChanged?.Invoke(mode);
                     break;
                 case ModeType.CockpitMode:
-                    m_Roto.SetMode(mode, new ModeParams {CockpitAngleLimit = 140, MaxPower = 30});
+                    m_Roto.SetMode(mode, new ModeParams { CockpitAngleLimit = 140, MaxPower = 30 });
                     break;
 #if !NO_UNITY
                 case ModeType.HeadTrack:

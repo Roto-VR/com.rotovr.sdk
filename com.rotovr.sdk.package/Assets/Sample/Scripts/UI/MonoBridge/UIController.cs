@@ -7,7 +7,6 @@ namespace com.rotovr.sdk.sample
 {
     public class UIController : MonoBehaviour
     {
-        
         [SerializeField] RotoBehaviourProxy m_RotoBerhaviourProxy;
         [SerializeField] ConnectionBlock m_ConnectionBlock;
         [SerializeField] CalibrationBlock m_CalibrationBlock;
@@ -37,15 +36,9 @@ namespace com.rotovr.sdk.sample
                 Calibration(CalibrationMode.SetLast);
 #endif
             });
-            m_CalibrationBlock.CalibrationAsZeroButton.onClick.AddListener(() =>
-            {
-                Calibration(CalibrationMode.SetToZero);
-            });
-            
-            m_CalibrationBlock.Disconnect.onClick.AddListener(() =>
-            {
-                m_RotoBerhaviour.Disconnect();
-            });
+            m_CalibrationBlock.CalibrationAsZeroButton.onClick.AddListener(() => { Calibration(CalibrationMode.SetToZero); });
+
+            m_CalibrationBlock.Disconnect.onClick.AddListener(() => { m_RotoBerhaviour.Disconnect(); });
 
             m_RotoVrBlock.RotationPowerView.text =
                 $"Rotation power {RoundFloat(m_RotoVrBlock.RotationPower.value * 100f)} %";
@@ -109,12 +102,14 @@ namespace com.rotovr.sdk.sample
 
         private void OnConnectionHandler(ConnectionStatus status)
         {
+            Debug.LogError($"status: {status}");
             if (status == ConnectionStatus.Connected)
             {
                 SetUIState(UIState.Calibration);
-            }else if (status == ConnectionStatus.Disconnected)
+            }
+            else if (status == ConnectionStatus.Disconnected)
             {
-                SetUIState(UIState.Connection); 
+                SetUIState(UIState.Connection);
             }
         }
 
