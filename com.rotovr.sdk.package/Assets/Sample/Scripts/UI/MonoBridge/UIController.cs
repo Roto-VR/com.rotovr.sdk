@@ -173,13 +173,13 @@ namespace com.rotovr.sdk.sample
         {
             public GameObject RotoVrPanel;
             public Slider RotationPower;
-            public TMP_Text RotationPowerView;
+            public Text RotationPowerView;
             public Button TurnLeft;
             public Button TurnRight;
             public Button PlayRumble;
-            public TMP_Text RumbleDurationView;
+            public Text RumbleDurationView;
             public Slider RumbleDuration;
-            public TMP_Text m_RumblePowerView;
+            public Text m_RumblePowerView;
             public Slider RumblePower;
         }
     }
