@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Newtonsoft.Json;
 
 namespace com.rotovr.sdk
 { 
@@ -15,7 +14,7 @@ namespace com.rotovr.sdk
         public void OnBleStringMessage(string data)
         {
             Debug.Log($"Incoming message type {data}");
-            BleJsonMessage message = JsonConvert.DeserializeObject<BleJsonMessage>(data);
+            var message = new BleJsonMessage(data);
             OnJsonMessageReceived?.Invoke(message);
         }
 

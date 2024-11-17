@@ -1,7 +1,5 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
-using Newtonsoft.Json;
 
 #if !NO_UNITY
 using UnityEngine;
@@ -121,7 +119,8 @@ namespace com.rotovr.sdk
 
         void OnModelChangeHandler(string data)
         {
-            var model = JsonConvert.DeserializeObject<RotoDataModel>(data);
+
+            var model = new RotoDataModel(data);
 
             if (model.Mode != m_RotoData.Mode)
             {
@@ -139,7 +138,7 @@ namespace com.rotovr.sdk
         {
             if (model.Mode != m_RotoData.Mode)
             {
-                if (System.Enum.TryParse(model.Mode, out ModeType value))
+                if (Enum.TryParse(model.Mode, out ModeType value))
                 {
                     OnRotoMode?.Invoke(value);
                 }
@@ -166,17 +165,17 @@ namespace com.rotovr.sdk
                 void Connected(string data)
                 {
                     s_Roto.UnSubscribe(MessageType.Connected.ToString(), Connected);
-                    m_ConnectedDevice = JsonConvert.DeserializeObject<DeviceDataModel>(data);
+                    m_ConnectedDevice = new DeviceDataModel(data);
                 }
 
                 s_Roto.Subscribe(MessageType.Connected.ToString(), Connected);
 
                 SendMessage(
-                    new ConnectMessage(JsonConvert.SerializeObject(new DeviceDataModel(deviceName, string.Empty))));
+                    new ConnectMessage(new DeviceDataModel(deviceName, string.Empty).ToJson()));
             }
             else
             {
-                SendMessage(new ConnectMessage(JsonConvert.SerializeObject(m_ConnectedDevice)));
+                SendMessage(new ConnectMessage(m_ConnectedDevice.ToJson()));
             }
             
 #else
@@ -203,7 +202,7 @@ namespace com.rotovr.sdk
 #if !UNITY_EDITOR && !NO_UNITY
             if (m_ConnectedDevice != null && m_ConnectedDevice.Name == deviceName)
             {
-                SendMessage(new DisconnectMessage(JsonConvert.SerializeObject(m_ConnectedDevice)));
+                SendMessage(new DisconnectMessage(m_ConnectedDevice.ToJson()));
             }
 
 #else
@@ -232,8 +231,8 @@ namespace com.rotovr.sdk
 
 #if !UNITY_EDITOR && !NO_UNITY
             SendMessage(
-                new SetModeMessage(
-                    JsonConvert.SerializeObject(new ModeModel(mode.ToString(), parametersModel))));
+                new SetModeMessage(new ModeModel(mode.ToString(), parametersModel).ToJson())
+                );
 #else
             if (m_ConnectionType == ConnectionType.Chair)
             {
@@ -299,7 +298,7 @@ namespace com.rotovr.sdk
                 return;
 #if !UNITY_EDITOR && !NO_UNITY
             SendMessage(new RotateToAngleMessage(
-                JsonConvert.SerializeObject(new RotateToAngleModel(angle, power, direction.ToString()))));
+                new RotateToAngleModel(angle, power, direction.ToString()).ToJson()));
 #else
             if (m_ConnectionType == ConnectionType.Chair)
             {
@@ -326,9 +325,9 @@ namespace com.rotovr.sdk
             if (angle == m_RotoData.Angle)
                 return;
 #if !UNITY_EDITOR && !NO_UNITY
-            SendMessage(new RotateToAngleMessage(
-                JsonConvert.SerializeObject(new RotateToAngleModel(angle, power,
-                    GetDirection(angle, m_RotoData.Angle).ToString()))));
+            var rotateToAngleModel = new RotateToAngleModel(angle, power,
+                GetDirection(angle, m_RotoData.Angle).ToString());
+            SendMessage(new RotateToAngleMessage(rotateToAngleModel.ToJson()));
 #else
             if (m_ConnectionType == ConnectionType.Chair)
             {
@@ -365,9 +364,8 @@ namespace com.rotovr.sdk
                     break;
             }
 #if !UNITY_EDITOR && !NO_UNITY
-            SendMessage(new RotateToAngleMessage(
-                JsonConvert.SerializeObject(new RotateToAngleModel(NormalizeAngle(targetAngle), power,
-                    direction.ToString()))));
+            var rotateToAngleModel = new RotateToAngleModel(NormalizeAngle(targetAngle), power, direction.ToString());
+            SendMessage(new RotateToAngleMessage(rotateToAngleModel.ToJson()));
 #else
             if (m_ConnectionType == ConnectionType.Chair)
             {
@@ -449,7 +447,8 @@ namespace com.rotovr.sdk
         public void Rumble(float duration, int power)
         {
 #if !UNITY_EDITOR && !NO_UNITY
-            SendMessage(new PlayRumbleMessage(JsonConvert.SerializeObject(new RumbleModel(duration, power))));
+            var rumbleModel = new RumbleModel(duration, power);
+            SendMessage(new PlayRumbleMessage(rumbleModel.ToJson()));
 #else
             if (m_ConnectionType == ConnectionType.Chair)
             {

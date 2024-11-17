@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace com.rotovr.sdk.sample
 {
@@ -13,7 +12,7 @@ namespace com.rotovr.sdk.sample
         [SerializeField] RotoVrBlock m_RotoVrBlock;
 
         RotoBehaviour m_RotoBerhaviour;
-
+        
         void Awake()
         {
             m_RotoBerhaviour = m_RotoBerhaviourProxy.RotoBehaviour;
