@@ -2,8 +2,6 @@
 
 Our freely available Unity SDK unlocks additional features for genuine game-changing possibilities. Roto’s bi-directional motor functionality combined with bi-directional yaw tracking (of both the user's head and body), together will access almost every kind of control device, opening up exciting opportunities for creativity.
 
-Below are some examples of how Roto can transform your game.
-
 ### Install from a Git URL
 Yoy can also install this package via Git URL. To load a package from a Git URL:
 
