@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "1q74Xa3cWvC2vb6bvY0IWJqSAAQsfn02fZLrBExM2P5CeRrYy2WQ+ARX+dwWB6UqQz/3ZYCnOO2ZlwuKSKOBBA==",
+  "success": true,
+  "projectFilePath": "D:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\golandez\\.nuget\\packages\\net.tcpserver\\1.0.3\\net.tcpserver.1.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

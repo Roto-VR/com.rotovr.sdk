@@ -1,0 +1,375 @@
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI.dll
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.dll
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.pdb
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.xml
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.frm_Settings.resources
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.Resources.resources
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.dll
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.xml
+C:\Users\admin\Desktop\Next SimTools\InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.pdb
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.Resources.resources
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.dll
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.xml
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.pdb
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.dll
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.pdb
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.xml
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI.dll
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI.pdb
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI.xml
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.dll
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.pdb
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\bin\Release\InterfaceTest_Plugin.xml
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI.dll
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI.pdb
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI.xml
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.Resources.resources
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.dll
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.xml
+C:\Users\admin\Desktop\Interface API Test\InterfacePlugin\InterfacePlugin\obj\Release\InterfaceTest_Plugin.pdb
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Interface API Test\New folder\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\MemoryMap_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\MemMap_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\MemoryMap_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\Interface API Test\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 Interface Plugins\Interface Plugins\Serial_InterfacePlugin_NorJrk\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 8-31-15\Interface Plugins\Interface Plugins 2.0\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\Test Axis Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 1-20-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 3-14-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 4-29-16\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools 2.0 7-15-17\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v2 3-22-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v2 6-18-19\Interface_Plugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 4-5-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 5-21-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 5-26-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins 2.0 - 2 AxisAssignments\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 6-4-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-5-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 6-6-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 8-17-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.cache
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CopyComplete
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 8-27-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CopyComplete
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.pdb
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\bin\Release\Interface_PluginAPI_v3.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CopyComplete
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Serial_InterfacePlugin_USED\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.pdb
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\bin\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbprojAssemblyReference.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.Resources.resources
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.UserControl_Settings.resources
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CopyComplete
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.dll
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.xml
+C:\Users\admin\Desktop\SimTools v3 9-20-20\_Plugins\InterfacePlugins\Interface_Plugins v3.0\Tests\Serial_InterfacePlugin_Example\InterfacePlugin\InterfacePlugin\obj\Release\Serial_InterfacePlugin.pdb
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.AssemblyReference.cache
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.Resources.resources
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.UserControl_Settings.resources
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.cache
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\RotoVR_InterfacePlugin.dll
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\RotoVR_InterfacePlugin.pdb
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\RotoVR_InterfacePlugin.xml
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\Interfac.3ADA8234.Up2Date
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.dll
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.xml
+D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.pdb

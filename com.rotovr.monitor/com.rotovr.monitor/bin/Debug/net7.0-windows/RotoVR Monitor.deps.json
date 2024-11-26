@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "RotoVR Monitor/1.0.0": {
+        "dependencies": {
+          "Net.TcpServer": "1.0.3"
+        },
+        "runtime": {
+          "RotoVR Monitor.dll": {}
+        }
+      },
+      "Net.TcpServer/1.0.3": {
+        "runtime": {
+          "lib/net6.0/Net.TcpServer.dll": {
+            "assemblyVersion": "1.0.3.0",
+            "fileVersion": "1.0.3.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "RotoVR Monitor/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Net.TcpServer/1.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QC54CTBF6YgZDMte1CkIf8EPBDHEkKT6Fz7LDUIG7ZXqGykqDMPgrKD8Mjn2u3uOMnuz53HciXRMg3aZzhEmqA==",
+      "path": "net.tcpserver/1.0.3",
+      "hashPath": "net.tcpserver.1.0.3.nupkg.sha512"
+    }
+  }
+}

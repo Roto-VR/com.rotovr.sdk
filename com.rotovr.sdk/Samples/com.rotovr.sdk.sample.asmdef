@@ -1,0 +1,17 @@
+{
+    "name": "com.rotovr.sdk.sample",
+    "rootNamespace": "",
+    "references": [
+        "com.rotovr.sdk",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
