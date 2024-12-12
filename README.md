@@ -26,3 +26,12 @@ Follow the instructions below to start integration:
 * [Implementation Instrcutions](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Implementation-Instrcutions)
 * [Meta Quest2 Setup](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Meta-Quest-2-Setup)
 * [Visualization in Unity Editor](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Chair-Visualization-in-Unity-Editor)
+
+# For Unreal and other platform users
+
+For platforms other than Unity, such as Unreal Engine or any system that supports managed DLLs, you can integrate functionality by downloading the SDK as a managed DLL library. However, there are some important considerations:
+
+* **Unreal's C++ Environment**: Unreal Engine primarily uses native C++ for scripting, so integrating a managed DLL (written in languages like C#) requires a bridging solution. This can involve using C++/CLI, Mono, or .NET Core to host the managed runtime within Unreal's ecosystem.
+* **Managed DLL Integration**: Platforms that natively support the .NET runtime can use managed DLLs directly. For engines like Unreal, you'll likely need a wrapper to expose the managed DLL’s functionality as native C++.
+
+[Download SDK as a managed DLL library](https://github.com/Roto-VR/com.rotovr.sdk/tree/master/Lib)
