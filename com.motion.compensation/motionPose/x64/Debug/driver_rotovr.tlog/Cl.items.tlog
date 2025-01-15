@@ -1,0 +1,13 @@
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\common_hooks.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\common_hooks.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\DeviceManipulationHandle.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\DeviceManipulationHandle.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\dllmain.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\dllmain.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\driver_motionPose.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\driver_motionPose.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\Facade.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\Facade.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\ITrackedDeviceServerDriver005Hooks.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\ITrackedDeviceServerDriver005Hooks.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\IVRDriverContextHooks.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\IVRDriverContextHooks.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\IVRServerDriverHost004Hooks.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\IVRServerDriverHost004Hooks.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\IVRServerDriverHost005Hooks.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\IVRServerDriverHost005Hooks.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\IVRServerDriverHost006Hooks.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\IVRServerDriverHost006Hooks.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\MotionCompensationManager.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\ServerDriver.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\ServerDriver.obj
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\WatchdogProvider.cpp;D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\x64\Debug\WatchdogProvider.obj

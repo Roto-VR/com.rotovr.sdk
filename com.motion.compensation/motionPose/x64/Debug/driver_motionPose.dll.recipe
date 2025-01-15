@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\Development\StansAssets\com.motion.compensation\x64\Debug\driver_motionPose.dll</FullPath>
+      <FullPath>D:\StansAssets\motionPose\x64\Debug\driver_motionPose.dll</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

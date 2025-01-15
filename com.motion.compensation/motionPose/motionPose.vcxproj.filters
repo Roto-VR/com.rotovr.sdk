@@ -13,22 +13,46 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\hooks">
+      <UniqueIdentifier>{5c7852f6-7bae-49a3-9a23-a60a4388b812}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WatchdogProvider.cpp">
+    <ClCompile Include="driver_motionPose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="driver_motionPose.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ServerDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MotionPoseController.cpp">
+    <ClCompile Include="WatchdogProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="IVRDriverContextHooks.cpp">
+      <Filter>Source Files\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="common_hooks.cpp">
+      <Filter>Source Files\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceManipulationHandle.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionCompensationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IVRServerDriverHost006Hooks.cpp">
+      <Filter>Source Files\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="IVRServerDriverHost004Hooks.cpp">
+      <Filter>Source Files\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="IVRServerDriverHost005Hooks.cpp">
+      <Filter>Source Files\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="ITrackedDeviceServerDriver005Hooks.cpp">
+      <Filter>Source Files\hooks</Filter>
     </ClCompile>
     <ClCompile Include="Facade.cpp">
       <Filter>Source Files</Filter>
@@ -38,20 +62,44 @@
     <ClInclude Include="openvr_math.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="WatchdogProvider.h">
+    <ClInclude Include="driver_motionPose.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="driver_motionPose.h">
+    <ClInclude Include="logging.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ServerDriver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MotionPoseController.h">
+    <ClInclude Include="motion_compensation_structs.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="logging.h">
+    <ClInclude Include="WatchdogProvider.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common_hooks.h">
+      <Filter>Source Files\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="IVRDriverContextHooks.h">
+      <Filter>Source Files\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceManipulationHandle.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionCompensationManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IVRServerDriverHost006Hooks.h">
+      <Filter>Source Files\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="IVRServerDriverHost004Hooks.h">
+      <Filter>Source Files\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="IVRServerDriverHost005Hooks.h">
+      <Filter>Source Files\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="ITrackedDeviceServerDriver005Hooks.h">
+      <Filter>Source Files\hooks</Filter>
     </ClInclude>
     <ClInclude Include="Facade.h">
       <Filter>Source Files</Filter>

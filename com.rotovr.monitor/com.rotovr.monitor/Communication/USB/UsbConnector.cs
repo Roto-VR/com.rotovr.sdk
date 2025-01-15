@@ -1,5 +1,6 @@
 using RotoVR.Common.Model;
 using RotoVR.Communication.Enum;
+using System.Diagnostics;
 
 namespace RotoVR.Communication.USB
 {
@@ -7,6 +8,7 @@ namespace RotoVR.Communication.USB
     {
         const UInt16 k_vid = 0x04D9;
         const UInt16 k_pid = 0xB564;
+        const int maxTryRead = 330;
         IntPtr m_device;
         static int m_messageSize;
         static bool m_initPacket;
@@ -16,6 +18,8 @@ namespace RotoVR.Communication.USB
         byte[] m_readMessage = new byte[19];
         static RotoDataModel m_runtimeModel;
         private ConnectionStatus m_connectionStatus;
+        int tryReadCount = 0;
+        bool connected;
 
         public event Action<string> OnSystemLog;
         public event Action<ConnectionStatus> OnConnectionStatus;
@@ -38,7 +42,7 @@ namespace RotoVR.Communication.USB
             byte[] feature = ConfigureFeature();
             UsbNative.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
             var success = UsbNative.GetFeature(m_device, feature, 9);
-            Console.WriteLine($"Set Feature success: {success}");
+            Debug.WriteLine($"Set Feature success: {success}");
             SendConnect();
 
             Task.Run(async () =>
@@ -56,7 +60,7 @@ namespace RotoVR.Communication.USB
         public void Disconnect()
         {
             m_reaDevice = false;
-
+            connected = false;
             SendDisconnect(() =>
             {
                 if (m_device != IntPtr.Zero)
@@ -69,7 +73,7 @@ namespace RotoVR.Communication.USB
         }
 
         public void MessageDelivery(byte[] rawData)
-        {
+        {      
             switch (rawData[2])
             {
                 case 1:
@@ -106,6 +110,7 @@ namespace RotoVR.Communication.USB
                     OnCompensationModel?.Invoke(model);
                     break;
                 case 10:
+                    Debug.WriteLine("Receive disconnect message");
                     Disconnect();
                     break;
             }
@@ -156,6 +161,8 @@ namespace RotoVR.Communication.USB
         {
             if (m_connectionStatus != status)
             {
+                Debug.WriteLine($"ChangeConnectionStatus: {status}");
+
                 m_connectionStatus = status;
                 OnConnectionStatus?.Invoke(m_connectionStatus);
             }
@@ -193,7 +200,7 @@ namespace RotoVR.Communication.USB
             Task.Run(() =>
             {
                 var success = UsbNative.WriteFile(m_device, message);
-                Console.WriteLine($"Send connect: {success}");
+                Debug.WriteLine($"Send connect: {success}");
             });
         }
 
@@ -228,7 +235,7 @@ namespace RotoVR.Communication.USB
             var write = Task.Run(() =>
             {
                 var success = UsbNative.WriteFile(m_device, message);
-                Console.WriteLine($"Disconnect success: {success}");
+                Debug.WriteLine($"Disconnect success: {success}");
             });
 
             write.Wait();
@@ -333,13 +340,22 @@ namespace RotoVR.Communication.USB
             {
                 if (m_connectionStatus == ConnectionStatus.Connected)
                 {
-                    Disconnect();
+                    if (tryReadCount < maxTryRead)
+                        tryReadCount++;
+                    else
+                    {
+                        Debug.WriteLine("Cannot read message");
+                        Disconnect();
+                    }
                 }
 
                 return;
             }
-
-            ChangeConnectionStatus(ConnectionStatus.Connected);
+            if (!connected)
+            {
+                connected = true;
+                ChangeConnectionStatus(ConnectionStatus.Connected);
+            }
 
             if (buffer[2] == 0xF1)
             {
@@ -380,8 +396,8 @@ namespace RotoVR.Communication.USB
                     {
                         m_runtimeModel = GetModel(m_readMessage);
                         OnReadData?.Invoke(m_runtimeModel);
-                        OnSystemLog?.Invoke(
-                            $"raw data: {LogBuffer(m_readMessage)}  chair angle: {m_runtimeModel.Angle}");
+                        Debug.WriteLine($"Read angle: {m_runtimeModel.Angle}");
+                        OnSystemLog?.Invoke($"raw data: {LogBuffer(m_readMessage)}  chair angle: {m_runtimeModel.Angle}");
                     }
                 }
             }

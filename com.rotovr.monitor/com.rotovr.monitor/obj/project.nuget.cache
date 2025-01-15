@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "1q74Xa3cWvC2vb6bvY0IWJqSAAQsfn02fZLrBExM2P5CeRrYy2WQ+ARX+dwWB6UqQz/3ZYCnOO2ZlwuKSKOBBA==",
+  "dgSpecHash": "nohvQ5czmR0=",
   "success": true,
-  "projectFilePath": "D:\\Development\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
+  "projectFilePath": "D:\\StansAssets\\com.rotovr.sdk\\com.rotovr.monitor\\com.rotovr.monitor\\com.rotovr.monitor.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\golandez\\.nuget\\packages\\net.tcpserver\\1.0.3\\net.tcpserver.1.0.3.nupkg.sha512"
+    "C:\\Users\\golandez\\.nuget\\packages\\net.tcpserver\\1.0.3\\net.tcpserver.1.0.3.nupkg.sha512",
+    "C:\\Users\\golandez\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.20\\microsoft.windowsdesktop.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\golandez\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.20\\microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\golandez\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.20\\microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\golandez\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.20\\microsoft.netcore.app.host.win-x64.7.0.20.nupkg.sha512"
   ],
   "logs": []
 }

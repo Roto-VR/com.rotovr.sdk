@@ -1,3 +1,43 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (driver_motionPose.vcxproj, MotionCompensation.vcxproj, RotoVR.MotionCompensation.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (driver_motionPose.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  common_hooks.cpp
+  DeviceManipulationHandle.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'DeviceManipulationHandle.cpp')
+  
+  dllmain.cpp
+  driver_motionPose.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'driver_motionPose.cpp')
+  
   Facade.cpp
-  motionPose.vcxproj -> D:\Development\StansAssets\com.motion.compensation\x64\Debug\RotoVR.MC.dll
+  ITrackedDeviceServerDriver005Hooks.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'ITrackedDeviceServerDriver005Hooks.cpp')
+  
+  IVRDriverContextHooks.cpp
+  IVRServerDriverHost004Hooks.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'IVRServerDriverHost004Hooks.cpp')
+  
+  IVRServerDriverHost005Hooks.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'IVRServerDriverHost005Hooks.cpp')
+  
+  IVRServerDriverHost006Hooks.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'IVRServerDriverHost006Hooks.cpp')
+  
+  MotionCompensationManager.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'MotionCompensationManager.cpp')
+  
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.cpp(315,26): warning C4101: 'e': unreferenced local variable
+  ServerDriver.cpp
+D:\StansAssets\com.rotovr.sdk\com.motion.compensation\motionPose\MotionCompensationManager.h(174,22): warning C4101: 'angles': unreferenced local variable
+  (compiling source file 'ServerDriver.cpp')
+  
+  WatchdogProvider.cpp
+  Generating Code...
+     Creating library D:\StansAssets\com.rotovr.sdk\com.motion.compensation\x64\Debug\driver_rotovr.lib and object D:\StansAssets\com.rotovr.sdk\com.motion.compensation\x64\Debug\driver_rotovr.exp
+LINK : warning LNK4098: defaultlib 'LIBCMTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+  motionPose.vcxproj -> D:\StansAssets\com.rotovr.sdk\com.motion.compensation\x64\Debug\driver_rotovr.dll

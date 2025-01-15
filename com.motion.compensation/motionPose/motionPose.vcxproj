@@ -19,18 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="common_hooks.cpp" />
+    <ClCompile Include="DeviceManipulationHandle.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="driver_motionPose.cpp" />
     <ClCompile Include="Facade.cpp" />
-    <ClCompile Include="MotionPoseController.cpp" />
+    <ClCompile Include="ITrackedDeviceServerDriver005Hooks.cpp" />
+    <ClCompile Include="IVRDriverContextHooks.cpp" />
+    <ClCompile Include="IVRServerDriverHost004Hooks.cpp" />
+    <ClCompile Include="IVRServerDriverHost005Hooks.cpp" />
+    <ClCompile Include="IVRServerDriverHost006Hooks.cpp" />
+    <ClCompile Include="MotionCompensationManager.cpp" />
     <ClCompile Include="ServerDriver.cpp" />
     <ClCompile Include="WatchdogProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common_hooks.h" />
+    <ClInclude Include="DeviceManipulationHandle.h" />
     <ClInclude Include="driver_motionPose.h" />
     <ClInclude Include="Facade.h" />
+    <ClInclude Include="ITrackedDeviceServerDriver005Hooks.h" />
+    <ClInclude Include="IVRDriverContextHooks.h" />
+    <ClInclude Include="IVRServerDriverHost004Hooks.h" />
+    <ClInclude Include="IVRServerDriverHost005Hooks.h" />
+    <ClInclude Include="IVRServerDriverHost006Hooks.h" />
     <ClInclude Include="logging.h" />
-    <ClInclude Include="MotionPoseController.h" />
+    <ClInclude Include="MotionCompensationManager.h" />
+    <ClInclude Include="motion_compensation_structs.h" />
     <ClInclude Include="ServerDriver.h" />
     <ClInclude Include="openvr_math.h" />
     <ClInclude Include="WatchdogProvider.h" />
@@ -41,7 +56,7 @@
     <ProjectGuid>{13824638-bf7b-495a-823b-8b416e2d3d27}</ProjectGuid>
     <RootNamespace>motionPose</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>RotoVR.MC</ProjectName>
+    <ProjectName>driver_rotovr</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -145,15 +160,14 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\StansAssets\boost_1_87_0;..\motionPose\third-party\easylogging++;..\motionPose\openvr\headers;..\motionPose\third-party\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>D:\Development\StansAssets\com.motion.compensation\motionPose\openvr\lib\win64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>openvr_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\StansAssets\boost_1_87_0\stage\lib;..\motionPose\openvr\lib\win64;..\motionPose\third-party\MinHook\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>openvr_api.lib;libMinHook-x64-v141-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

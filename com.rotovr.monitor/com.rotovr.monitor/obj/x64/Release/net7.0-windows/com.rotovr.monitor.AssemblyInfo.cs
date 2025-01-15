@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("com.rotovr.monitor")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("RotoVR Monitor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5df022bb0fbd8989f66daba3683a0f6143218760")]
-[assembly: System.Reflection.AssemblyProductAttribute("com.rotovr.monitor")]
-[assembly: System.Reflection.AssemblyTitleAttribute("com.rotovr.monitor")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6cd35b4da15030cc35a01bf6d60174f93903601")]
+[assembly: System.Reflection.AssemblyProductAttribute("RotoVR Monitor")]
+[assembly: System.Reflection.AssemblyTitleAttribute("RotoVR Monitor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]

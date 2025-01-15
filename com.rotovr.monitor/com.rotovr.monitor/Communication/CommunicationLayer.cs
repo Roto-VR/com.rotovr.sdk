@@ -18,9 +18,8 @@ public class CommunicationLayer : ICommunicationLayer
 
     public void Start()
     {
-        m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;
-        m_usbConnector.OnCompensationModel += OnCompensationModelHandler;
-        m_usbConnector.OnReadData += OnReadDataHandler;
+        m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;   
+    
 
         m_TcpService.OnMessage += OnTcpMessageHandler;
         m_TcpService.Start();
@@ -29,6 +28,10 @@ public class CommunicationLayer : ICommunicationLayer
     public void Stop()
     {
         m_usbConnector.Disconnect();
+
+       
+        m_usbConnector.OnConnectionStatus -= ConnectionStatusHandler;
+
         m_TcpService.OnMessage -= OnTcpMessageHandler;
         m_TcpService.Stop();
     }
@@ -41,16 +44,20 @@ public class CommunicationLayer : ICommunicationLayer
     private void ConnectionStatusHandler(ConnectionStatus status)
     {
         OnConnectionStatus?.Invoke(status);
+
+        Console.WriteLine($"Change connection status: {status}");
+
         switch (status)
         {
             case ConnectionStatus.Connected:
+                m_usbConnector.OnReadData += OnReadDataHandler;
                 m_compensationBridge.Start();
                 break;
             case ConnectionStatus.Disconnected:
-                m_compensationBridge.Stop();
-                m_usbConnector.OnConnectionStatus -= ConnectionStatusHandler;
-                m_usbConnector.OnCompensationModel -= OnCompensationModelHandler;
                 m_usbConnector.OnReadData -= OnReadDataHandler;
+                m_compensationBridge.Stop();
+                   
+             
                 break;
         }
     }
@@ -59,12 +66,6 @@ public class CommunicationLayer : ICommunicationLayer
     {
         m_compensationBridge.SetRotoData(data);
     }
-
-    private void OnCompensationModelHandler(CompensationModel model)
-    {
-        m_compensationBridge.SetCompensationValue(model);
-    }
-
 
     private void OnTcpMessageHandler(byte[] rawData)
     {
