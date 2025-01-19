@@ -1,5 +1,6 @@
 using RotoVR.Common.Model;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace RotoVR.MotionCompensation;
 
@@ -11,12 +12,19 @@ public class CompensationBridge : ICompensationBridge
     public void Init()
     {
         Debug.WriteLine("Init");
-        MotionCompensationNative.LoadLibrary(@"driver_rotovr.dll");
-        MotionCompensationNative.InitFacade();
-    }  
+        var result = MotionCompensationNative.LoadLibrary(@"driver_monitor.dll");
+
+        if (result == IntPtr.Zero)
+            Log.Error($"Init with result: {Marshal.GetLastWin32Error().ToString()}");       
+        else
+            Log.Info($"Init with result: {result.ToString()}");       
+
+        MotionCompensationNative.Init();
+    }
 
     public void Start()
     {
+        Log.Info("Start Monitor");
         Debug.WriteLine("Start");
         MotionCompensationNative.Start();
     }
@@ -29,6 +37,7 @@ public class CompensationBridge : ICompensationBridge
 
     public void Stop()
     {
+        Log.Info("Stop Monitor");
         Debug.WriteLine("Stop");
         MotionCompensationNative.Stop();
     }

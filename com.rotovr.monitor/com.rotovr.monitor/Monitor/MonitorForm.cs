@@ -118,31 +118,6 @@ namespace RotoVR.Monitor
             Default,
             Console,
             Settings,
-        }
-
-        // TODO Remove after debug 
-        // #region DEBUG PART
-        //
-        // private void InitOffset(object sender, EventArgs e)
-        // {
-        //     m_compensationBridge.SetCompensationValue(new CompensationModel(-10, 15));
-        // }
-        //
-        // private void StartMC(object sender, EventArgs e)
-        // {
-        //     m_compensationBridge.Start();
-        // }
-        //
-        // private void StopMC(object sender, EventArgs e)
-        // {
-        //     m_compensationBridge.Stop();
-        // }
-        //
-        // private void RunMC(object sender, EventArgs e)
-        // {
-        //     m_compensationBridge.SetRotoData(new RotoDataModel("", 90, 0, 0));
-        // }
-
-       // #endregion
+        }    
     }
 }

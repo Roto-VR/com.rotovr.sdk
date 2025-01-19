@@ -18,9 +18,7 @@ public class CommunicationLayer : ICommunicationLayer
 
     public void Start()
     {
-        m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;   
-    
-
+        m_usbConnector.OnConnectionStatus += ConnectionStatusHandler;    
         m_TcpService.OnMessage += OnTcpMessageHandler;
         m_TcpService.Start();
     }
@@ -31,7 +29,6 @@ public class CommunicationLayer : ICommunicationLayer
 
        
         m_usbConnector.OnConnectionStatus -= ConnectionStatusHandler;
-
         m_TcpService.OnMessage -= OnTcpMessageHandler;
         m_TcpService.Stop();
     }
