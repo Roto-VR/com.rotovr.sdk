@@ -20,3 +20,5 @@ D:\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\x64\Debu
 D:\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\obj\x64\Debug\net7.0-windows7.0\ref\RotoVR Monitor.dll
 D:\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\x64\Debug\net7.0-windows7.0\log4net.config
 D:\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\x64\Debug\net7.0-windows7.0\log4net.dll
+D:\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\x64\Debug\net7.0-windows7.0\Caching.dll
+D:\StansAssets\com.rotovr.sdk\com.rotovr.monitor\com.rotovr.monitor\bin\x64\Debug\net7.0-windows7.0\SimpleUdp.dll

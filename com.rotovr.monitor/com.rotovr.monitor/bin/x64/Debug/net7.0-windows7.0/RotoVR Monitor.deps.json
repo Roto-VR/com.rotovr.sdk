@@ -9,10 +9,22 @@
       "RotoVR Monitor/1.0.0": {
         "dependencies": {
           "Net.TcpServer": "1.0.3",
+          "SimpleUdp": "2.0.2",
           "log4net": "3.0.3"
         },
         "runtime": {
           "RotoVR Monitor.dll": {}
+        }
+      },
+      "Caching/3.1.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0"
+        },
+        "runtime": {
+          "lib/net7.0/Caching.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
         }
       },
       "log4net/3.0.3": {
@@ -26,12 +38,24 @@
           }
         }
       },
+      "Microsoft.CSharp/4.7.0": {},
       "Microsoft.NETCore.Platforms/2.0.0": {},
       "Net.TcpServer/1.0.3": {
         "runtime": {
           "lib/net6.0/Net.TcpServer.dll": {
             "assemblyVersion": "1.0.3.0",
             "fileVersion": "1.0.3.0"
+          }
+        }
+      },
+      "SimpleUdp/2.0.2": {
+        "dependencies": {
+          "Caching": "3.1.1"
+        },
+        "runtime": {
+          "lib/net7.0/SimpleUdp.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.0"
           }
         }
       },
@@ -66,12 +90,26 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Caching/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WklcSMa1//UsnfYa0svg1qu9YkTcNP+kv1gR6qoyvsiUqafFONDfw5a5qhDwJ6enyEERn//+CnhATvly8XYFsg==",
+      "path": "caching/3.1.1",
+      "hashPath": "caching.3.1.1.nupkg.sha512"
+    },
     "log4net/3.0.3": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-LAZBO0rHo4DM56GIt124NaXKo6LVZcfiuWVgODdUnhPNMzTOlRJWOEIXo8zVNLm426B+coDc4ocfTsTw7R7Zeg==",
       "path": "log4net/3.0.3",
       "hashPath": "log4net.3.0.3.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+      "path": "microsoft.csharp/4.7.0",
+      "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/2.0.0": {
       "type": "package",
@@ -86,6 +124,13 @@
       "sha512": "sha512-QC54CTBF6YgZDMte1CkIf8EPBDHEkKT6Fz7LDUIG7ZXqGykqDMPgrKD8Mjn2u3uOMnuz53HciXRMg3aZzhEmqA==",
       "path": "net.tcpserver/1.0.3",
       "hashPath": "net.tcpserver.1.0.3.nupkg.sha512"
+    },
+    "SimpleUdp/2.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KeROacDCLFzJqcpcl3rKeB9FQb4gKIhxoKzJdeknr2ArwrvuXcYNoXyUgs5Ka0Yfsz9AW9HNbvE7Lz/nxppObg==",
+      "path": "simpleudp/2.0.2",
+      "hashPath": "simpleudp.2.0.2.nupkg.sha512"
     },
     "System.Configuration.ConfigurationManager/4.5.0": {
       "type": "package",

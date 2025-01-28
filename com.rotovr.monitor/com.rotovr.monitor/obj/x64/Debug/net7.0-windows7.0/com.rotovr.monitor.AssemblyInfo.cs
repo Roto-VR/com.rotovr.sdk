@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RotoVR Monitor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d694bc271dfde623430fbeef0f53c528505b6de")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bcab196e3bc69b5aa8620e51368d057868c791c")]
 [assembly: System.Reflection.AssemblyProductAttribute("RotoVR Monitor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RotoVR Monitor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

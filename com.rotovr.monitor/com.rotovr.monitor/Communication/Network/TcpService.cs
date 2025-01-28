@@ -1,22 +1,20 @@
 using System.Net;
 using Net.TcpServer;
-using RotoVR.Communication.TCP;
+using RotoVR.Communication.Network;
+namespace RotoVR.Communication.Network;
 
-namespace RotoVR.Communication.UDP;
-
-public class TcpService : ITcpService
+public class TcpService : INetworkService
 {
     public event Action<string> OnSystemLog;
     public event Action<byte[]> OnMessage;
     private int m_port = 56685;
-
-    private TcpServer tcpServer;
+    private TcpServer m_tcpServer;
 
     public void Start()
     {
-        tcpServer = new TcpServer(IPAddress.Any, m_port);
+        m_tcpServer = new TcpServer(IPAddress.Any, m_port);
 
-        tcpServer.Start((connection) =>
+        m_tcpServer.Start((connection) =>
         {
             connection.OnAccept = client => { Console.WriteLine($"OnAccept: {client}"); };
             connection.OnReceive = (client, data) => { OnMessage?.Invoke(data); };
@@ -31,7 +29,7 @@ public class TcpService : ITcpService
 
     public void Stop()
     {
-        tcpServer.Stop();
+        m_tcpServer.Stop();
         OnSystemLog?.Invoke($"[{nameof(TcpService)}] Server stop");
     }
 }

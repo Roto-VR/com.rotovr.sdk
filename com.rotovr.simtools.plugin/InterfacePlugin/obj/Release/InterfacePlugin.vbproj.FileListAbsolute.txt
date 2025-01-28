@@ -373,3 +373,15 @@ D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePl
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.dll
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.xml
 D:\Development\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.pdb
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.AssemblyReference.cache
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.Resources.resources
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.UserControl_Settings.resources
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.GenerateResource.cache
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\InterfacePlugin.vbproj.CoreCompileInputs.cache
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.dll
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.xml
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\RotoVR_InterfacePlugin.pdb
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\RotoVR_InterfacePlugin.dll
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\RotoVR_InterfacePlugin.pdb
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\bin\Release\RotoVR_InterfacePlugin.xml
+D:\StansAssets\com.rotovr.sdk\com.rotovr.simtools.plugin\InterfacePlugin\obj\Release\Interfac.3ADA8234.Up2Date

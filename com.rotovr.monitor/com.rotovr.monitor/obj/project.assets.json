@@ -2,6 +2,22 @@
   "version": 3,
   "targets": {
     "net7.0-windows7.0": {
+      "Caching/3.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0"
+        },
+        "compile": {
+          "lib/net7.0/Caching.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Caching.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "log4net/3.0.3": {
         "type": "package",
         "dependencies": {
@@ -16,6 +32,15 @@
           "lib/netstandard2.0/log4net.dll": {
             "related": ".pdb;.xml"
           }
+        }
+      },
+      "Microsoft.CSharp/4.7.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
         }
       },
       "Microsoft.NETCore.Platforms/2.0.0": {
@@ -38,6 +63,18 @@
           "lib/net6.0/Net.TcpServer.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "SimpleUdp/2.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Caching": "3.1.1"
+        },
+        "compile": {
+          "lib/net7.0/SimpleUdp.dll": {}
+        },
+        "runtime": {
+          "lib/net7.0/SimpleUdp.dll": {}
         }
       },
       "System.Configuration.ConfigurationManager/4.5.0": {
@@ -134,6 +171,28 @@
     }
   },
   "libraries": {
+    "Caching/3.1.1": {
+      "sha512": "WklcSMa1//UsnfYa0svg1qu9YkTcNP+kv1gR6qoyvsiUqafFONDfw5a5qhDwJ6enyEERn//+CnhATvly8XYFsg==",
+      "type": "package",
+      "path": "caching/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "caching.3.1.1.nupkg.sha512",
+        "caching.nuspec",
+        "icon.png",
+        "lib/net6.0/Caching.dll",
+        "lib/net6.0/Caching.xml",
+        "lib/net7.0/Caching.dll",
+        "lib/net7.0/Caching.xml",
+        "lib/net8.0/Caching.dll",
+        "lib/net8.0/Caching.xml",
+        "lib/netstandard2.1/Caching.dll",
+        "lib/netstandard2.1/Caching.xml"
+      ]
+    },
     "log4net/3.0.3": {
       "sha512": "LAZBO0rHo4DM56GIt124NaXKo6LVZcfiuWVgODdUnhPNMzTOlRJWOEIXo8zVNLm426B+coDc4ocfTsTw7R7Zeg==",
       "type": "package",
@@ -151,6 +210,75 @@
         "log4net.3.0.3.nupkg.sha512",
         "log4net.nuspec",
         "package-icon.png"
+      ]
+    },
+    "Microsoft.CSharp/4.7.0": {
+      "sha512": "pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+      "type": "package",
+      "path": "microsoft.csharp/4.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/netcore50/Microsoft.CSharp.dll",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.3/Microsoft.CSharp.dll",
+        "lib/netstandard2.0/Microsoft.CSharp.dll",
+        "lib/netstandard2.0/Microsoft.CSharp.xml",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/uap10.0.16299/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "microsoft.csharp.4.7.0.nupkg.sha512",
+        "microsoft.csharp.nuspec",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/netcore50/Microsoft.CSharp.dll",
+        "ref/netcore50/Microsoft.CSharp.xml",
+        "ref/netcore50/de/Microsoft.CSharp.xml",
+        "ref/netcore50/es/Microsoft.CSharp.xml",
+        "ref/netcore50/fr/Microsoft.CSharp.xml",
+        "ref/netcore50/it/Microsoft.CSharp.xml",
+        "ref/netcore50/ja/Microsoft.CSharp.xml",
+        "ref/netcore50/ko/Microsoft.CSharp.xml",
+        "ref/netcore50/ru/Microsoft.CSharp.xml",
+        "ref/netcore50/zh-hans/Microsoft.CSharp.xml",
+        "ref/netcore50/zh-hant/Microsoft.CSharp.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.0/Microsoft.CSharp.dll",
+        "ref/netstandard1.0/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/de/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/es/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/fr/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/it/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ja/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ko/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ru/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/zh-hans/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/zh-hant/Microsoft.CSharp.xml",
+        "ref/netstandard2.0/Microsoft.CSharp.dll",
+        "ref/netstandard2.0/Microsoft.CSharp.xml",
+        "ref/portable-net45+win8+wp8+wpa81/_._",
+        "ref/uap10.0.16299/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "Microsoft.NETCore.Platforms/2.0.0": {
@@ -196,6 +324,24 @@
         "lib/netstandard2.1/Net.TcpServer.xml",
         "net.tcpserver.1.0.3.nupkg.sha512",
         "net.tcpserver.nuspec"
+      ]
+    },
+    "SimpleUdp/2.0.2": {
+      "sha512": "KeROacDCLFzJqcpcl3rKeB9FQb4gKIhxoKzJdeknr2ArwrvuXcYNoXyUgs5Ka0Yfsz9AW9HNbvE7Lz/nxppObg==",
+      "type": "package",
+      "path": "simpleudp/2.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "icon.png",
+        "lib/net6.0/SimpleUdp.dll",
+        "lib/net7.0/SimpleUdp.dll",
+        "lib/net8.0/SimpleUdp.dll",
+        "lib/netstandard2.1/SimpleUdp.dll",
+        "simpleudp.2.0.2.nupkg.sha512",
+        "simpleudp.nuspec"
       ]
     },
     "System.Configuration.ConfigurationManager/4.5.0": {
@@ -370,6 +516,7 @@
   "projectFileDependencyGroups": {
     "net7.0-windows7.0": [
       "Net.TcpServer >= 1.0.3",
+      "SimpleUdp >= 2.0.2",
       "log4net >= 3.0.3"
     ]
   },
@@ -427,6 +574,10 @@
           "Net.TcpServer": {
             "target": "Package",
             "version": "[1.0.3, )"
+          },
+          "SimpleUdp": {
+            "target": "Package",
+            "version": "[2.0.2, )"
           },
           "log4net": {
             "target": "Package",

@@ -3,10 +3,9 @@ Imports System.Threading.Tasks
 
 Public Class MonitorTcpClient
 
-    Private tcpClient As TcpClient
+    Private udpClient As UdpClient
     Private adress As String = "127.0.0.1"
-    Private port As Integer = 56685
-    Private stream As NetworkStream
+    Private port As Integer = 56686
     Private currentAngle = 0
     Private isConnected As Boolean
     Private xOffset As Decimal
@@ -34,21 +33,25 @@ Public Class MonitorTcpClient
     Private Async Sub StartClient()
 
         Try
-            tcpClient = New TcpClient(adress, port)
-            stream = tcpClient.GetStream()
+            udpClient = New UdpClient()
+
             isConnected = True
+
+            udpClient.Connect(adress, port)
 
             Dim headtrackData(20) As Byte
 
             Await Task.Delay(500)
             'Send command to connect to a chair
             headtrackData(2) = Convert.ToByte(1)
-            stream.Write(headtrackData, 0, headtrackData.Length)
+            'stream.Write(headtrackData, 0, headtrackData.Length)
+
+            udpClient.Send(headtrackData, headtrackData.Length)
 
             Await Task.Delay(1000)
             'Send command to set headtracking mode
             headtrackData(2) = Convert.ToByte(2)
-            stream.Write(headtrackData, 0, headtrackData.Length)
+            udpClient.Send(headtrackData, headtrackData.Length)
 
             Await Task.Delay(500)
             'Send player offset
@@ -81,7 +84,7 @@ Public Class MonitorTcpClient
             Dim yFractionalPart As Integer = (yOffset - Int(yOffset)) * 100
             headtrackData(16) = Convert.ToByte(yFractionalPart)
 
-            stream.Write(headtrackData, 0, headtrackData.Length)
+            udpClient.Send(headtrackData, headtrackData.Length)
 
             Await Task.Delay(200)
             'Send angle
@@ -98,7 +101,7 @@ Public Class MonitorTcpClient
                         angleData(4) = Convert.ToByte(0)
                         angleData(5) = Convert.ToByte(currentAngle)
                     End If
-                    stream.Write(angleData, 0, angleData.Length)
+                    udpClient.Send(angleData, angleData.Length)
                 Catch es As Exception
 
                 End Try
@@ -117,14 +120,14 @@ Public Class MonitorTcpClient
     Private Async Sub DisconnectClient()
         isConnected = False
         Try
-            If tcpClient.Connected Then
+            If udpClient.Client.Connected Then
+
                 Dim headtrackData(10) As Byte
                 headtrackData(2) = Convert.ToByte(10)
                 Await Task.Delay(200)
 
-                stream.Write(headtrackData, 0, headtrackData.Length)
-                stream.Close()
-                tcpClient.Close()
+                udpClient.Send(headtrackData, headtrackData.Length)
+                udpClient.Close()
             End If
         Catch es As Exception
         End Try
@@ -136,12 +139,8 @@ Public Class MonitorTcpClient
     Private Async Sub WaitAndReconnect()
         isConnected = False
 
-        If stream IsNot Nothing Then
-            stream.Close()
-        End If
-
-        If tcpClient IsNot Nothing Then
-            tcpClient.Close()
+        If udpClient IsNot Nothing Then
+            udpClient.Close()
         End If
 
         Await Task.Delay(3000)

@@ -1,7 +1,6 @@
 using RotoVR.Common.Model;
 using RotoVR.Communication.Enum;
-using RotoVR.Communication.TCP;
-using RotoVR.Communication.UDP;
+using RotoVR.Communication.Network;
 using RotoVR.Communication.USB;
 using RotoVR.MotionCompensation;
 
@@ -10,7 +9,7 @@ namespace RotoVR.Communication;
 public class CommunicationLayer : ICommunicationLayer
 {
     private IConnector m_usbConnector = new UsbConnector();
-    private ITcpService m_TcpService = new TcpService();
+    private INetworkService m_TcpService = new UdpService();
     private ICompensationBridge m_compensationBridge;
 
     public event Action<ConnectionStatus> OnConnectionStatus;

@@ -1,6 +1,6 @@
-namespace RotoVR.Communication.TCP;
+namespace RotoVR.Communication.Network;
 
-public interface ITcpService
+public interface INetworkService
 {
     event Action<string> OnSystemLog;
     event Action<byte[]> OnMessage;
