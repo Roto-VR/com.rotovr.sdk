@@ -11,7 +11,7 @@ namespace com.rotovr.sdk.sample
         float m_TargetAngle;
         RotoDataModel m_RotoModel;
 
-        void Awake()
+        void Start()
         {
             m_Behaviour = FindObjectOfType<RotoBehaviourProxy>().RotoBehaviour;
             if (m_Behaviour == null)

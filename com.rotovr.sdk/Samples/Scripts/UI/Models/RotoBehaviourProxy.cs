@@ -1,5 +1,3 @@
-using System;
-using com.rotovr.sdk.sample;
 using UnityEngine;
 
 namespace com.rotovr.sdk.sample
@@ -100,7 +98,9 @@ namespace com.rotovr.sdk.sample
             RotoBehaviour.Mode = m_Mode;
 #if !NO_UNITY
             RotoBehaviour.Target = m_Target;
+            RotoBehaviour.InitRoto();
 #endif
+           
             
         }
     }

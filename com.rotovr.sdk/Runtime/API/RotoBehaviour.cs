@@ -90,16 +90,6 @@ namespace com.rotovr.sdk
         protected override void Awake()
         {
            base.Awake();
-           InitRoto();
-        }
-        
-        /// <summary>
-        /// An empty function, just to create RotoBehaviour instance via the code
-        /// with the default params.
-        /// </summary>
-        public void Create()
-        {
-            
         }
 #else
         public RotoBehaviour()
@@ -110,13 +100,10 @@ namespace com.rotovr.sdk
 #endif
 
         /// <summary>
-        /// Initialisation of the component
+        /// Initialisation of the component.
+        /// All the properties has to be set before the initalization.
         /// </summary>
-
-#if NO_UNITY
-        public
-#endif
-            void InitRoto()
+        public  void InitRoto()
         {
             if (m_IsInit)
                 return;
@@ -125,8 +112,13 @@ namespace com.rotovr.sdk
             m_Roto = Roto.GetManager();
             m_Roto.OnConnectionStatus += OnConnectionStatusHandler;
             m_Roto.OnRotoMode += OnRotoModeHandler;
-            m_Roto.OnDataChanged += (data) => { OnDataChanged?.Invoke(data); };
+            m_Roto.OnDataChanged += OnDataChangedHandler;
             m_Roto.Initialize(m_ConnectionType);
+        }
+
+        void OnDataChangedHandler(RotoDataModel data)
+        {
+            OnDataChanged?.Invoke(data);
         }
 
         void OnRotoModeHandler(ModeType mode)
