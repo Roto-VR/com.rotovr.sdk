@@ -8,10 +8,19 @@ using UnityEngine;
 
 namespace com.rotovr.sdk
 {
+    /// <summary>
+    /// The Roto class provides an API to interact with the RotoVR chair, allowing for communication with the device, 
+    /// mode setting, rotation control, calibration, and connection management.
+    /// </summary>
     public class Roto
     {
         static Roto s_Roto;
 
+        /// <summary>
+        /// Gets the singleton instance of the Roto manager.
+        /// Ensures only one instance of Roto exists throughout the application.
+        /// </summary>
+        /// <returns>The singleton instance of the Roto manager.</returns>
         public static Roto GetManager()
         {
             if (s_Roto == null)
@@ -24,7 +33,7 @@ namespace com.rotovr.sdk
 
         RotoDataModel m_RotoData = new();
         DeviceDataModel m_ConnectedDevice;
-        
+
 #if !NO_UNITY
         readonly string m_CalibrationKey = "CalibrationKey";
         Transform m_ObservableTarget;
@@ -35,18 +44,25 @@ namespace com.rotovr.sdk
         int m_StartRotoAngle;
         ConnectionType m_ConnectionType;
 
+
         /// <summary>
-        /// Invoked when chair mode is updated.
+        /// The current connection status of the RotoVR chair.
+        /// Possible statuses: Disconnected, Connecting, or Connected.
+        /// </summary>
+        public ConnectionStatus ConnectionStatus { get; private set; } = ConnectionStatus.Disconnected;
+
+        /// <summary>
+        /// Event triggered when the system mode changes.
         /// </summary>
         public event Action<ModeType> OnRotoMode;
 
         /// <summary>
-        /// Invoked when chair data is changed.
+        /// Event triggered when chair data changes.
         /// </summary>
         public event Action<RotoDataModel> OnDataChanged;
 
         /// <summary>
-        /// Invoked when connection status is updated.
+        /// Event triggered when the system connection status changes.
         /// </summary>
         public event Action<ConnectionStatus> OnConnectionStatus;
 
@@ -92,8 +108,9 @@ namespace com.rotovr.sdk
         
 
         /// <summary>
-        /// Initialize with connection type.
+        /// Initializes the Roto manager with a specified connection type.
         /// </summary>
+        /// <param name="connectionType">The connection type (e.g., Simulation or Chair) used for communication.</param>
         public void Initialize(ConnectionType connectionType)
         {
             if (m_IsInit)
@@ -114,6 +131,7 @@ namespace com.rotovr.sdk
 
         void OnConnectionStatusChange(ConnectionStatus status)
         {
+            ConnectionStatus = status;
             OnConnectionStatus?.Invoke(status);
         }
 
@@ -124,7 +142,7 @@ namespace com.rotovr.sdk
 
             if (model.Mode != m_RotoData.Mode)
             {
-                if (System.Enum.TryParse(model.Mode, out ModeType value))
+                if (Enum.TryParse(model.Mode, out ModeType value))
                 {
                     OnRotoMode?.Invoke(value);
                 }
@@ -154,9 +172,9 @@ namespace com.rotovr.sdk
         }
 
         /// <summary>
-        /// Connect to device.
+        /// Connects to a specified device by name.
         /// </summary>
-        /// <param name="deviceName">Data with device parameters</param>
+        /// <param name="deviceName">The name of the device to connect to.</param>
         internal void Connect(string deviceName)
         {
 #if !UNITY_EDITOR && !NO_UNITY
@@ -189,14 +207,13 @@ namespace com.rotovr.sdk
             {
                 OnConnectionStatusChange(ConnectionStatus.Connected);
             }
-
 #endif
         }
 
         /// <summary>
-        /// Disconnect from current device
+        /// Disconnects from the currently connected device.
         /// </summary>
-        /// <param name="deviceName">Device name to disconnect</param>
+        /// <param name="deviceName">The name of the device to disconnect from.</param>
         internal void Disconnect(string deviceName)
         {
 #if !UNITY_EDITOR && !NO_UNITY
@@ -221,10 +238,10 @@ namespace com.rotovr.sdk
         }
 
         /// <summary>
-        /// Set RotoVR mode
+        /// Sets the mode for the RotoVR chair with specific mode parameters.
         /// </summary>
-        /// <param name="mode">Mode type.</param>
-        /// <param name="modeParams">Mode params</param>
+        /// <param name="mode">The mode to set for the chair (e.g., HeadTrack, FreeMode).</param>
+        /// <param name="modeParams">The mode parameters (e.g., power, angle limits) to configure the chair in the specified mode.</param>
         public void SetMode(ModeType mode, ModeParams modeParams)
         {
             var parametersModel = new ModeParametersModel(modeParams);
@@ -242,9 +259,9 @@ namespace com.rotovr.sdk
         }
 
         /// <summary>
-        /// Set RotoVR power. Only applicable for the FreeMode.
+        /// Sets the power of the RotoVR chair when in FreeMode. The power value must be between 30 and 100.
         /// </summary>
-        /// <param name="power">Value of rotation power in range 30-100</param>
+        /// <param name="power">The rotation power to set for the chair (valid range is 30-100).</param>
         public void SetPower(int power)
         {
             var modeParams = new ModeParams
@@ -257,9 +274,9 @@ namespace com.rotovr.sdk
         }
 
         /// <summary>
-        /// Calibrate RotoVR as zero rotation
+        /// Calibrates the RotoVR chair, resetting the angle based on the specified calibration mode.
         /// </summary>
-        /// <param name="calibrationMode"></param>
+        /// <param name="calibrationMode">The calibration mode (e.g., set to zero, set to last position).</param>
         public void Calibration(CalibrationMode calibrationMode)
         {
             switch (calibrationMode)
@@ -286,12 +303,12 @@ namespace com.rotovr.sdk
         }
 
         /// <summary>
-        /// Rotate Chair to specified angle to angle.
-        /// Only applicable when chair in <see cref="ModeType.Calibration"/> or <see cref="ModeType.CockpitMode"/>
+        /// Rotates the RotoVR chair to the specified angle.
+        /// This is applicable only in the Calibration or CockpitMode.
         /// </summary>
-        /// <param name="direction">Rotation direction.</param>
-        /// <param name="angle">Rotation angle.</param>
-        /// <param name="power">Rotational power. Can range from 0 to 100</param>
+        /// <param name="direction">The direction in which to rotate (e.g., left or right).</param>
+        /// <param name="angle">The angle to rotate to.</param>
+        /// <param name="power">The power of rotation (valid range is 0-100).</param>
         public void RotateToAngle(Direction direction, int angle, int power)
         {
             if (angle == m_RotoData.Angle)
@@ -316,11 +333,11 @@ namespace com.rotovr.sdk
         }
 
         /// <summary>
-        /// Rotate RotoVR to angle, the direction will be picked automatically.
+        /// Rotates the chair to the closest angle, choosing the best direction automatically.
         /// </summary>
-        /// <param name="angle">Rotation angle.</param>
-        /// <param name="power">Rotational power. Can range from 0 to 100</param>
-        public void RotateToAngleCloserDirection(int angle, int power)
+        /// <param name="angle">The target angle to rotate to.</param>
+        /// <param name="power">The power of rotation (valid range is 0-100).</param>
+        public void RotateToClosestAngleDirection(int angle, int power)
         {
             if (angle == m_RotoData.Angle)
                 return;
@@ -351,7 +368,7 @@ namespace com.rotovr.sdk
         /// <param name="angle">Rotation angle.</param>
         /// <param name="direction">Rotation direction.</param>
         /// <param name="power">Rotational power. Can range from 0 to 100.</param>
-        public void RotateOnAngle(Direction direction, int angle, int power)
+        public void Rotate(Direction direction, int angle, int power)
         {
             var targetAngle = 0;
             switch (direction)
@@ -440,10 +457,10 @@ namespace com.rotovr.sdk
 #endif
 
         /// <summary>
-        /// Play rumble
+        /// Plays a rumble effect on the chair with a specified duration and power.
         /// </summary>
-        /// <param name="duration">Duration of rumble</param>
-        /// <param name="power">Power of rumble</param>
+        /// <param name="duration">The duration of the rumble in seconds.</param>
+        /// <param name="power">The power of the rumble (valid range is 0-100).</param>
         public void Rumble(float duration, int power)
         {
 #if !UNITY_EDITOR && !NO_UNITY

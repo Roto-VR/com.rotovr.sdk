@@ -2,19 +2,21 @@
 namespace com.rotovr.sdk
 {
     /// <summary>
-    /// Chair connection type.
-    /// Only used in the editor to define if we will connect to a real device or
-    /// will simulate the connection.
+    /// Specifies the type of connection used for the Roto VR chair.
+    /// This setting is only applicable in the Unity Editor to determine whether 
+    /// the system should connect to a physical Roto VR chair or simulate its behavior.
     /// </summary>
     public enum ConnectionType
     {
         /// <summary>
-        /// Connection to the real chair.
+        /// Establishes a connection with a physical Roto VR chair.
+        /// This mode requires a real device to be connected.
         /// </summary>
         Chair,
         
         /// <summary>
-        /// Emulate connection to the chair.
+        /// Simulates the chair's behavior without requiring a physical device.
+        /// Useful for testing and development when a real chair is unavailable.
         /// </summary>
         Simulation,
     }

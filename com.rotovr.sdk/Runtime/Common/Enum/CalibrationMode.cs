@@ -1,22 +1,28 @@
 
 namespace com.rotovr.sdk
 {
+    /// <summary>
+    /// Defines the different calibration modes for the Roto VR chair.
+    /// These modes determine how the chair sets its default rotation reference point.
+    /// </summary>
     public enum CalibrationMode
     {
-        
         /// <summary>
-        /// Rotate the chair to 0 degrees and use as default rotation
+        /// Rotates the chair to 0 degrees (forward-facing position) 
+        /// and sets it as the default rotation reference.
         /// </summary>
         SetToZero, 
         
 #if !NO_UNITY
         /// <summary>
-        /// Set current angle as default rotation
+        /// Sets the chair's current rotation angle as the new default reference point.
+        /// This allows users to define a custom forward direction based on their current position.
         /// </summary>
         SetCurrent,  
         
         /// <summary>
-        /// Set last calibration data, rotate the chair to this data and use as default rotation
+        /// Restores the last saved calibration data.
+        /// The chair will rotate to the last calibrated position and use it as the default rotation reference.
         /// </summary>
         SetLast,
 #endif

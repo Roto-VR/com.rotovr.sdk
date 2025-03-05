@@ -1,43 +1,44 @@
 ﻿namespace com.rotovr.sdk
 {
     /// <summary>
-    /// Chair mode type.
+    /// Defines the operating modes of the Roto VR chair.
+    /// These modes determine how the chair responds to rotation commands and user input.
     /// </summary>
     public enum ModeType : byte
     {
         /// <summary>
-        /// Ignores all commands to rotate еру chair.
+        /// The chair remains stationary and ignores all rotation commands.
         /// </summary>
         IdleMode = 0x00,
         
         /// <summary>
-        /// Chair Calibration mode.
+        /// Calibration mode. Used to reset or adjust the chair's default orientation.
         /// </summary>
         Calibration = 0x01,
         
         /// <summary>
-        /// Head tracking mode. Chair will follow user headset.
+        /// Head tracking mode. The chair automatically rotates to follow the user's headset orientation.
         /// </summary>
         HeadTrack = 0x02,
         
         /// <summary>
-        /// Allows user to rotate the chair without any restrictions.
+        /// Free movement mode. The user can manually rotate the chair without any angle restrictions.
         /// </summary>
         FreeMode = 0x03,
         
         /// <summary>
-        /// Allows uer rotate the chair, but angles limit will apply.
+        /// Cockpit mode. The user can rotate the chair, but movement is restricted within predefined angle limits.
         /// </summary>
         CockpitMode = 0x04,
         
         /// <summary>
-        /// Mode switch failed.
+        /// Indicates that a mode switch has failed due to an error.
         /// </summary>
         Error = 0x05,
         
         /// <summary>
-        /// Artificial mode. Uses <see cref="HeadTrack"/> mode under the hood.
-        /// Allows chair ti follow gameobject rotation in your scene.
+        /// Follow Object mode. Uses <see cref="HeadTrack"/> internally.
+        /// Allows the chair to follow the rotation of a specified GameObject in the scene.
         /// </summary>
         FollowObject = 0x06,
     }

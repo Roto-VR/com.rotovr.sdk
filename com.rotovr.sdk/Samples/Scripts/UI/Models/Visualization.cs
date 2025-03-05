@@ -13,13 +13,20 @@ namespace com.rotovr.sdk.sample
 
         void Start()
         {
-            m_Behaviour = FindObjectOfType<RotoBehaviourProxy>().RotoBehaviour;
-            if (m_Behaviour == null)
+            var proxy = FindObjectOfType<RotoBehaviourProxy>();
+            m_Behaviour = proxy != null ? proxy.RotoBehaviour : FindObjectOfType<RotoBehaviour>();
+            
+            if(m_Behaviour == null)
                 return;
 
             m_RotoModel = new RotoDataModel();
             m_Behaviour.OnConnectionStatusChanged += OnConnectionHandler;
             m_Behaviour.OnDataChanged += OnDataHandler;
+
+            if (m_Behaviour.ConnectionStatus == ConnectionStatus.Connected)
+            {
+                OnConnect();
+            }
         }
 
         void OnDestroy()
@@ -35,13 +42,18 @@ namespace com.rotovr.sdk.sample
             m_RotoModel = model;
         }
 
+        void OnConnect()
+        {
+            if (m_RotationRoutine == null)
+                m_RotationRoutine = StartCoroutine(RotationRoutine());
+        }
+
         void OnConnectionHandler(ConnectionStatus status)
         {
             switch (status)
             {
                 case ConnectionStatus.Connected:
-                    if (m_RotationRoutine == null)
-                        m_RotationRoutine = StartCoroutine(RotationRoutine());
+                    OnConnect();
                     break;
                 case ConnectionStatus.Disconnected:
                     if (m_RotationRoutine != null)

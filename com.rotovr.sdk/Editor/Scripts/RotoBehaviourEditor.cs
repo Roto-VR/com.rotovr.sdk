@@ -25,8 +25,11 @@ namespace com.rotovr.sdk.editor
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(m_ConnectionType);
+            
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(m_ModeType);
-
+            
+            
             if (m_ModeType.intValue == (int)RotoModeType.FollowObject ||
                 m_ModeType.intValue == (int)RotoModeType.HeadTrack)
             {
@@ -44,7 +47,13 @@ namespace com.rotovr.sdk.editor
                 EditorGUILayout.PropertyField(m_Target);
             }
 
+            
             serializedObject.ApplyModifiedProperties();
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                (target as RotoBehaviour)?.UpdatBehaviour();
+            }
         }
     }
 #endif

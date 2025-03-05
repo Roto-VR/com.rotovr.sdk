@@ -52,28 +52,37 @@ namespace com.rotovr.sdk
 
         void ConnectToDevice()
         {
-            m_device = Native.OpenFirstHIDDevice(k_vid, k_pid);
-
-            if (m_device == IntPtr.Zero)
-                return;
-
-            byte[] feature = ConfigureFeature();
-            Native.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
-            var success = Native.GetFeature(m_device, feature, 9);
-
-            Log($"Set Feature success: {success}");
-            SendConnect();
-
-            Task.Run(async () =>
+            try
             {
-                m_reaDevice = true;
+                m_device = Native.OpenFirstHIDDevice(k_vid, k_pid);
 
-                while (m_reaDevice)
+                if (m_device == IntPtr.Zero)
+                    return;
+
+                var feature = ConfigureFeature();
+                Native.SetFeature(m_device, ConfigureFeature(), (ushort)feature.Length);
+                var success = Native.GetFeature(m_device, feature, 9);
+
+                Log($"Set Feature success: {success}");
+                SendConnect();
+
+                Task.Run(async () =>
                 {
-                    await Task.Delay(30);
-                    ReadDevice();
-                }
-            });
+                    m_reaDevice = true;
+
+                    while (m_reaDevice)
+                    {
+                        await Task.Delay(30);
+                        ReadDevice();
+                    }
+                });
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError("Failed to connect to the chair.");
+                Debug.LogError(ex.Message);
+            }
+          
         }
 
         string LogBuffer(byte[] data)
