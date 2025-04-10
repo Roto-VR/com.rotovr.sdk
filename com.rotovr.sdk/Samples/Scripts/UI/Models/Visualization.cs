@@ -14,7 +14,17 @@ namespace com.rotovr.sdk.sample
         void Start()
         {
             var proxy = FindObjectOfType<RotoBehaviourProxy>();
-            m_Behaviour = proxy != null ? proxy.RotoBehaviour : FindObjectOfType<RotoBehaviour>();
+            if (proxy != null)
+            {
+                m_Behaviour = proxy.RotoBehaviour;
+            }
+
+#if !NO_UNITY
+            if (m_Behaviour == null)
+            {
+                m_Behaviour = FindObjectOfType<RotoBehaviour>();
+            }
+#endif
             
             if(m_Behaviour == null)
                 return;
