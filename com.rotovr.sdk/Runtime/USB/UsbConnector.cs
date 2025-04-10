@@ -79,10 +79,17 @@ namespace com.rotovr.sdk
             }
             catch(Exception ex)
             {
-                Debug.LogError("Failed to connect to the chair.");
-                Debug.LogError(ex.Message);
+                PrintError("Failed to connect to the chair.");
+                PrintError(ex.Message);
             }
           
+        }
+
+        void PrintError(string message)
+        {
+#if !NO_UNITY
+                Debug.LogError(message);
+#endif
         }
 
         string LogBuffer(byte[] data)

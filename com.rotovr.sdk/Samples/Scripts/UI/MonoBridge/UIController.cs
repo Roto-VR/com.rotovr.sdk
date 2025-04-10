@@ -51,13 +51,13 @@ namespace com.rotovr.sdk.sample
 
             m_RotoVrBlock.TurnLeft.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.RotateOnAngle(Direction.Left, 20,
+                m_RotoBerhaviour.Rotate(Direction.Left, 20,
                     (int)(m_RotoVrBlock.RotationPower.value * 100));
             });
 
             m_RotoVrBlock.TurnRight.onClick.AddListener(() =>
             {
-                m_RotoBerhaviour.RotateOnAngle(Direction.Right, 20,
+                m_RotoBerhaviour.Rotate(Direction.Right, 20,
                     (int)(m_RotoVrBlock.RotationPower.value * 100));
             });
 
