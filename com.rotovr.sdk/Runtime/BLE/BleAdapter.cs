@@ -1,8 +1,14 @@
-﻿using UnityEngine;
+﻿#if !NO_UNITY
+using UnityEngine;
+#endif
 
 namespace com.rotovr.sdk
 { 
+#if NO_UNITY
+    class BleAdapter
+#else
     class BleAdapter : MonoBehaviour
+#endif
     {
         public delegate void BleJsonMessageReceived(BleJsonMessage msg);
 

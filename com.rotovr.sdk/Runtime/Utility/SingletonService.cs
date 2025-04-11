@@ -1,3 +1,4 @@
+#if !NO_UNITY
 using UnityEngine;
 
 namespace com.rotovr.sdk
@@ -20,3 +21,4 @@ namespace com.rotovr.sdk
         }
     }
 }
+#endif

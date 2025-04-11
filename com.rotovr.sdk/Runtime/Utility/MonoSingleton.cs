@@ -1,4 +1,6 @@
+#if !NO_UNITY
 using UnityEngine;
+#endif
 
 namespace com.rotovr.sdk
 {
