@@ -16,8 +16,7 @@ namespace com.rotovr.sdk.sample.editor
             
             Roto.ConnectionType = (ConnectionType)EditorGUILayout.EnumPopup("Connection Type", Roto.ConnectionType);
             Roto.Mode = (RotoModeType)EditorGUILayout.EnumPopup("Mode", Roto.Mode);
-            Roto.DeviceName = EditorGUILayout.TextField("Device Name", Roto.DeviceName);
-            
+           
             if (Roto.Mode == RotoModeType.FollowObject ||
                 Roto.Mode == RotoModeType.HeadTrack)
             {

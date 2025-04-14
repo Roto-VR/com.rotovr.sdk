@@ -11,8 +11,9 @@ namespace com.rotovr.sdk.sample
 
         [SerializeField] RotoModeType m_Mode;
         [SerializeField] ConnectionType m_ConnectionType;
-        [SerializeField] string m_DeviceName = "rotoVR Base Station";
         [SerializeField] Transform m_Target;
+        string m_DeviceName = "rotoVR Base Station";
+      
 
         internal RotoModeType Mode
         {
