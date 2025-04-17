@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
+  <TargetFramework>netstandard2.0</TargetFramework>
+  <ImplicitUsings>disable</ImplicitUsings>
+  <LangVersion>latest</LangVersion>
+  <Nullable>disable</Nullable>
+  <DefineConstants>NO_UNITY</DefineConstants>
+</PropertyGroup>
+
+<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <DefineConstants>$(DefineConstants)</DefineConstants>
+ <OutDir>../../Lib</OutDir>
+</PropertyGroup>
+
+<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <DefineConstants>$(DefineConstants)</DefineConstants>
+ <OutDir>../../Lib</OutDir>
+</PropertyGroup>
+
+<ItemGroup>
+  <Compile Remove="AssemblyInfo.cs" />
+</ItemGroup>
+
+<ItemGroup>
+  <None Remove="HIDApi.dll" />
+  <None Remove="Plugins\HIDApi.dll" />
+</ItemGroup>
+<ItemGroup>
+<None Remove="**\*.meta" />
+<None Remove="**\*.asmdef" />
+<None Remove="**\*.gitignore" />
+</ItemGroup>
+<ItemGroup>
+ <Content Include="Plugins\HIDApi.dll">
+   <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   <Link>HIDApi.dll</Link>
+   <Visible>false</Visible>
+ </Content>
+</ItemGroup>
+
+</Project>
