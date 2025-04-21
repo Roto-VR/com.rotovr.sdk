@@ -5,7 +5,7 @@ namespace com.rotovr.sdk.editor
 {
 #if !NO_UNITY
     [CustomEditor(typeof(RotoBehaviour))]
-    public class RotoBehaviourEditor : Editor
+    class RotoBehaviourEditor : Editor
     {
         SerializedProperty m_ConnectionType;
         SerializedProperty m_ModeType;

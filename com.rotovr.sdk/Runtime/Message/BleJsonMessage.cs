@@ -17,7 +17,8 @@ namespace com.rotovr.sdk
             var dict = Json.Deserialize(json) as Dictionary<string, object>;
 
             Command = dict["Command"].ToString();
-            Data = dict["Data"].ToString();
+            if (dict.TryGetValue("Data", out var value))
+                Data = value.ToString();
         }
 
         public string Command { get; }
