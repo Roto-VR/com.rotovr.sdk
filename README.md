@@ -2,32 +2,22 @@
 
 Our freely available Unity SDK unlocks additional features for genuine game-changing possibilities. Roto’s bi-directional motor functionality combined with bi-directional yaw tracking (of both the user's head and body), together will access almost every kind of control device, opening up exciting opportunities for creativity.
 
-### Install from a Git URL
-Yoy can also install this package via Git URL. To load a package from a Git URL:
-
-* Open [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui.html) window.
-* Click the add **+** button in the status bar.
-* The options for adding packages appear.
-* Select Add package from git URL from the add menu. A text box and an Add button appear.
-* Enter the `https://github.com/Roto-VR/com.rotovr.sdk.git?path=/com.rotovr.sdk` Git URL in the text box and click Add.
-* You may also install a specific package version by using the URL with the specified version.
-  * `https://github.com/Roto-VR/com.rotovr.sdk.git#X.Y.X?path=/com.rotovr.sdk`
-  * Please note that the version `X.Y.Z` stated here is to be replaced with the version you would like to get.
-  * You can find all the available releases [here](https://github.com/Roto-VR/com.rotovr.sdk/releases).
-  * The latest available release version is [![Last Release](https://img.shields.io/github/v/release/roto-vr/com.rotovr.sdk)](https://github.com/Roto-VR/com.rotovr.sdk/releases/latest)
-
-For more information about what protocols Unity supports, see [Git URLs](https://docs.unity3d.com/Manual/upm-git.html).
-
-
-# Integration
 Follow the instructions below to start integration:
 
-* [RotoBehaviour Settings](https://github.com/Roto-VR/com.rotovr.sdk/wiki/RotoBehaviour-Settings)
-* [Implementation Instrcutions](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Implementation-Instrcutions)
-* [Meta Quest2 Setup](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Meta-Quest-2-Setup)
-* [Visualization in Unity Editor](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Chair-Visualization-in-Unity-Editor)
+* [Instalation](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Instalation)
+* **Setup**
+  * [Connection to RotoVR Chair](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Connection-to-RotoVR-Chair) 
+  * [Meta Quest Setup](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Connection-to-RotoVR-Chair#meta-quest-setup)
+* **Integration**
+  * [Using RotoBehaviour (Simplified Integration)](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Integrating-the-Roto-SDK-Into-Your-Project#using-rotobehaviour-simplified-integration) 
+  * [Using Roto API Directly (Advanced)](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Integrating-the-Roto-SDK-Into-Your-Project#using-roto-api-directly--advanced)
+* **Additional Guides**
+  * [Editor Emulation Support](https://github.com/Roto-VR/com.rotovr.sdk/wiki/Editor-Emulation-Support) 
+  * [For Unreal and other platform users](https://github.com/Roto-VR/com.rotovr.sdk/wiki#for-unreal-and-other-platform-users)
+  * [Remarks](https://github.com/Roto-VR/com.rotovr.sdk/wiki#remarks)
 
-# For Unreal and other platform users
+---
+## For Unreal and other platform users
 
 For platforms other than Unity, such as Unreal Engine or any system that supports managed DLLs, you can integrate functionality by downloading the SDK as a managed DLL library. However, there are some important considerations:
 
@@ -35,3 +25,16 @@ For platforms other than Unity, such as Unreal Engine or any system that support
 * **Managed DLL Integration**: Platforms that natively support the .NET runtime can use managed DLLs directly. For engines like Unreal, you'll likely need a wrapper to expose the managed DLL’s functionality as native C++.
 
 [Download SDK as a managed DLL library](https://github.com/Roto-VR/com.rotovr.sdk/tree/master/Lib)
+
+---
+### Remarks
+- **Preferred Connection:**
+For maximum stability, use a USB connection on Windows 11.
+(Note: Windows 10 may encounter issues maintaining a stable USB connection.)
+
+- **Verifying USB Connection:**
+Before launching your application, verify the USB connection using rotoVRCmd.exe.
+
+- **Limitations with Bluetooth (BLE):**
+The RotoVR SDK does not support multiple simultaneous BLE connections.
+Ensure that only one RotoVR chair is active within the room to avoid connection issues.
