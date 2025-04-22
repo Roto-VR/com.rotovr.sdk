@@ -16,6 +16,8 @@ Follow the instructions below to start integration:
   * [For Unreal and other platform users](https://github.com/Roto-VR/com.rotovr.sdk/wiki#for-unreal-and-other-platform-users)
   * [Remarks](https://github.com/Roto-VR/com.rotovr.sdk/wiki#remarks)
 
+[Full Roto VR Scripting Reference](https://roto-vr.github.io/api.rotovr.com/rotosdk/)
+
 ---
 ## For Unreal and other platform users
 
