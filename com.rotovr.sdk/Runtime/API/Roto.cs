@@ -509,6 +509,9 @@ namespace com.rotovr.sdk
                             rotoAngle = NormalizeAngle(rotoAngle);
 
                             var delta = Mathf.Abs(rotoAngle - m_RotoData.Angle);
+                            // fix delta being massive when crossing 0
+                            if (delta > 180)
+                                delta = 360 - delta;
 
                             if (delta > 2)
                                 RotateToAngle(Direction.Left, rotoAngle, 30);

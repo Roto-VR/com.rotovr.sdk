@@ -35,7 +35,7 @@ namespace com.rotovr.sdk
         {
             TargetCockpit = modeParams.CockpitAngleLimit;
             MaxPower = modeParams.MaxPower;
-            MovementMode = modeParams.ToString();
+            MovementMode = modeParams.MovementMode.ToString();
         }
         
         public ModeParametersModel(int targetCockpit, int maxPower)
