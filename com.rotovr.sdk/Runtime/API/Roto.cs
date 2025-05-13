@@ -496,7 +496,7 @@ namespace com.rotovr.sdk
                 {
                     deltaTime += Time.deltaTime;
 
-                    if (deltaTime > 0.1f)
+                    if (deltaTime > 0.01f)
                     {
                         var currentAngle = (int)m_ObservableTarget.eulerAngles.y;
                         var angle = currentAngle - m_StartTargetAngle;
